@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-  <a href="https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/"><img src="site/img/og.jpg" alt="Tushonka Cleaner 소개 사이트" width="820"></a>
+  <a href="https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/"><img src="site/img/og-ko.jpg" alt="Tushonka Cleaner 소개 사이트" width="820"></a>
 </p>
 
 <h2 align="center">📖 <a href="https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/">측정값과 비교 사진은 소개 사이트에 있습니다 →</a></h2>
