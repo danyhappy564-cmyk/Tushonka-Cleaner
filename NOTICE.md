@@ -19,6 +19,7 @@ Tushonka Cleaner 1.0.0 통합·유지보수: R_F.
 
 그래픽 기능은 Tushonka Cleaner용으로 새로 작성했습니다. 다른 모드의 코드와 이름 목록을 사용하지 않았습니다.
 작성자는 동작 명세, 게임 어셈블리, 게임에서 추출한 물체 이름만 근거로 삼았습니다(`tests/SceneCleanup/SPEC.md`, `RESULT.md`).
+첫 구현은 Codex가, 후속 수정은 원본을 본 적 없는 별도 Claude 에이전트가 같은 조건으로 맡았습니다(`RESULT-FIX1.md`).
 작은 장식을 가린다는 착상은 Tyrian(Xenoxia8953)의 Tyrian-DeClutterer에서 얻었습니다.
 - 원본: https://github.com/Xenoxia8953/Tyrian-DeClutterer
 

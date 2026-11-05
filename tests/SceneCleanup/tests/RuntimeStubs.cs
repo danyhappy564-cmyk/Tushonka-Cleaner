@@ -37,7 +37,8 @@ namespace UnityEngine
     {
         public GameObject gameObject;
         public Transform transform { get { return gameObject.transform; } }
-        public void GetComponents(List<Component> result) { result.Clear(); result.AddRange(gameObject.Components); }
+        public static long ComponentReads;
+        public void GetComponents(List<Component> result) { ++ComponentReads; result.Clear(); result.AddRange(gameObject.Components); }
         public T GetComponent<T>() where T:Component
         { for(int i=0;i<gameObject.Components.Count;i++) if(gameObject.Components[i] is T c) return c; return null; }
         public T GetComponentInParent<T>() where T:Component
@@ -49,7 +50,10 @@ namespace UnityEngine
     {
         public readonly List<Component> Components=new List<Component>();
         public readonly Transform transform;
-        public bool activeInHierarchy=true;
+        public bool activeSelf=true;
+        public int ActiveWrites;
+        public bool activeInHierarchy { get { for(Transform t=transform;t!=null;t=t.parent) if(!t.gameObject.activeSelf) return false; return true; } }
+        public void SetActive(bool value) { activeSelf=value; ++ActiveWrites; }
         public UnityEngine.SceneManagement.Scene scene;
         public GameObject(string name) { this.name=name; transform=new Transform{gameObject=this,name=name}; Components.Add(transform); }
         public T Add<T>() where T:Component,new() { var c=new T{gameObject=this,name=name}; Components.Add(c); return c; }
@@ -84,6 +88,7 @@ namespace UnityEngine
     public struct Bounds
     {
         public Vector3 size,center;
+        public Vector3 extents { get { return new Vector3(size.x*.5f,size.y*.5f,size.z*.5f); } }
         public Bounds(Vector3 center,Vector3 size) {this.center=center;this.size=size;}
         public Vector3 ClosestPoint(Vector3 point) { return center; }
     }
@@ -129,6 +134,22 @@ namespace UnityEngine.SceneManagement
     }
 }
 public class StaticDeferredDecal:UnityEngine.MonoBehaviour {}
+public class GuidComponent:UnityEngine.MonoBehaviour {}
+public class LocationScene:UnityEngine.MonoBehaviour {}
+public class UnreviewedComponent:UnityEngine.MonoBehaviour {}
+public class HideoutGameWorld {}
+namespace Koenigz.PerfectCulling.EFT
+{
+    public class MultisceneSharedOccluder:UnityEngine.MonoBehaviour {}
+    public class PerfectCullingCrossSceneGroup:UnityEngine.MonoBehaviour {}
+    public class PerfectCullingCrossSceneContentDoors:UnityEngine.MonoBehaviour {}
+    public class PerfectCullingCrossSceneContentMeshes:UnityEngine.MonoBehaviour {}
+}
+namespace EFT.Interactive
+{
+    public class Door:UnityEngine.MonoBehaviour {}
+    public class LootableContainer:UnityEngine.MonoBehaviour {}
+}
 public class MuzzleLight:UnityEngine.MonoBehaviour {public UnityEngine.Light[] Lights;}
 namespace EFT {public class Player:UnityEngine.MonoBehaviour {public bool IsYourPlayer;}}
 namespace EFT.AssetsManager {public class AmmoPoolObject:UnityEngine.MonoBehaviour {public bool ShouldBeDestroyed;}}

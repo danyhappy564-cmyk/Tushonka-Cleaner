@@ -23,6 +23,12 @@ namespace Tushonka.Cleaner.SceneCleanup
             double ratio=Math.Tan(referenceFov*Math.PI/360)/Math.Tan(currentFov*Math.PI/360);
             return distance*(float)Math.Max(1,Math.Min(12,ratio));
         }
+        // 스캔 때 저장한 상자까지의 거리입니다. 숨긴 물체의 Renderer.bounds는 믿을 수 없고 네이티브 호출도 없앱니다.
+        public static float SquaredToBox(float px,float py,float pz,float cx,float cy,float cz,float ex,float ey,float ez)
+        {
+            float dx=Math.Max(Math.Abs(px-cx)-ex,0),dy=Math.Max(Math.Abs(py-cy)-ey,0),dz=Math.Max(Math.Abs(pz-cz)-ez,0);
+            return dx*dx+dy*dy+dz*dz;
+        }
         public static bool Hidden(float distanceSquared,float range,bool wasHidden,bool validCamera)
         {
             if(!validCamera) return false;

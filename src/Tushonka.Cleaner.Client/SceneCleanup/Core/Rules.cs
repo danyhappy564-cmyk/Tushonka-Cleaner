@@ -9,6 +9,23 @@ namespace Tushonka.Cleaner.SceneCleanup
 {
     public enum SceneCleanupLevel { Off, LightTouch, Balanced, Max }
     public enum CleanupCategory { None = -1, Litter, Rubble, Casings, Food, Puddles, Glass, Decals }
+    internal enum ContainerKind { None, Inert, GroupRoot }
+
+    // 조상에 있어도 게임 진행과 무관함을 게임 코드로 확인한 컴포넌트입니다. 처음 보는 타입은 None(보호)입니다.
+    // - Koenigz.PerfectCulling.*: 렌더러 가시성만 제어합니다. MultisceneSharedOccluder는 설정값만 가집니다.
+    // - GuidComponent: 고유 번호만 가집니다. LocationScene: 씬별 물체 목록을 등록합니다.
+    // 그룹 루트(GroupRoot)는 씬 단위로 가림 묶음을 소유하므로 조상 검사의 끝으로 씁니다.
+    internal static class ContainerRules
+    {
+        private const string GroupRootType="Koenigz.PerfectCulling.EFT.PerfectCullingCrossSceneGroup";
+        public static ContainerKind Kind(string fullName)
+        {
+            if(fullName==null) return ContainerKind.None;
+            if(fullName==GroupRootType) return ContainerKind.GroupRoot;
+            if(fullName=="GuidComponent" || fullName=="LocationScene" || fullName.StartsWith("Koenigz.PerfectCulling.",StringComparison.Ordinal)) return ContainerKind.Inert;
+            return ContainerKind.None;
+        }
+    }
 
     // 역추적이 한 번뿐인 선형 와일드카드 판정입니다. 정규식·문자열 복사·할당을 하지 않습니다.
     internal static class Glob
@@ -62,7 +79,13 @@ namespace Tushonka.Cleaner.SceneCleanup
     internal sealed class RuleBook
     {
         private readonly RuleEntry[] entries;
-        private RuleBook(RuleEntry[] entries) { this.entries=entries; }
+        // 데칼 상자 한 변의 상한(m)입니다. 등록 훅의 데칼은 이름 자료가 없어 타입과 이 값으로 판정합니다.
+        public float DecalSizeLimit { get; private set; }
+        private RuleBook(RuleEntry[] entries)
+        {
+            this.entries=entries;
+            for(int i=0;i<entries.Length;i++) if(entries[i].Kind==CleanupCategory.Decals && entries[i].MaxSize>DecalSizeLimit) DecalSizeLimit=entries[i].MaxSize;
+        }
         public static RuleBook Load(string json)
         {
             RuleDocument doc;
@@ -77,6 +100,14 @@ namespace Tushonka.Cleaner.SceneCleanup
                 r.Kind=category;
             }
             return new RuleBook(doc.Rules);
+        }
+        // 크기를 읽기 전에 이름만 봅니다. 맵의 렌더러 대부분은 여기서 끝나 네이티브 크기 조회를 하지 않습니다.
+        public bool MatchesName(string name)
+        {
+            if(name==null) return false;
+            int length=NormalizedLength(name);
+            for(int i=0;i<entries.Length;i++) if(Glob.Match(entries[i].Pattern,name,length)) return true;
+            return false;
         }
         public CleanupCategory Classify(string name,string renderer,float size,bool unsafeObject)
         {

@@ -42,6 +42,15 @@ internal static class Program
         Check(rules.Classify("garbage_bag_LOD(Clone)", "MeshRenderer", .8f, false) == CleanupCategory.Litter, "clone name");
         Check(rules.Classify("garbage_bag_LOD", "MeshRenderer", float.NaN, false) == CleanupCategory.None, "NaN");
         Check(rules.Classify("garbage_bag_LOD", "MeshRenderer", -1f, false) == CleanupCategory.None, "negative size");
+        Check(rules.MatchesName("garbage_bag_LOD2(Clone)") && !rules.MatchesName("Door_Glass_LOD"), "name prefilter");
+        Check(rules.DecalSizeLimit == 6f, "decal size limit from rules");
+        Check(ContainerRules.Kind("Koenigz.PerfectCulling.EFT.MultisceneSharedOccluder") == ContainerKind.Inert, "occluder marker inert");
+        Check(ContainerRules.Kind("Koenigz.PerfectCulling.EFT.PerfectCullingCrossSceneGroup") == ContainerKind.GroupRoot, "group root");
+        Check(ContainerRules.Kind("GuidComponent") == ContainerKind.Inert && ContainerRules.Kind("LocationScene") == ContainerKind.Inert, "scene markers inert");
+        Check(ContainerRules.Kind("EFT.Interactive.Door") == ContainerKind.None && ContainerRules.Kind("EFT.Interactive.LootableContainer") == ContainerKind.None, "interactive protected");
+        Check(ContainerRules.Kind("UnityEngine.BoxCollider") == ContainerKind.None && ContainerRules.Kind("SomethingNew") == ContainerKind.None && ContainerRules.Kind(null) == ContainerKind.None, "unknown protected");
+        Check(DistancePolicy.SquaredToBox(10,0,0, 0,0,0, 2,2,2) == 64f, "distance to box face");
+        Check(DistancePolicy.SquaredToBox(1,1,1, 0,0,0, 2,2,2) == 0f, "inside box");
         var excludes = new ExclusionSet(new [] { "# comment", "  garbage_*  ", "door?" });
         Check(excludes.Matches("GARBAGE_BAG_LOD"), "wildcard exclude");
         Check(!excludes.Matches("pizza_LOD"), "exclude isolation");
