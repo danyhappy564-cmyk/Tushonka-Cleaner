@@ -5,7 +5,7 @@
 
 # Tushonka Cleaner 1.0.0
 
-Memory cleanup, diagnostics and server optimisation for SPT 4.1.5, integrated by R_F. See [NOTICE.md](NOTICE.md) and [LICENSE](LICENSE) for the original authors and licence texts.
+Memory cleanup, diagnostics, server optimisation and graphics adjustments for SPT 4.1, integrated by R_F. Tested on SPT 4.1.6. See [NOTICE.md](NOTICE.md) and [LICENSE](LICENSE) for the original authors and licence texts.
 
 1. **CactusPie — SPT-RamCleanerInterval**
    - Original: https://github.com/CactusPie/SPT-RamCleanerInterval
@@ -27,7 +27,7 @@ Memory cleanup, diagnostics and server optimisation for SPT 4.1.5, integrated by
 
 ## Changelog
 
-The full changelog (1 entry) is in the [`changelog/`](changelog/) folder, 10 per file (higher number = newer, latest: [`CHANGELOG-001.md`](changelog/CHANGELOG-001.md)). Per-release summaries: [Releases](../../releases).
+The full changelog (2 entries) is in the [`changelog/`](changelog/) folder, 10 per file (higher number = newer, latest: [`CHANGELOG-001.md`](changelog/CHANGELOG-001.md)). Per-release summaries: [Releases](../../releases).
 
 ## Features
 
@@ -35,9 +35,25 @@ The full changelog (1 entry) is in the [`changelog/`](changelog/) folder, 10 per
 - Preserves CompoundingPerf server features and client fixes C1 (hidden menu videos) and C2 (landed airdrop physics).
 - Old mods (RAM Cleaner, CompoundingPerf, DeClutter) are moved to `Tushonka-Cleaner-OldMods` in the game folder when the server starts. Nothing is deleted, so you can restore them. Overlapping features stay off on that first run, so restart the server once. Matching legacy RAM configuration sections and keys are imported once when the new cfg does not exist.
 - **Do not use this mod together with Smoothie.** Both change the same game systems, which can cause overlapping effects or errors. If both are installed, a warning appears in the server console and on the menu screen. Smoothie files are left untouched.
-- The graphics feature hides small decorations that do not affect play. It is off by default. It was written from scratch without other mods' code; the supporting material is in `tests/SceneCleanup/`.
+- The graphics feature raises FPS with graphics adjustments and hides small decorations that do not affect play. It is off by default, and Hide a bit more is the recommended level. It was written from scratch without other mods' code; the supporting material is in `tests/SceneCleanup/`.
 
 Archived feature descriptions: [memory](docs/ram-cleaner.md), [server](docs/server-optimizations.md). Their legacy installation and build paths do not apply to this package.
+
+## Measured results
+
+Measured on an RTX 4080 at 2560x1440 with no bots on SPT 4.1.6. Each value is the average of three 4-second runs at one of three spots. Results vary by PC and map state.
+
+| Graphics level | Streets (ms) | Lighthouse (ms) | Visual change |
+|---|---|---|---|
+| Off | 8.4 / 7.8 / 6.8 | 5.7 / 5.2 / 5.6 | None |
+| Light touch | 8.4 / 7.9 / 6.9 | 5.7 / 5.2 / 5.6 | Only distant clutter disappears. FPS does not rise. |
+| Hide a bit more (recommended) | 7.1 / 6.7 / 6.0 | 5.1 / 4.6 / 5.3 | Distant models and shadows get simpler. |
+| Hide more clutter | 5.4 / 5.2 / 4.7 | 5.0 / 4.7 / 5.1 | Shadows turn off, dark areas get brighter, and nearby walls look rougher. |
+
+- FPS gains come from the graphics adjustments. Turning off all 15,696 matching decorations on Streets did not change FPS.
+- The frame cost of the memory modes stayed within measurement noise (±0.5 ms).
+- Automatic cleanup runs when memory grows by 1.5 GB. In testing it went from 4.49 GB to 3.41 GB in 0.8 seconds, with one 95 ms stutter.
+- Server `/client/items` response: Off 489 ms (3.6 MB), Balanced 305 ms (3.7 MB), Recommended 265 ms (5.9 MB).
 
 ## Build and tests
 
@@ -52,6 +68,8 @@ Use `-p:SptRoot="path"` to override the game directory. Release builds are confi
 
 ```text
 BepInEx/plugins/Tushonka-Cleaner/Tushonka.Cleaner.dll
+BepInEx/plugins/Tushonka-Cleaner/scene-rules.json
+BepInEx/plugins/Tushonka-Cleaner/tushonka-exclude.example.txt
 SPT_Runtime/user/mods/Tushonka-Cleaner/Tushonka.Cleaner.Server.dll
 SPT_Runtime/user/mods/Tushonka-Cleaner/config.json
 LICENSE
@@ -60,4 +78,3 @@ NOTICE.md
 
 Client configuration: `BepInEx/config/com.zzap.tushonka.cleaner.cfg`. Live web page: `http://127.0.0.1:6977/`. Server pages: `/tushonka-cleaner/` and `/tushonka-cleaner/performance`.
 
-See [INTEGRATE-RESULT.md](INTEGRATE-RESULT.md) for the actual verification results and limitations of this integration.
