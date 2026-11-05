@@ -5,7 +5,7 @@
 
 # Tushonka Cleaner 1.0.0
 
-Memory cleanup, diagnostics, server optimisation and graphics adjustments for SPT 4.1, integrated by R_F. Tested on SPT 4.1.6. See [NOTICE.md](NOTICE.md) and [LICENSE](LICENSE) for the original authors and licence texts.
+An unofficial combined build of memory cleanup, diagnostics, server optimisation and graphics adjustments for SPT 4.1, based on the original authors' mods listed below. Tested on SPT 4.1.6. See [NOTICE.md](NOTICE.md) and [LICENSE](LICENSE) for the original authors and licence texts.
 
 1. **CactusPie — SPT-RamCleanerInterval**
    - Original: https://github.com/CactusPie/SPT-RamCleanerInterval

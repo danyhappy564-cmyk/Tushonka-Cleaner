@@ -5,7 +5,7 @@
 
 # Tushonka Cleaner 1.0.0
 
-SPT 4.1의 메모리 정리·진단, 서버 최적화, 그래픽 조정을 합친 모드입니다. SPT 4.1.6에서 시험했습니다. 작성자는 R_F이며, 원작자·출처·라이선스 전문은 [NOTICE.md](NOTICE.md)와 [LICENSE](LICENSE)에 있습니다.
+SPT 4.1의 메모리 정리·진단, 서버 최적화, 그래픽 조정을 합친 비공식 통합본입니다. 아래 원작자들의 모드를 바탕으로 합니다. SPT 4.1.6에서 시험했습니다. 원작자·출처·라이선스 전문은 [NOTICE.md](NOTICE.md)와 [LICENSE](LICENSE)에 있습니다.
 
 1. **CactusPie — SPT-RamCleanerInterval**
    - 원본: https://github.com/CactusPie/SPT-RamCleanerInterval
