@@ -16,6 +16,9 @@ SPT 4.1의 메모리 정리·진단, 서버 최적화, 그래픽 조정을 합�
 3. **EchoStarz — CompoundingPerf**
    - 원본: https://forge.sp-tarkov.com/mod/2415/compoundingperf
    - 라이선스: MIT
+4. **Tyrian (Xenoxia8953) — Tyrian-DeClutterer**
+   - 원본: https://github.com/Xenoxia8953/Tyrian-DeClutterer
+   - 참고: 작은 장식을 가린다는 착상을 참고했습니다. 코드는 사용하지 않았습니다.
 
 ### ⚠️ IMPORTANT NOTICE / DISCLAIMER
 

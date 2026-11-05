@@ -16,6 +16,9 @@ Memory cleanup, diagnostics, server optimisation and graphics adjustments for SP
 3. **EchoStarz — CompoundingPerf**
    - Original: https://forge.sp-tarkov.com/mod/2415/compoundingperf
    - Licence: MIT
+4. **Tyrian (Xenoxia8953) — Tyrian-DeClutterer**
+   - Original: https://github.com/Xenoxia8953/Tyrian-DeClutterer
+   - Reference: The idea of hiding small decorations came from this mod. No code was used.
 
 ### ⚠️ IMPORTANT NOTICE / DISCLAIMER
 

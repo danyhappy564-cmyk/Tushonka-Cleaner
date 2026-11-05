@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="ko" data-lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Tushonka Cleaner — SPT 메모리·서버·그래픽 관리</title>
+  <meta name="description" content="SPT 4.1의 메모리 정리·진단, 서버 최적화, 그래픽 조정을 한곳에서 합니다. 측정 결과와 화면 차이, 설치 방법과 주의사항을 확인합니다.">
+  <link rel="canonical" href="https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Tushonka Cleaner">
+  <meta property="og:title" content="Tushonka Cleaner — SPT 메모리·서버·그래픽 관리">
+  <meta property="og:description" content="SPT 4.1의 메모리 정리·진단, 서버 최적화, 그래픽 조정을 한곳에서 합니다. 측정 결과와 화면 차이, 설치 방법과 주의사항을 확인합니다.">
+  <meta property="og:url" content="https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Tushonka Cleaner — Memory, Server, Graphics. SPT 4.1.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tushonka Cleaner — SPT 메모리·서버·그래픽 관리">
+  <meta name="twitter:description" content="SPT 4.1의 메모리 정리·진단, 서버 최적화, 그래픽 조정을 한곳에서 합니다. 측정 결과와 화면 차이, 설치 방법과 주의사항을 확인합니다.">
+  <meta name="twitter:image" content="https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/img/og.jpg">
+  <meta name="twitter:image:alt" content="Tushonka Cleaner — Memory, Server, Graphics. SPT 4.1.">
+  <script src="app.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#main"><span class="ko">본문으로 이동합니다</span><span class="en" lang="en">Skip to content</span></a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top" aria-label="Tushonka Cleaner">
+      <svg class="brand-mark" viewBox="0 0 32 38" fill="none" stroke="currentColor" aria-hidden="true"><path d="M3 7c0-5 26-5 26 0v24c0 5-26 5-26 0V7Z" stroke-width="1.8"/><ellipse cx="16" cy="7" rx="13" ry="4" stroke-width="1.8"/><path d="M3 13h26M3 27h26M11 17h10M16 17v6" stroke-width="1.8"/></svg>
+      <span>Tushonka Cleaner<small>UNOFFICIAL · SPT 4.1</small></span>
+    </a>
+    <nav class="main-nav" aria-label="주요 메뉴" data-label-ko="주요 메뉴" data-label-en="Main navigation">
+      <a href="#graphics"><span class="ko">그래픽</span><span class="en" lang="en">Graphics</span></a>
+      <a href="#memory"><span class="ko">메모리</span><span class="en" lang="en">Memory</span></a>
+      <a href="#server"><span class="ko">서버</span><span class="en" lang="en">Server</span></a>
+      <a href="#install"><span class="ko">설치</span><span class="en" lang="en">Install</span></a>
+    </nav>
+    <div class="language-switch" role="group" aria-label="페이지 언어" data-label-ko="페이지 언어" data-label-en="Page language">
+      <button type="button" data-language="ko" lang="ko" aria-pressed="true" aria-label="한국어로 보기">한국어</button>
+      <button type="button" data-language="en" lang="en" aria-pressed="false" aria-label="Read in English">EN</button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero wrap" id="top" aria-labelledby="hero-title">
+    <div class="hero-topline">
+      <p class="eyebrow"><span class="ko">SPT 관리 도구</span><span class="en" lang="en">A maintenance kit for SPT</span></p>
+      <span class="version">v1.0.0 · SPT 4.1</span>
+    </div>
+    <div class="hero-grid">
+      <div>
+        <h1 id="hero-title">Tushonka <span>Cleaner.</span></h1>
+        <p class="hero-lead"><span class="ko">메모리 정리·진단, 서버 최적화, 그래픽 조정을 한곳에서 합니다.</span><span class="en" lang="en">Memory cleanup, server optimizations, and graphics adjustments. All in one place.</span></p>
+        <p class="hero-context"><span class="ko">CactusPie, matsix, EchoStarz의 모드를 바탕으로 한 비공식 통합본입니다.<br>SPT 4.1.6에서 시험했습니다.</span><span class="en" lang="en">An unofficial combined build based on mods by CactusPie, matsix, and EchoStarz.<br>Tested on SPT 4.1.6.</span></p>
+        <div class="actions">
+          <a class="button primary" href="https://github.com/danyhappy564-cmyk/Tushonka-Cleaner/releases/latest">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/></svg>
+            <span class="ko">최신 버전 받기</span><span class="en" lang="en">Download latest</span>
+          </a>
+          <a class="button" href="https://github.com/danyhappy564-cmyk/Tushonka-Cleaner">GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+        <p class="hero-footnote"><span class="ko">설치 전 <a href="#cautions">주의사항</a>을 확인해 주십시오.</span><span class="en" lang="en">Read the <a href="#cautions">cautions</a> before installing.</span></p>
+      </div>
+      <div class="hero-media">
+        <figure class="media-sheet">
+          <div class="sheet-heading"><span>GRAPHICS / IN GAME</span><span class="signal"><span class="ko">실제 화면</span><span class="en" lang="en">ACTUAL CAPTURE</span></span></div>
+          <img id="graphics-animation" src="img/graphics-poster.jpg" data-poster="img/graphics-poster.jpg" data-animation="img/graphics-levels.gif" width="720" height="405" fetchpriority="high" alt="같은 위치에서 그래픽 단계를 바꾸며 비교한 게임 화면입니다." data-alt-ko="같은 위치에서 그래픽 단계를 바꾸며 비교한 게임 화면입니다." data-alt-en="Gameplay captured from the same spot while switching graphics levels.">
+          <figcaption id="motion-note"><span class="ko">같은 자리에서 그래픽 단계를 바꾼 실제 화면입니다.</span><span class="en" lang="en">Actual gameplay, switching graphics levels from the same spot.</span></figcaption>
+        </figure>
+        <div class="media-controls"><button class="text-button" id="motion-toggle" type="button" aria-controls="graphics-animation" aria-pressed="false" hidden>GIF 재생</button></div>
+      </div>
+    </div>
+    <aside class="compat-strip">
+      <strong><span class="ko">Smoothie와 함께 쓰지 마십시오.</span><span class="en" lang="en">Do not use with Smoothie.</span></strong>
+      <span class="ko">같은 게임 기능을 건드려 효과가 겹치거나 오류가 날 수 있습니다.</span><span class="en" lang="en">They change the same game systems, which can cause overlapping effects or errors.</span>
+    </aside>
+  </section>
+
+  <section class="section wrap" id="features" aria-labelledby="features-title">
+    <div class="section-heading">
+      <div><p class="eyebrow"><span class="ko">하는 일</span><span class="en" lang="en">What it does</span></p><h2 id="features-title"><span class="ko">필요한 기능을<br>골라 사용합니다.</span><span class="en" lang="en">Choose the tools<br>you need.</span></h2></div>
+      <p class="section-intro"><span class="ko">세 기능은 따로 켜고 끌 수 있습니다. 첫 실행에서는 권장 설정을 함께 켜거나, 사용할 기능만 직접 고릅니다.</span><span class="en" lang="en">Each feature can be turned on or off separately. Start with the recommended settings, or choose what to enable during first-time setup.</span></p>
+    </div>
+    <div class="feature-grid">
+      <article class="feature">
+        <div class="feature-top"><svg class="feature-icon" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="7" width="22" height="14" rx="1"/><path d="M7 11h4v6H7zm10 0h4v6h-4zM7 4v3m7-3v3m7-3v3M7 21v3m7-3v3m7-3v3"/></svg><span class="feature-tag">MEMORY &amp; VRAM</span></div>
+        <h3><span class="ko">메모리를 정리하고 살펴봅니다.</span><span class="en" lang="en">Clean up. Keep an eye on memory.</span></h3>
+        <p><span class="ko">평소에는 자동 정리를 사용하고, 문제가 있을 때는 상태 확인·끊김 분석·누수 추적으로 바꿉니다.</span><span class="en" lang="en">Use automatic cleanup for everyday play. Switch to monitoring, stutter analysis, or leak tracking when you need to investigate.</span></p>
+        <a href="#memory"><span class="ko">메모리 모드 비교</span><span class="en" lang="en">Compare memory modes</span> <span aria-hidden="true">↓</span></a>
+      </article>
+      <article class="feature">
+        <div class="feature-top"><svg class="feature-icon" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="4" y="3" width="20" height="9" rx="1"/><rect x="4" y="16" width="20" height="9" rx="1"/><path d="M8 7h8m-8 13h8m4-13h1m-1 13h1"/></svg><span class="feature-tag">SERVER</span></div>
+        <h3><span class="ko">서버의 응답 처리를 조정합니다.</span><span class="en" lang="en">Adjust how the server works.</span></h3>
+        <p><span class="ko">원래 동작, 균형, 권장 중에서 고릅니다. 응답 시간과 전송 크기를 함께 비교할 수 있습니다.</span><span class="en" lang="en">Choose Off, Balanced, or Recommended. Compare response times alongside the amount of data sent.</span></p>
+        <a href="#server"><span class="ko">서버 측정값 보기</span><span class="en" lang="en">See server measurements</span> <span aria-hidden="true">↓</span></a>
+      </article>
+      <article class="feature">
+        <div class="feature-top"><svg class="feature-icon" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="22" height="16" rx="1"/><path d="M9 25h10m-5-5v5M6 16l5-5 4 3 4-6 3 3"/></svg><span class="feature-tag">GRAPHICS</span></div>
+        <h3><span class="ko">화면이 달라지는 정도를 고릅니다.</span><span class="en" lang="en">Decide how much the view changes.</span></h3>
+        <p><span class="ko">그래픽을 조정하고 작은 장식을 가립니다. 총알이나 이동을 막는 물체는 가리지 않습니다.</span><span class="en" lang="en">Adjust graphics and hide small decorations. Objects that block bullets or movement stay visible.</span></p>
+        <a href="#graphics"><span class="ko">화면과 측정값 비교</span><span class="en" lang="en">Compare visuals and results</span> <span aria-hidden="true">↓</span></a>
+      </article>
+    </div>
+  </section>
+
+  <section class="section wrap" id="graphics" aria-labelledby="graphics-title">
+    <div class="section-heading">
+      <div><p class="eyebrow">GRAPHICS</p><h2 id="graphics-title"><span class="ko">어디까지 바꿀지,<br>직접 비교합니다.</span><span class="en" lang="en">See what changes.<br>Choose your trade-off.</span></h2></div>
+      <p class="section-intro"><span class="ko">기본값은 끔, 권장은 조금 더 가림입니다. 단계를 높이면 화면도 더 달라집니다. 프레임 향상은 그래픽 조정에서 나옵니다.</span><span class="en" lang="en">Graphics are off by default. Hide a bit more is recommended. Higher levels change the look of the map more. Frame-rate gains come from the graphics adjustments.</span></p>
+    </div>
+    <div class="conditions"><strong><span class="ko">측정 조건</span><span class="en" lang="en">Test setup</span></strong><span>RTX 4080</span><span>2560×1440</span><span><span class="ko">봇 없음</span><span class="en" lang="en">No bots</span></span><span>SPT 4.1.6</span></div>
+    <table class="graphics-table" aria-describedby="graphics-note">
+      <caption><span class="ko">그래픽 단계별 프레임 시간 · 낮을수록 한 화면을 더 빨리 그립니다.</span><span class="en" lang="en">Frame time by graphics level · Lower means each frame takes less time.</span></caption>
+      <thead><tr><th scope="col"><span class="ko">그래픽 단계</span><span class="en" lang="en">Graphics level</span></th><th scope="col"><span class="ko">스트리트 (ms)</span><span class="en" lang="en">Streets (ms)</span></th><th scope="col"><span class="ko">등대 (ms)</span><span class="en" lang="en">Lighthouse (ms)</span></th><th scope="col"><span class="ko">화면 변화와 감소율</span><span class="en" lang="en">Visual change &amp; frame-time reduction</span></th></tr></thead>
+      <tbody>
+        <tr><th scope="row"><span class="ko">끔</span><span class="en" lang="en">Off</span></th><td data-column="스트리트 (ms)" data-column-ko="스트리트 (ms)" data-column-en="Streets (ms)"><span class="values">8.4 / 7.8 / 6.8</span></td><td data-column="등대 (ms)" data-column-ko="등대 (ms)" data-column-en="Lighthouse (ms)"><span class="values">5.7 / 5.2 / 5.6</span></td><td><span class="ko">원래 화면을 유지합니다.</span><span class="en" lang="en">The original view.</span></td></tr>
+        <tr><th scope="row"><span class="ko">간단하게만 가림</span><span class="en" lang="en">Light touch</span></th><td data-column="스트리트 (ms)" data-column-ko="스트리트 (ms)" data-column-en="Streets (ms)"><span class="values">8.4 / 7.9 / 6.9</span></td><td data-column="등대 (ms)" data-column-ko="등대 (ms)" data-column-en="Lighthouse (ms)"><span class="values">5.7 / 5.2 / 5.6</span></td><td><span class="ko">먼 장식만 사라집니다. 프레임은 늘지 않습니다.</span><span class="en" lang="en">Only distant clutter disappears. FPS does not increase.</span></td></tr>
+        <tr class="recommended-row"><th scope="row"><span class="ko">조금 더 가림</span><span class="en" lang="en">Hide a bit more</span> <span class="badge"><span class="ko">권장</span><span class="en" lang="en">Recommended</span></span></th><td data-column="스트리트 (ms)" data-column-ko="스트리트 (ms)" data-column-en="Streets (ms)"><span class="values">7.1 / 6.7 / 6.0</span></td><td data-column="등대 (ms)" data-column-ko="등대 (ms)" data-column-en="Lighthouse (ms)"><span class="values">5.1 / 4.6 / 5.3</span></td><td><span class="ko">먼 모델과 그림자가 단순해집니다.</span><span class="en" lang="en">Distant models and shadows get simpler.</span><span class="reduction"><span class="ko">스트리트 12~15% · 등대 5~12% 감소</span><span class="en" lang="en">Streets −12–15% · Lighthouse −5–12%</span></span></td></tr>
+        <tr><th scope="row"><span class="ko">많이 가림</span><span class="en" lang="en">Hide more clutter</span></th><td data-column="스트리트 (ms)" data-column-ko="스트리트 (ms)" data-column-en="Streets (ms)"><span class="values">5.4 / 5.2 / 4.7</span></td><td data-column="등대 (ms)" data-column-ko="등대 (ms)" data-column-en="Lighthouse (ms)"><span class="values">5.0 / 4.7 / 5.1</span></td><td><strong class="tradeoff"><span class="ko">그림자가 꺼져 어두운 곳이 밝아지고, 가까운 벽이 거칠어집니다.</span><span class="en" lang="en">Shadows turn off, dark areas get brighter, and nearby walls look rougher.</span></strong><span class="reduction"><span class="ko">스트리트 31~36% · 등대 9~12% 감소</span><span class="en" lang="en">Streets −31–36% · Lighthouse −9–12%</span></span></td></tr>
+      </tbody>
+    </table>
+    <p class="table-note" id="graphics-note"><span class="ko">각 칸은 서로 다른 세 지점의 프레임 시간(ms)입니다. 감소율은 끔 대비 프레임 시간의 감소이며, FPS 증가율이 아닙니다. PC와 맵 상태에 따라 결과가 달라집니다.</span><span class="en" lang="en">Each cell lists frame times in milliseconds at three different spots. Percentages show a reduction in frame time compared with Off, not an FPS increase. Results vary by PC and map state.</span></p>
+    <div class="spots">
+      <figure><a href="img/spots-streets.jpg" aria-label="스트리트 측정 지점 사진 보기" data-label-ko="스트리트 측정 지점 사진 보기" data-label-en="Open the Streets test spots"><img src="img/spots-streets.jpg" width="1600" height="300" loading="lazy" decoding="async" alt="스트리트에서 프레임 시간을 잰 세 지점의 게임 화면입니다." data-alt-ko="스트리트에서 프레임 시간을 잰 세 지점의 게임 화면입니다." data-alt-en="In-game views of the three Streets spots used for the frame-time test."></a><figcaption><span class="ko">스트리트에서 잰 세 지점입니다.</span><span class="en" lang="en">The three test spots on Streets.</span></figcaption></figure>
+      <figure><a href="img/spots-lighthouse.jpg" aria-label="등대 측정 지점 사진 보기" data-label-ko="등대 측정 지점 사진 보기" data-label-en="Open the Lighthouse test spots"><img src="img/spots-lighthouse.jpg" width="1600" height="300" loading="lazy" decoding="async" alt="등대에서 프레임 시간을 잰 세 지점의 게임 화면입니다." data-alt-ko="등대에서 프레임 시간을 잰 세 지점의 게임 화면입니다." data-alt-en="In-game views of the three Lighthouse spots used for the frame-time test."></a><figcaption><span class="ko">등대에서 잰 세 지점입니다.</span><span class="en" lang="en">The three test spots on Lighthouse.</span></figcaption></figure>
+    </div>
+    <aside class="evidence">
+      <h3><span class="ko">장식 가리기는 화면 정리 기능입니다.</span><span class="en" lang="en">Hiding clutter cleans up the view.</span></h3>
+      <p><span class="ko">스트리트에서 규칙에 맞는 장식 <strong>15,696개</strong>를 모두 꺼도 <strong>프레임은 변하지 않았습니다.</strong> 프레임 향상은 장식 가리기가 아니라 그래픽 조정에서 나옵니다.</span><span class="en" lang="en">Turning off all <strong>15,696 matching decorations</strong> on Streets <strong>did not change FPS.</strong> The measured gains come from graphics adjustments, not from hiding clutter.</span></p>
+      <p class="detail"><span class="ko">총알이나 이동을 막는 물체는 가리지 않습니다.</span><span class="en" lang="en">Objects that block bullets or movement are not hidden.</span></p>
+    </aside>
+    <div class="gallery-header">
+      <h3><span class="ko">화면을 비교합니다.</span><span class="en" lang="en">Compare the view.</span></h3>
+      <div id="scene-controls" class="scene-controls" role="group" aria-label="비교 장면" data-label-ko="비교 장면" data-label-en="Comparison scene" hidden>
+        <button type="button" data-scene="street" aria-controls="scene-street" aria-pressed="true"><span class="ko">거리</span><span class="en" lang="en">Street</span></button>
+        <button type="button" data-scene="roof" aria-controls="scene-roof" aria-pressed="false"><span class="ko">옥상</span><span class="en" lang="en">Rooftop</span></button>
+        <button type="button" data-scene="indoor" aria-controls="scene-indoor" aria-pressed="false"><span class="ko">실내</span><span class="en" lang="en">Indoors</span></button>
+      </div>
+    </div>
+    <figure class="comparison" id="scene-street" data-scene-panel="street">
+      <a href="img/graphics-street.jpg" aria-label="거리 비교 사진 원본 보기" data-label-ko="거리 비교 사진 원본 보기" data-label-en="Open the full-size street comparison"><img src="img/graphics-street.jpg" width="1600" height="900" loading="lazy" decoding="async" alt="거리의 네 단계 비교입니다. 왼쪽 위는 끔, 오른쪽 위는 간단하게만 가림, 왼쪽 아래는 조금 더 가림, 오른쪽 아래는 많이 가림입니다." data-alt-ko="거리의 네 단계 비교입니다. 왼쪽 위는 끔, 오른쪽 위는 간단하게만 가림, 왼쪽 아래는 조금 더 가림, 오른쪽 아래는 많이 가림입니다." data-alt-en="Street comparison: Off at top left, Light touch at top right, Hide a bit more at bottom left, and Hide more clutter at bottom right."></a>
+      <figcaption><span><span class="ko">거리 · 같은 자리의 네 단계입니다.</span><span class="en" lang="en">Street · All four levels from the same spot.</span></span><span class="enlarge"><span class="ko">사진을 누르면 원본을 봅니다 ↗</span><span class="en" lang="en">Click the image for full size ↗</span></span></figcaption>
+    </figure>
+    <figure class="comparison" id="scene-roof" data-scene-panel="roof">
+      <a href="img/graphics-roof.jpg" aria-label="옥상 비교 사진 원본 보기" data-label-ko="옥상 비교 사진 원본 보기" data-label-en="Open the full-size rooftop comparison"><img src="img/graphics-roof.jpg" width="1600" height="900" loading="lazy" decoding="async" alt="옥상의 네 단계 비교입니다. 왼쪽 위는 끔, 오른쪽 위는 간단하게만 가림, 왼쪽 아래는 조금 더 가림, 오른쪽 아래는 많이 가림입니다." data-alt-ko="옥상의 네 단계 비교입니다. 왼쪽 위는 끔, 오른쪽 위는 간단하게만 가림, 왼쪽 아래는 조금 더 가림, 오른쪽 아래는 많이 가림입니다." data-alt-en="Rooftop comparison: Off at top left, Light touch at top right, Hide a bit more at bottom left, and Hide more clutter at bottom right."></a>
+      <figcaption><span><span class="ko">옥상 · 같은 자리의 네 단계입니다.</span><span class="en" lang="en">Rooftop · All four levels from the same spot.</span></span><span class="enlarge"><span class="ko">사진을 누르면 원본을 봅니다 ↗</span><span class="en" lang="en">Click the image for full size ↗</span></span></figcaption>
+    </figure>
+    <figure class="comparison" id="scene-indoor" data-scene-panel="indoor">
+      <a href="img/graphics-indoor.jpg" aria-label="실내 비교 사진 원본 보기" data-label-ko="실내 비교 사진 원본 보기" data-label-en="Open the full-size indoor comparison"><img src="img/graphics-indoor.jpg" width="1600" height="900" loading="lazy" decoding="async" alt="실내의 네 단계 비교입니다. 왼쪽 위는 끔, 오른쪽 위는 간단하게만 가림, 왼쪽 아래는 조금 더 가림, 오른쪽 아래는 많이 가림입니다." data-alt-ko="실내의 네 단계 비교입니다. 왼쪽 위는 끔, 오른쪽 위는 간단하게만 가림, 왼쪽 아래는 조금 더 가림, 오른쪽 아래는 많이 가림입니다." data-alt-en="Indoor comparison: Off at top left, Light touch at top right, Hide a bit more at bottom left, and Hide more clutter at bottom right."></a>
+      <figcaption><span><span class="ko">실내 · 같은 자리의 네 단계입니다.</span><span class="en" lang="en">Indoors · All four levels from the same spot.</span></span><span class="enlarge"><span class="ko">사진을 누르면 원본을 봅니다 ↗</span><span class="en" lang="en">Click the image for full size ↗</span></span></figcaption>
+    </figure>
+    <div class="quad-key" aria-label="사진 안 단계 위치" data-label-ko="사진 안 단계 위치" data-label-en="Layout of the comparison images">
+      <div><small><span class="ko">왼쪽 위</span><span class="en" lang="en">TOP LEFT</span></small><span class="ko">끔</span><span class="en" lang="en">Off</span></div>
+      <div><small><span class="ko">오른쪽 위</span><span class="en" lang="en">TOP RIGHT</span></small><span class="ko">간단하게만 가림</span><span class="en" lang="en">Light touch</span></div>
+      <div><small><span class="ko">왼쪽 아래</span><span class="en" lang="en">BOTTOM LEFT</span></small><span class="ko">조금 더 가림 · 권장</span><span class="en" lang="en">Hide a bit more · Recommended</span></div>
+      <div><small><span class="ko">오른쪽 아래</span><span class="en" lang="en">BOTTOM RIGHT</span></small><span class="ko">많이 가림</span><span class="en" lang="en">Hide more clutter</span></div>
+    </div>
+    <p class="gallery-note"><span class="ko">표는 세 지점의 측정 기록이며, 사진은 단계별 화면 차이를 보여 줍니다.</span><span class="en" lang="en">The table records measurements from three spots. The images show the visual differences between levels.</span></p>
+  </section>
+
+  <section class="section wrap" id="memory" aria-labelledby="memory-title">
+    <div class="section-heading">
+      <div><p class="eyebrow">MEMORY &amp; VRAM</p><h2 id="memory-title"><span class="ko">평소에는 정리하고,<br>필요할 때 분석합니다.</span><span class="en" lang="en">Cleanup for everyday play.<br>Diagnostics when needed.</span></h2></div>
+      <p class="section-intro"><span class="ko">메모리 모드별 프레임 부담은 측정 오차 <strong>±0.5ms</strong> 안이었습니다. 웹의 기본 메모리·프레임·VRAM 수치는 어떤 모드에서도 표시합니다.</span><span class="en" lang="en">The frame-time cost of each memory mode stayed within measurement noise: <strong>±0.5 ms.</strong> Basic memory, FPS, and VRAM readings remain available on the web in every mode.</span></p>
+    </div>
+    <div class="memory-layout">
+      <div>
+        <div class="mode-row"><div class="mode-name"><h3><span class="ko">자동 정리</span><span class="en" lang="en">Automatic cleanup</span></h3><span class="badge"><span class="ko">권장</span><span class="en" lang="en">Recommended</span></span></div><div><p class="mode-use"><span class="ko">평소 게임할 때 사용합니다.</span><span class="en" lang="en">For everyday raids.</span></p><p><span class="ko">자동 정리와 메모리 부족 알림을 켭니다. 게임 안 상태 표시와 분석은 끕니다.</span><span class="en" lang="en">Runs cleanup and low-memory alerts. The in-game overlay and analysis stay off.</span></p></div></div>
+        <div class="mode-row"><div class="mode-name"><h3><span class="ko">간단 확인</span><span class="en" lang="en">Quick check</span></h3></div><div><p class="mode-use"><span class="ko">플레이하며 상태를 살펴봅니다.</span><span class="en" lang="en">Keep an eye on things while playing.</span></p><p><span class="ko">정리·알림에 왼쪽 위 상태 표시와 레이드 기록을 더합니다.</span><span class="en" lang="en">Adds a top-left overlay and raid reports to cleanup and alerts.</span></p></div></div>
+        <div class="mode-row"><div class="mode-name"><h3><span class="ko">집중 분석</span><span class="en" lang="en">Deep analysis</span></h3></div><div><p class="mode-use"><span class="ko">끊김의 원인을 찾습니다.</span><span class="en" lang="en">Track down stutters.</span></p><p><span class="ko">모드별 부담과 끊김 원인을 계속 기록합니다. 누수 추적은 끕니다.</span><span class="en" lang="en">Continuously records mod overhead and stutter causes. Leak tracking stays off.</span></p></div></div>
+        <div class="mode-row"><div class="mode-name"><h3><span class="ko">누수 추적</span><span class="en" lang="en">Leak tracking</span></h3></div><div><p class="mode-use"><span class="ko">레이드 사이에 쌓이는 메모리를 살펴봅니다.</span><span class="en" lang="en">Investigate memory that builds up between raids.</span></p><p><span class="ko">몇 분마다 모드별 메모리와 남은 물체를 확인합니다. 끊김 원인 추적은 끕니다.</span><span class="en" lang="en">Checks mod memory and lingering objects every few minutes. Stutter tracing stays off.</span></p></div></div>
+        <div class="mode-row"><div class="mode-name"><h3><span class="ko">꺼짐</span><span class="en" lang="en">Off</span></h3></div><div><p class="mode-use"><span class="ko">메모리 기능을 사용하지 않습니다.</span><span class="en" lang="en">Turn the memory feature off.</span></p><p><span class="ko">메모리·자원 정리, 게임 안 상태 표시, 분석, 알림을 끕니다. 웹의 기본 수치는 계속 표시합니다.</span><span class="en" lang="en">Disables cleanup, the in-game overlay, analysis, and alerts. Basic web readings remain available.</span></p></div></div>
+        <p class="mode-note"><span class="ko">집중 분석을 끝내면 측정을 멈춥니다. 분석 준비 작업까지 완전히 없애려면 게임을 다시 켭니다.</span><span class="en" lang="en">Leaving Deep analysis stops recording. Restart the game to fully remove its instrumentation.</span></p>
+      </div>
+      <aside class="cleanup-report">
+        <p class="report-kicker"><span class="ko">자동 정리 시험 기록</span><span class="en" lang="en">AUTOMATIC CLEANUP TEST</span></p>
+        <h3><span class="ko">메모리가 1.5GB 늘면 동작합니다.</span><span class="en" lang="en">Triggers after memory grows by 1.5 GB.</span></h3>
+        <div class="memory-values"><span>4.49 GB</span><span class="arrow" aria-hidden="true">→</span><span>3.41 GB</span></div>
+        <div class="report-cost"><div><strong><span class="ko">0.8초</span><span class="en" lang="en">0.8 s</span></strong><span><span class="ko">정리에 걸린 시간</span><span class="en" lang="en">Cleanup duration</span></span></div><div><strong>95 ms</strong><span><span class="ko">한 번 발생한 끊김</span><span class="en" lang="en">One recorded stutter</span></span></div></div>
+        <p class="test-limit"><span class="ko"><strong>쓰레기 메모리를 주입해 정리 기준을 넘긴 시험입니다.</strong> 일반 레이드에서 같은 효과를 보장하는 값이 아닙니다.</span><span class="en" lang="en"><strong>This test injected garbage memory to cross the cleanup threshold.</strong> It does not guarantee the same result in a normal raid.</span></p>
+        <p><span class="ko">봇 없는 8분 레이드에서는 기준에 닿지 않아 정리가 돌지 않았습니다.</span><span class="en" lang="en">Cleanup did not run during an 8-minute raid without bots because the threshold was not reached.</span></p>
+      </aside>
+    </div>
+    <aside class="inline-note"><span class="ko"><strong>누수 추적은 멈춤이 있습니다.</strong> 스트리트에서 시작할 때 약 4초 멈췄습니다. 문제를 확인한 뒤 자동 정리로 돌아가는 용도로 사용합니다.</span><span class="en" lang="en"><strong>Leak tracking can pause the game.</strong> It caused an approximately 4-second freeze when starting on Streets. Use it to investigate, then return to Automatic cleanup.</span></aside>
+  </section>
+
+  <section class="section wrap" id="server" aria-labelledby="server-title">
+    <div class="section-heading">
+      <div><p class="eyebrow">SERVER</p><h2 id="server-title"><span class="ko">응답 시간과 크기를<br>함께 봅니다.</span><span class="en" lang="en">Response time is<br>only part of the picture.</span></h2></div>
+      <p class="section-intro"><span class="ko">균형은 일부 최적화를 켜고, 권장은 모든 안전한 최적화를 켭니다. 끔은 원래 서버 동작을 사용합니다.</span><span class="en" lang="en">Balanced enables a selection of optimizations. Recommended enables all safe optimizations. Off keeps the original server behavior.</span></p>
+    </div>
+    <div class="conditions"><strong><span class="ko">측정 조건</span><span class="en" lang="en">Test setup</span></strong><span><span class="ko">그래픽 측정과 같은 PC</span><span class="en" lang="en">Same PC as the graphics test</span></span><span><span class="ko">게임 꺼진 상태</span><span class="en" lang="en">Game closed</span></span><span>SPT 4.1.6</span></div>
+    <table class="server-table" aria-describedby="server-note">
+      <caption><span class="ko">아이템 자료 요청</span><span class="en" lang="en">Item data request</span> · <code>/client/items</code></caption>
+      <thead><tr><th scope="col"><span class="ko">서버 단계</span><span class="en" lang="en">Server level</span></th><th scope="col"><span class="ko">응답 시간</span><span class="en" lang="en">Response time</span></th><th scope="col"><span class="ko">전송 크기</span><span class="en" lang="en">Data size</span></th></tr></thead>
+      <tbody>
+        <tr><th scope="row"><span class="ko">끔</span><span class="en" lang="en">Off</span></th><td>489 ms</td><td>3.6 MB</td></tr>
+        <tr><th scope="row"><span class="ko">균형</span><span class="en" lang="en">Balanced</span></th><td>305 ms</td><td>3.7 MB</td></tr>
+        <tr class="recommended-row"><th scope="row"><span class="ko">권장</span><span class="en" lang="en">Recommended</span></th><td>265 ms</td><td>5.9 MB</td></tr>
+      </tbody>
+    </table>
+    <div class="server-explanation" id="server-note"><p><span class="ko"><strong>권장에서는 응답이 빨라졌지만 전송 크기는 커졌습니다.</strong> 모든 항목이 함께 줄어드는 것은 아닙니다.</span><span class="en" lang="en"><strong>Recommended responded faster, but sent more data.</strong> The measurements show a trade-off between response time and data size.</span></p><p><span class="ko">이 표는 서버의 아이템 자료 요청 결과입니다. 레이드 중 FPS 향상을 뜻하지 않으며, PC와 서버 상태에 따라 달라집니다.</span><span class="en" lang="en">These results are for a server item-data request. They do not represent in-raid FPS gains. Results vary by PC and server state.</span></p></div>
+  </section>
+
+  <section class="section wrap" id="screens" aria-labelledby="screens-title">
+    <div class="section-heading">
+      <div><p class="eyebrow"><span class="ko">화면 안내</span><span class="en" lang="en">The controls</span></p><h2 id="screens-title"><span class="ko">시작은 간단하게,<br>세부 설정은 웹에서 합니다.</span><span class="en" lang="en">Start in game.<br>Fine-tune on the web.</span></h2></div>
+      <p class="section-intro"><span class="ko">첫 실행 안내, F12, 웹 설정은 같은 모드를 다루는 서로 다른 창입니다. 자주 쓰는 설정은 게임 안에서, 자세한 설정과 기록은 웹에서 확인합니다.</span><span class="en" lang="en">First-time setup, F12, and the web settings control the same mod. Keep everyday controls in game and use the web for detailed settings and reports.</span></p>
+    </div>
+    <div class="screens-layout">
+      <figure class="screen-figure"><a class="ko" href="img/firstrun-ko.png" aria-label="첫 실행 창 원본 보기"><img src="img/firstrun-ko.png" width="840" height="700" loading="lazy" decoding="async" alt="한국어 첫 실행 창입니다. 언어 선택, 웹 설정 열기, 권장으로 모두 켜기, 직접 고르기, 나중에 버튼이 있습니다."></a><a class="en" lang="en" href="img/firstrun-en.png" aria-label="Open the full-size first-time setup window"><img src="img/firstrun-en.png" width="840" height="700" loading="lazy" decoding="async" alt="English first-time setup window with language choices, Open web settings, Enable all recommended, Let me choose, and Not now."></a><figcaption><span class="ko">게임을 처음 켜면 나오는 설정 창입니다.</span><span class="en" lang="en">The setup window that appears on first launch.</span></figcaption></figure>
+      <div>
+        <article class="screen-role"><h3><span class="role-marker">SETUP</span><span class="ko">첫 실행</span><span class="en" lang="en">First-time setup</span></h3><p><span class="ko">권장으로 모두 켜거나 사용할 기능만 고릅니다. 나중에를 누르면 현재 설정을 유지하고 안내를 닫습니다. 이후에는 F12에서 바꿉니다.</span><span class="en" lang="en">Enable all recommended settings or choose individual features. Not now keeps your current settings and dismisses the prompt. Use F12 to make changes later.</span></p></article>
+        <article class="screen-role"><h3><span class="keycap">F12</span><span class="ko">게임 안의 기본 설정</span><span class="en" lang="en">Everyday controls in game</span></h3><p><span class="ko">언어, 메모리 모드, 서버 단계, 그래픽 단계, 웹 열기, 단축키를 설정합니다. 자세한 설정이 필요하면 웹 설정 열기를 누릅니다.</span><span class="en" lang="en">Set the language, memory mode, server level, graphics level, and shortcut. Open web settings from here for the details.</span></p></article>
+        <article class="screen-role"><h3><span class="role-marker">WEB</span><span class="ko">세부 설정과 기록</span><span class="en" lang="en">Details and reports</span></h3><p><span class="ko">설정, 실시간 분석, 레이드 보고서, 지난 기록을 봅니다. 게임 실행 중 첫 실행 창이나 F12의 버튼으로 엽니다.</span><span class="en" lang="en">Browse settings, live analysis, raid reports, and past records. Open it from the setup window or F12 while the game is running.</span></p><code class="address">http://127.0.0.1:6977/</code></article>
+      </div>
+    </div>
+    <div class="web-shots">
+      <h3><span class="ko">웹 설정 화면입니다.</span><span class="en" lang="en">The web settings.</span></h3>
+      <div class="web-grid">
+        <figure><a class="ko" href="img/web-memory-ko.jpg" aria-label="메모리 및 VRAM 화면 크게 보기"><img src="img/web-memory-ko.jpg" width="800" height="544" loading="lazy" decoding="async" alt="웹 설정의 메모리 화면입니다. 다섯 메모리 모드를 고릅니다."></a><a class="en" lang="en" href="img/web-memory-en.jpg" aria-label="Open the Memory &amp; VRAM page at full size"><img src="img/web-memory-en.jpg" width="800" height="544" loading="lazy" decoding="async" alt="The Memory page in the web settings, with the five memory modes."></a><figcaption><span class="ko">메모리 및 VRAM</span><span class="en" lang="en">Memory &amp; VRAM</span></figcaption></figure>
+        <figure><a class="ko" href="img/web-server-ko.jpg" aria-label="서버 화면 크게 보기"><img src="img/web-server-ko.jpg" width="800" height="437" loading="lazy" decoding="async" alt="웹 설정의 서버 화면입니다. 권장, 균형, 끄기 중에서 고릅니다."></a><a class="en" lang="en" href="img/web-server-en.jpg" aria-label="Open the Server page at full size"><img src="img/web-server-en.jpg" width="800" height="537" loading="lazy" decoding="async" alt="The Server page in the web settings, with its three levels."></a><figcaption><span class="ko">서버</span><span class="en" lang="en">Server</span></figcaption></figure>
+        <figure><a class="ko" href="img/web-graphics-ko.jpg" aria-label="그래픽 화면 크게 보기"><img src="img/web-graphics-ko.jpg" width="800" height="537" loading="lazy" decoding="async" alt="웹 설정의 그래픽 화면입니다. 가리는 정도를 고릅니다."></a><a class="en" lang="en" href="img/web-graphics-en.jpg" aria-label="Open the Graphics page at full size"><img src="img/web-graphics-en.jpg" width="800" height="537" loading="lazy" decoding="async" alt="The Graphics page in the web settings, with the hiding levels."></a><figcaption><span class="ko">그래픽</span><span class="en" lang="en">Graphics</span></figcaption></figure>
+      </div>
+      <p class="gallery-note"><span class="ko">사진을 누르면 크게 봅니다.</span><span class="en" lang="en">Click an image to see it larger.</span></p>
+    </div>
+  </section>
+
+  <section class="section wrap" id="install" aria-labelledby="install-title">
+    <div class="section-heading">
+      <div><p class="eyebrow"><span class="ko">설치와 이동</span><span class="en" lang="en">Installation &amp; migration</span></p><h2 id="install-title"><span class="ko">압축을 풀고,<br>옛 모드 이동을 확인합니다.</span><span class="en" lang="en">Extract the files.<br>Check the migration.</span></h2></div>
+      <p class="section-intro"><span class="ko">SPT 4.1용입니다. 배포 압축 파일에는 게임 쪽 플러그인과 서버 모드가 함께 들어 있습니다.</span><span class="en" lang="en">For SPT 4.1. The release archive includes both the game plugin and the server mod.</span></p>
+    </div>
+    <div class="install-layout">
+      <ol class="install-steps">
+        <li><div><h3><span class="ko">릴리즈 압축 파일을 받습니다.</span><span class="en" lang="en">Download the release archive.</span></h3><p><span class="ko">GitHub Releases에서 Tushonka Cleaner의 배포용 ZIP을 받습니다.</span><span class="en" lang="en">Get the Tushonka Cleaner release ZIP from GitHub Releases.</span></p><a class="button primary" href="https://github.com/danyhappy564-cmyk/Tushonka-Cleaner/releases/latest"><span class="ko">다운로드로 이동</span><span class="en" lang="en">Go to download</span> <span aria-hidden="true">↗</span></a></div></li>
+        <li><div><h3><span class="ko">SPT 폴더에 압축을 풉니다.</span><span class="en" lang="en">Extract into your SPT folder.</span></h3><p><span class="ko">압축 안의 폴더 구조를 유지해 SPT 폴더에 덮어씁니다. <code>BepInEx</code>와 <code>SPT_Runtime</code> 폴더가 각각 들어갑니다.</span><span class="en" lang="en">Keep the archive’s folder structure and merge it into your SPT folder. It contains the <code>BepInEx</code> and <code>SPT_Runtime</code> folders.</span></p></div></li>
+        <li><div><h3><span class="ko">옛 모드 이동 안내를 확인합니다.</span><span class="en" lang="en">Check for the old-mod migration notice.</span></h3><p><span class="ko">서버를 켠 뒤 옛 모드를 옮겼다는 안내가 나오면 <strong>서버를 한 번 더 켭니다.</strong> 옮긴 첫 실행에는 겹치는 기능이 멈춥니다.</span><span class="en" lang="en">If the server says it moved old mods, <strong>restart the server once.</strong> Overlapping features stay disabled on that first run.</span></p></div></li>
+      </ol>
+      <aside class="migration">
+        <h3><span class="ko">옛 모드는 삭제하지 않습니다.</span><span class="en" lang="en">Old mods are moved, not deleted.</span></h3>
+        <p><span class="ko">RAM Cleaner, CompoundingPerf, DeClutter를 서버 시작 때 게임 폴더 안의 보관 폴더로 옮깁니다. 필요하면 되돌릴 수 있습니다.</span><span class="en" lang="en">On startup, the server moves RAM Cleaner, CompoundingPerf, and DeClutter into a backup folder inside your game folder. You can restore them later.</span></p>
+        <div class="folder-label">Tushonka-Cleaner-OldMods</div>
+        <p class="detail"><span class="ko">보관 폴더가 이미 있어도 덮어쓰지 않습니다. 새 설정 파일이 없으면 구형 RAM 설정에서 같은 항목을 한 번 가져옵니다.</span><span class="en" lang="en">Existing backups are not overwritten. If the new configuration does not exist, matching settings are imported once from the old RAM configuration.</span></p>
+        <details><summary><span class="ko">옛 모드로 되돌리는 방법</span><span class="en" lang="en">How to go back to the old mods</span></summary><p><span class="ko"><code>BepInEx/plugins/Tushonka-Cleaner</code>와 <code>SPT_Runtime/user/mods/Tushonka-Cleaner</code>를 지우고, 보관 폴더 안의 옛 모드 폴더를 원래 자리로 옮깁니다.</span><span class="en" lang="en">Remove <code>BepInEx/plugins/Tushonka-Cleaner</code> and <code>SPT_Runtime/user/mods/Tushonka-Cleaner</code>, then move the old mod folders from the backup to their original locations.</span></p></details>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section wrap" id="cautions" aria-labelledby="cautions-title">
+    <div class="section-heading"><div><p class="eyebrow"><span class="ko">사용 전 확인</span><span class="en" lang="en">Before you play</span></p><h2 id="cautions-title"><span class="ko">설치 전에<br>알아 둘 점입니다.</span><span class="en" lang="en">What to know<br>before you install.</span></h2></div><p class="section-intro"><span class="ko">그래픽과 메모리 측정값은 RTX 4080 PC 한 대에서 봇 없이 얻었습니다. 다른 PC나 봇이 있는 레이드에서 같은 결과를 약속하지 않습니다.</span><span class="en" lang="en">Graphics and memory results came from one RTX 4080 PC without bots. They are not a promise of the same results on another PC or in raids with bots.</span></p></div>
+    <div class="notice-grid">
+      <article class="notice-card"><h3><span class="ko">알려진 주의사항</span><span class="en" lang="en">Known cautions</span></h3><ul><li><span class="ko"><strong>Smoothie와 함께 쓰지 마십시오.</strong> 함께 설치되어 있으면 서버 콘솔과 메뉴에 경고합니다. Smoothie 파일은 건드리지 않습니다.</span><span class="en" lang="en"><strong>Do not use with Smoothie.</strong> If both are installed, a warning appears in the server console and menu. Smoothie files are left untouched.</span></li><li><span class="ko">많이 가림은 그림자를 끄고 가까운 벽도 거칠게 만듭니다. 적용 전 비교 사진을 확인해 주십시오.</span><span class="en" lang="en">Hide more clutter disables shadows and makes nearby walls look rougher. Check the comparison images before using it.</span></li><li><span class="ko">낙서·얼룩을 숨기는 설정 변경은 다음 레이드부터 적용됩니다.</span><span class="en" lang="en">Changes to hiding graffiti and stains take effect from the next raid.</span></li></ul></article>
+      <article class="notice-card"><h3><span class="ko">동작 확인</span><span class="en" lang="en">How it behaves</span></h3><ul><li><span class="ko"><strong>RAM이 부족할 때 도는 정리</strong>는 이전 버전의 실제 게임 로그에서 동작을 확인했습니다. 윈도우 전체의 여유 RAM이 10% 밑으로 내려가면 돕니다. 기준은 설정에서 바꿀 수 있습니다.</span><span class="en" lang="en"><strong>Low-RAM cleanup</strong> was confirmed in a real game log from an earlier version. It runs when free system RAM drops below 10%. You can change the threshold in the settings.</span></li><li><span class="ko"><strong>모드 언어</strong>는 게임이 한국어면 한국어로, 그 밖의 언어면 영어로 자동 표시합니다. F12에서 직접 고를 수도 있습니다.</span><span class="en" lang="en"><strong>The mod’s language</strong> follows the game: Korean for a Korean game, English for anything else. You can also pick it yourself in F12.</span></li></ul></article>
+    </div>
+  </section>
+
+  <section class="section wrap" id="credits" aria-labelledby="credits-title">
+    <div class="section-heading"><div><p class="eyebrow"><span class="ko">출처와 라이선스</span><span class="en" lang="en">Credits &amp; license</span></p><h2 id="credits-title"><span class="ko">원작자의 작업을<br>기반으로 합니다.</span><span class="en" lang="en">Built on the work<br>of the original authors.</span></h2></div><p class="section-intro"><span class="ko">이 모드는 아래 원작자들의 작업을 모은 비공식 통합본입니다. 배포물에는 <strong>GPL-3.0</strong>이 적용되며, 각 원본의 저작권과 라이선스는 유지합니다.</span><span class="en" lang="en">This is an unofficial combined build of the original authors’ work below. The distribution is licensed under <strong>GPL-3.0.</strong> Original copyrights and licenses are preserved.</span></p></div>
+    <p class="credit-intro"><span class="ko">그래픽 기능은 다른 모드의 코드나 이름 목록 없이 새로 작성했습니다. 작은 장식을 가린다는 착상은 Tyrian(Xenoxia8953)의 Tyrian-DeClutterer에서 얻었습니다.</span><span class="en" lang="en">The graphics feature was written from scratch without other mods’ code or name lists. The idea of hiding small decorations came from Tyrian (Xenoxia8953) and Tyrian-DeClutterer.</span></p>
+    <div class="credits">
+      <article class="credit"><h3>CactusPie <small>GPL-3.0</small></h3><p>SPT-RamCleanerInterval<br><span class="ko">메모리 정리·보고·진단 기능의 기반입니다.</span><span class="en" lang="en">The basis for memory cleanup, reports, and diagnostics.</span></p><a href="https://github.com/CactusPie/SPT-RamCleanerInterval"><span class="ko">원본 프로젝트</span><span class="en" lang="en">Original project</span> <span aria-hidden="true">↗</span></a></article>
+      <article class="credit"><h3>matsix <small>GPL-3.0</small></h3><p>SPTVRAMCleaner<br><span class="ko">레이드 시작 시 에셋 정리 기능의 기반입니다.</span><span class="en" lang="en">The basis for unloading assets at raid start.</span></p><a href="https://github.com/matsixx/SPTVRAMCleaner"><span class="ko">원본 프로젝트</span><span class="en" lang="en">Original project</span> <span aria-hidden="true">↗</span></a></article>
+      <article class="credit"><h3>EchoStarz <small>MIT</small></h3><p>CompoundingPerf<br><span class="ko">서버 최적화·설정·진단, 숨겨진 메뉴 영상 일시정지와 착지한 에어드랍 물리 정리의 기반입니다.</span><span class="en" lang="en">The basis for server optimizations, settings, diagnostics, pausing hidden menu videos, and cleaning up landed airdrop physics.</span></p><a href="https://forge.sp-tarkov.com/mod/2415/compoundingperf"><span class="ko">원본 프로젝트</span><span class="en" lang="en">Original project</span> <span aria-hidden="true">↗</span></a></article>
+      <article class="credit"><h3>Tyrian <small>Xenoxia8953</small></h3><p>Tyrian-DeClutterer<br><span class="ko">작은 장식을 가린다는 착상의 출처입니다. 코드와 이름 목록은 사용하지 않았습니다.</span><span class="en" lang="en">The inspiration for hiding small decorations. No code or name lists were used.</span></p><a href="https://github.com/Xenoxia8953/Tyrian-DeClutterer"><span class="ko">착상 출처 프로젝트</span><span class="en" lang="en">Inspiration project</span> <span aria-hidden="true">↗</span></a></article>
+    </div>
+    <div class="source-links"><a href="https://github.com/danyhappy564-cmyk/Tushonka-Cleaner/blob/main/NOTICE.md"><span class="ko">출처 전문</span><span class="en" lang="en">Full credits</span> ↗</a><a href="https://github.com/danyhappy564-cmyk/Tushonka-Cleaner/blob/main/LICENSE">GPL-3.0 ↗</a><a href="https://github.com/danyhappy564-cmyk/Tushonka-Cleaner/releases/latest"><span class="ko">릴리즈</span><span class="en" lang="en">Releases</span> ↗</a></div>
+    <div class="disclaimer">
+      <div class="ko"><strong>안내</strong> — 이 포크는 R_F(danyhappy564-cmyk)가 AI의 도움을 받아 만든 비공식 판이며, 원작자와 관계가 없고 원작자의 승인을 받지 않았습니다.<ol><li>원작자가 요청하면 바로 파일을 지웁니다.</li><li>검증되지 않은 임시 수정판입니다. 다른 곳에 다시 올리거나 퍼뜨리지 말아 주세요.</li><li>이 포크의 문제로 원작자에게 연락하지 말아 주세요.</li><li>원작자를 항상 표기하고, 원작자의 결정을 가장 먼저 따릅니다.</li><li>원작자의 Forge 페이지에 응원과 후원을 남겨 주세요.</li></ol></div>
+      <div class="en" lang="en"><strong>Notice</strong> — this is an unofficial, AI-assisted port by R_F (danyhappy564-cmyk), not affiliated with or endorsed by the original authors.<ol><li>Files will be deleted immediately if the original authors ask.</li><li>These are unverified, temporary fixes. Please don't re-upload or share them elsewhere.</li><li>Never report this fork's issues to the original modders.</li><li>Original creators are always credited, and their decisions come first.</li><li>Please leave kind words or tips on the original authors' Forge pages.</li></ol></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer"><div class="wrap footer-inner"><span>Tushonka Cleaner · <span class="ko">비공식 통합본 · 배포 R_F</span><span class="en" lang="en">Unofficial build · Distributed by R_F</span> · GPL-3.0</span><a href="#top"><span class="ko">맨 위로 이동합니다</span><span class="en" lang="en">Back to top</span> <span aria-hidden="true">↑</span></a></div></footer>
+</body>
+</html>
