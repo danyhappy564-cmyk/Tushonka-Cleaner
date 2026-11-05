@@ -17,30 +17,34 @@
 
 ---
 
-# Tushonka Cleaner 1.0.0
-
-An unofficial combined build of memory cleanup, diagnostics, server optimisation and graphics adjustments for SPT 4.1, based on the original authors' mods listed below. Tested on SPT 4.1.6. See [NOTICE.md](NOTICE.md) and [LICENSE](LICENSE) for the original authors and licence texts.
-
-1. **CactusPie — SPT-RamCleanerInterval**
-   - Original: https://github.com/CactusPie/SPT-RamCleanerInterval
-   - Licence: GPL-3.0
-2. **matsix — SPTVRAMCleaner**
-   - Original: https://github.com/matsixx/SPTVRAMCleaner
-   - Licence: GPL-3.0
-3. **EchoStarz — CompoundingPerf**
-   - Original: https://forge.sp-tarkov.com/mod/2415/compoundingperf
-   - Licence: MIT
-4. **Tyrian (Xenoxia8953) — Tyrian-DeClutterer**
-   - Original: https://github.com/Xenoxia8953/Tyrian-DeClutterer
-   - Reference: The idea of hiding small decorations came from this mod. No code was used.
-
 ### ⚠️ IMPORTANT NOTICE / DISCLAIMER
+
+- **Original Author:** CactusPie
+  - **Original Repository:** SPT-RamCleanerInterval
+  - **Original Link:** https://github.com/CactusPie/SPT-RamCleanerInterval
+  - **License:** GPL-3.0
+- **Original Author:** matsix
+  - **Original Repository:** SPTVRAMCleaner
+  - **Original Link:** https://github.com/matsixx/SPTVRAMCleaner
+  - **License:** GPL-3.0
+- **Original Author:** EchoStarz
+  - **Original Repository:** CompoundingPerf
+  - **Original Link:** https://forge.sp-tarkov.com/mod/2415/compoundingperf
+  - **License:** MIT
+- **Idea Source:** Tyrian (Xenoxia8953)
+  - **Original Repository:** Tyrian-DeClutterer
+  - **Original Link:** https://github.com/Xenoxia8953/Tyrian-DeClutterer
+  - **Note:** The idea of hiding small decorations came from this mod. No code was used.
+- **License of This Build:** GPL-3.0. See [NOTICE.md](NOTICE.md) and [LICENSE](LICENSE).
+- **This Port By:** R_F (danyhappy564-cmyk) — unofficial, AI-assisted port. Not affiliated with or endorsed by the original authors.
 
 1. **Reflection & Take-Downs:** I deeply reflect on the ECOT incident. As an AI-assisted "vibe coder," I will immediately delete files if the original authors ask.
 2. **No Re-Distribution:** These ported builds are unverified, temporary fixes. Please do NOT re-upload or share them anywhere else.
 3. **Do Not Pester Original Authors:** Never report bugs or pester original modders regarding issues from my unofficial ports.
 4. **Full Credit & Respect:** I will always credit original creators on GitHub and prioritize their decisions above all else.
 5. **Support Original Creators:** Instead of using my ports, please visit the original authors' Forge pages to leave kind words or tips.
+
+---
 
 ## Changelog
 

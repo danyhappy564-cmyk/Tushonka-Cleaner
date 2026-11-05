@@ -17,30 +17,34 @@
 
 ---
 
-# Tushonka Cleaner 1.0.0
-
-SPT 4.1의 메모리 정리·진단, 서버 최적화, 그래픽 조정을 합친 비공식 통합본입니다. 아래 원작자들의 모드를 바탕으로 합니다. SPT 4.1.6에서 시험했습니다. 원작자·출처·라이선스 전문은 [NOTICE.md](NOTICE.md)와 [LICENSE](LICENSE)에 있습니다.
-
-1. **CactusPie — SPT-RamCleanerInterval**
-   - 원본: https://github.com/CactusPie/SPT-RamCleanerInterval
-   - 라이선스: GPL-3.0
-2. **matsix — SPTVRAMCleaner**
-   - 원본: https://github.com/matsixx/SPTVRAMCleaner
-   - 라이선스: GPL-3.0
-3. **EchoStarz — CompoundingPerf**
-   - 원본: https://forge.sp-tarkov.com/mod/2415/compoundingperf
-   - 라이선스: MIT
-4. **Tyrian (Xenoxia8953) — Tyrian-DeClutterer**
-   - 원본: https://github.com/Xenoxia8953/Tyrian-DeClutterer
-   - 참고: 작은 장식을 가린다는 착상을 참고했습니다. 코드는 사용하지 않았습니다.
-
 ### ⚠️ IMPORTANT NOTICE / DISCLAIMER
+
+- **Original Author:** CactusPie
+  - **Original Repository:** SPT-RamCleanerInterval
+  - **Original Link:** https://github.com/CactusPie/SPT-RamCleanerInterval
+  - **License:** GPL-3.0
+- **Original Author:** matsix
+  - **Original Repository:** SPTVRAMCleaner
+  - **Original Link:** https://github.com/matsixx/SPTVRAMCleaner
+  - **License:** GPL-3.0
+- **Original Author:** EchoStarz
+  - **Original Repository:** CompoundingPerf
+  - **Original Link:** https://forge.sp-tarkov.com/mod/2415/compoundingperf
+  - **License:** MIT
+- **Idea Source:** Tyrian (Xenoxia8953)
+  - **Original Repository:** Tyrian-DeClutterer
+  - **Original Link:** https://github.com/Xenoxia8953/Tyrian-DeClutterer
+  - **Note:** 작은 장식을 가린다는 착상을 참고했습니다. 코드는 사용하지 않았습니다.
+- **License of This Build:** GPL-3.0. See [NOTICE.md](NOTICE.md) and [LICENSE](LICENSE).
+- **This Port By:** R_F (danyhappy564-cmyk) — unofficial, AI-assisted port. Not affiliated with or endorsed by the original authors.
 
 1. **Reflection & Take-Downs:** I deeply reflect on the ECOT incident. As an AI-assisted "vibe coder," I will immediately delete files if the original authors ask.
 2. **No Re-Distribution:** These ported builds are unverified, temporary fixes. Please do NOT re-upload or share them anywhere else.
 3. **Do Not Pester Original Authors:** Never report bugs or pester original modders regarding issues from my unofficial ports.
 4. **Full Credit & Respect:** I will always credit original creators on GitHub and prioritize their decisions above all else.
 5. **Support Original Creators:** Instead of using my ports, please visit the original authors' Forge pages to leave kind words or tips.
+
+---
 
 ## 변경 이력
 
