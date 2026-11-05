@@ -180,12 +180,6 @@ namespace Tushonka.Cleaner.Client
         internal void Awake()
         {
             PrepareIntegration();
-            if (!_ramEnabled)
-            {
-                BindSettings();
-                CompleteIntegrationSettings();
-                return;
-            }
             _gc = new GcRunner(Logger);
             _gc.Finished += OnGcFinished;
             _combat = new CombatTracker();
@@ -209,10 +203,9 @@ namespace Tushonka.Cleaner.Client
 
             BindSettings();
             CompleteIntegrationSettings();
-            if (!_ramEnabled) return;
-            GameFixes.Apply(new HarmonyLib.Harmony("com.zzap.tushonka.cleaner.fixes"), Logger);
+            if (_ramEnabled) GameFixes.Apply(new HarmonyLib.Harmony("com.zzap.tushonka.cleaner.fixes"), Logger);
             StartWebServer();
-            StartCoroutine(EndOfFrameLoop());
+            if (_ramEnabled) StartCoroutine(EndOfFrameLoop());
 
             _sessionLog = new SessionLog(Logger);
             BepInEx.Logging.Logger.Listeners.Add(_sessionLog);
@@ -278,7 +271,6 @@ namespace Tushonka.Cleaner.Client
         {
             _performance.Tick();
             if (!_conflicts.Graphics) _sceneCleanup.Tick();
-            if (!_ramEnabled) return;
             float now = Time.realtimeSinceStartup;
 
             while (_mainThread.TryDequeue(out Action action))
@@ -286,6 +278,11 @@ namespace Tushonka.Cleaner.Client
                 action();
             }
 
+            if (!_ramEnabled)
+            {
+                if (now >= _nextSample) { _nextSample = now + 1f; TickWeb(now); TickSimpleUi(); }
+                return;
+            }
             CheckHitch(now);
             if (_diagHotkey.Value.IsDown())
             {
@@ -331,6 +328,7 @@ namespace Tushonka.Cleaner.Client
             SampleWorld();
             EvaluateServerAndForecast(now);
             TickWeb(now);
+            TickSimpleUi();
             if (_inGame)
             {
                 _report.Sample(_snapshot, _vram.Dedicated, _dead);
@@ -570,6 +568,8 @@ namespace Tushonka.Cleaner.Client
             }
 
             _raidStartedAt = now;
+            _raidGeneration++;
+            _raidFreedGc = _raidFreedTrim = _raidFreedAssets = 0;
             _nativeBaseline = _snapshot.Native;
             _nativeAtStart = _snapshot.Native;
             _deadAtStart = Math.Max(0, _dead);
@@ -681,6 +681,7 @@ namespace Tushonka.Cleaner.Client
 
         private void OnGcFinished()
         {
+            if (_inGame && _raidStartedAt >= 0f) _raidFreedGc += Math.Max(0, _gc.LastUsedBefore - _gc.LastUsedAfter);
             if (_postRaid == PostRaidPhase.Gc)
             {
                 ReportKeptAfterRaid();
@@ -855,6 +856,7 @@ namespace Tushonka.Cleaner.Client
             long vramAfter = _vram.Dedicated;
             long nativeFreed = _assetBefore.Native >= 0 && after.Native >= 0 ? _assetBefore.Native - after.Native : 0;
             long vramFreed = _assetVramBefore >= 0 && vramAfter >= 0 ? _assetVramBefore - vramAfter : 0;
+            if (_inGame && _raidStartedAt >= 0f) _raidFreedAssets += Math.Max(0, nativeFreed);
             float unloadSeconds = _assetDone - _assetStart;
 
             if (after.Native >= 0)
@@ -952,6 +954,7 @@ namespace Tushonka.Cleaner.Client
             _lastTrim = Time.realtimeSinceStartup;
             _lastTrimResult = Loc.L($"{DateTime.Now:HH:mm:ss} 진행 중... ({reason})", $"{DateTime.Now:HH:mm:ss} running... ({reason})");
 
+            int trimRaid = _inGame && _raidStartedAt >= 0f ? _raidGeneration : -1;
             ThreadPool.QueueUserWorkItem(_ =>
             {
                 long before = MemoryStats.ReadWorkingSet();
@@ -963,6 +966,7 @@ namespace Tushonka.Cleaner.Client
                 _mainThread.Enqueue(() =>
                 {
                     Interlocked.Exchange(ref _trimRunning, 0);
+                    if (ok && trimRaid == _raidGeneration && _inGame && _raidStartedAt >= 0f) _raidFreedTrim += Math.Max(0, before - after);
                     _report.AddTrim();
                     if (_postRaid == PostRaidPhase.Trim && reason == "after raid")
                     {
@@ -1073,7 +1077,7 @@ namespace Tushonka.Cleaner.Client
                 Logger.LogInfo($"[restart] {restart}");
                 if (notify != null && _restartNotify.Value)
                 {
-                    Notify(Loc.L("RAM 클리너: ", "RAM Cleaner: ") + notify, true);
+                    Notify(Loc.L("Tushonka Cleaner: ", "Tushonka Cleaner: ") + notify, true);
                 }
             }
 
@@ -1343,10 +1347,10 @@ namespace Tushonka.Cleaner.Client
             string after = PresetCycle[(Array.IndexOf(PresetCycle, next) + 1) % PresetCycle.Length];
             Logger.LogInfo($"Mode hotkey: {next}");
             string text = next == PresetOff
-                ? Loc.L($"RAM 클리너: 꺼짐 — 자동 정리·표시 모두 멈춤 ({_diagHotkey.Value}: 다시 켜기 → {PresetName(after)})",
-                        $"RAM Cleaner: off — cleanup and overlay stopped ({_diagHotkey.Value}: turn on again → {PresetName(after)})")
-                : Loc.L($"RAM 클리너 모드: {PresetName(next)} ({_diagHotkey.Value}: 다음 → {PresetName(after)})",
-                        $"RAM Cleaner mode: {PresetName(next)} ({_diagHotkey.Value}: next → {PresetName(after)})");
+                ? Loc.L($"Tushonka Cleaner: 꺼짐 — 자동 정리·표시 모두 멈춤 ({_diagHotkey.Value}: 다시 켜기 → {PresetName(after)})",
+                        $"Tushonka Cleaner: off — cleanup and overlay stopped ({_diagHotkey.Value}: turn on again → {PresetName(after)})")
+                : Loc.L($"Tushonka Cleaner 모드: {PresetName(next)} ({_diagHotkey.Value}: 다음 → {PresetName(after)})",
+                        $"Tushonka Cleaner mode: {PresetName(next)} ({_diagHotkey.Value}: next → {PresetName(after)})");
             Notify(text, false);
         }
 
@@ -1371,7 +1375,7 @@ namespace Tushonka.Cleaner.Client
                 Logger.LogInfo("Diagnostic mode ON");
                 if (!_switchingMode)
                 {
-                    Notify(Loc.L("RAM 클리너: 원인 추적 시작", "RAM Cleaner: diagnostic mode on"), false);
+                    Notify(Loc.L("Tushonka Cleaner: 원인 추적 시작", "Tushonka Cleaner: diagnostic mode on"), false);
                 }
 
                 return;
@@ -1383,7 +1387,7 @@ namespace Tushonka.Cleaner.Client
             _diagStartedAt = -1f;
             if (!_switchingMode)
             {
-                Notify(Loc.L("RAM 클리너: 원인 추적 종료 — 요약은 전용 로그(BepInEx\\RamCleaner)에 저장", "RAM Cleaner: diagnostic mode off — summary saved to the dedicated log (BepInEx\\RamCleaner)"), false);
+                Notify(Loc.L("Tushonka Cleaner: 원인 추적 종료 — 요약은 전용 로그(BepInEx\\RamCleaner)에 저장", "Tushonka Cleaner: diagnostic mode off — summary saved to the dedicated log (BepInEx\\RamCleaner)"), false);
             }
         }
 
@@ -2453,6 +2457,7 @@ namespace Tushonka.Cleaner.Client
         internal void OnGUI()
         {
             DrawLegacyWarning();
+            DrawWelcome();
             if (!_ramEnabled) return;
             if (!OverlayOn || Event.current.type != EventType.Repaint)
             {

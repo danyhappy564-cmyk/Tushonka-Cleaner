@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>RAM Cleaner</title>
+<title>Tushonka Cleaner</title>
 <style>
 :root{color-scheme:light;--page:#f9f9f7;--surface:#fcfcfb;--text:#0b0b0b;--text2:#52514e;--muted:#898781;--grid:#e1e0d9;--axis:#c3c2b7;
 --border:rgba(11,11,11,.10);--accent:#2a78d6;--ok:#1a7f37;--warn:#b7791f;--bad:#cf222e}
@@ -47,7 +47,7 @@ a{color:var(--accent)}
 </head>
 <body>
 <main>
-  <nav class="nav"><span class="brand">RAM Cleaner</span>
+  <nav class="nav"><span class="brand">Tushonka Cleaner</span>
     <button type="button" class="tab on" data-tab="settings" id="tabSettings"></button>
     <button type="button" class="tab" data-tab="reports" id="tabReports"></button>
     <a href="/tushonka-cleaner/performance">서버 최적화 · Server optimisation</a>
@@ -78,8 +78,8 @@ a{color:var(--accent)}
     $('bannerText').textContent = (state && state.reason ? state.reason + ' — ' : '') +
       t('게임을 켜면 이 페이지가 저절로 실시간 화면(메모리·FPS 그래프, 진행 중인 레이드 보고서)으로 바뀝니다.', 'Once the game is up this page switches to the live view (memory/FPS charts, the raid in progress) by itself.');
     $('settingsTitle').textContent = t('설정', 'Settings');
-    $('settingsIntro').textContent = t('게임 F12의 RAM 클리너 설정과 같습니다. 게임이 꺼져 있어 바꾸면 설정 파일에 바로 저장되고, 다음에 게임을 켤 때 적용됩니다.',
-      'The same as RAM Cleaner in the game\'s F12. With the game closed, changes are saved straight to its config file and used at the next game start.');
+    $('settingsIntro').textContent = t('게임 F12의 Tushonka Cleaner 설정과 같습니다. 게임이 꺼져 있어 바꾸면 설정 파일에 바로 저장되고, 다음에 게임을 켤 때 적용됩니다.',
+      'The same as Tushonka Cleaner in the game\'s F12. With the game closed, changes are saved straight to its config file and used at the next game start.');
     $('reportsTitle').textContent = t('지난 세션 보고서', 'Past session reports');
     $('reportsIntro').textContent = t('게임을 켤 때마다 하나씩 만들어지는 보고서입니다(최근 15개). 판별 표, 메모리·FPS 그래프, 끊김 원인, 재시작 판단이 들어 있습니다.',
       'One report per game start (newest 15): per-raid table, memory and FPS charts, stutter causes and restart advice.');
@@ -134,9 +134,9 @@ a{color:var(--accent)}
   function render() {
     var list = $('list'); list.innerHTML = '';
     if (!state.settings) {
-      list.innerHTML = '<section class="card"><p>' + esc(t('설정 목록이 아직 없습니다. RAM 클리너 2.12.0 이상으로 게임을 한 번 켜면 만들어집니다(BepInEx\\RamCleaner\\settings-catalog.json).',
-        'No settings list yet. Start the game once with RAM Cleaner 2.12.0 or newer to create it (BepInEx\\RamCleaner\\settings-catalog.json).')) +
-        (state.configPath ? '' : '<br>' + esc(t('RAM 클리너 설정 파일도 찾지 못했습니다(서버와 게임이 같은 SPT 폴더에 있어야 합니다).', 'The RAM Cleaner config file was not found either (the server and the game must share one SPT folder).'))) + '</p></section>';
+      list.innerHTML = '<section class="card"><p>' + esc(t('설정 목록이 아직 없습니다. Tushonka Cleaner 2.12.0 이상으로 게임을 한 번 켜면 만들어집니다(BepInEx\\RamCleaner\\settings-catalog.json).',
+        'No settings list yet. Start the game once with Tushonka Cleaner 2.12.0 or newer to create it (BepInEx\\RamCleaner\\settings-catalog.json).')) +
+        (state.configPath ? '' : '<br>' + esc(t('Tushonka Cleaner 설정 파일도 찾지 못했습니다(서버와 게임이 같은 SPT 폴더에 있어야 합니다).', 'The Tushonka Cleaner config file was not found either (the server and the game must share one SPT folder).'))) + '</p></section>';
       return;
     }
     var groups = {}, order = [];

@@ -15,6 +15,9 @@ public sealed class LegacyConflicts
     public List<string> Guids { get; } = new List<string>();
     public bool Any => Memory || Performance || Graphics;
 
+    public const string LegacyWarningKo = "Tushonka Cleaner: 이전 모드가 함께 설치되어 겹치는 기능을 중지했습니다. 게임과 서버를 끄고 서버를 다시 켜면 이전 모드가 백업 폴더로 자동으로 옮겨집니다.";
+    public const string LegacyWarningEn = "Tushonka Cleaner: Old mods are still installed, so overlapping features are off. Close the game and server, then start the server again to move them to a backup folder automatically.";
+
     public const string SmoothieWarningKo =
         "Tushonka Cleaner: Smoothie 모드와 함께 쓰지 마십시오. 같은 게임 기능을 건드려 효과가 겹치거나 오류가 날 수 있습니다. 둘 중 하나만 설치하십시오.";
     public const string SmoothieWarningEn =

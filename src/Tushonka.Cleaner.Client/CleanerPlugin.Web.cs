@@ -149,7 +149,7 @@ namespace Tushonka.Cleaner.Client
                 bool first = true;
                 foreach (LocalizedEntry e in _localized)
                 {
-                    if (e.Entry == null || e.Attributes.CustomDrawer != null || e.Attributes.Browsable == false)
+                    if (e.Entry == null || e.Attributes.CustomDrawer != null)
                     {
                         continue;
                     }
@@ -241,13 +241,17 @@ namespace Tushonka.Cleaner.Client
                 {
                     case "/":
                     case "/index.html":
-                        return new WebServer.Response { Body = DashboardPage() };
+                        return new WebServer.Response { Body = OnMain(SettingsPage) };
+                    case "/live":
+                        return new WebServer.Response { Body = OnMain(DashboardPage) };
+                    case "/diagnostics":
+                        return new WebServer.Response { Body = OnMain(DiagnosticsPage) };
                     case "/report":
                         return new WebServer.Response { Body = OnMain(ReportPage) };
                     case "/history":
-                        return new WebServer.Response { Body = HistoryPage() };
+                        return new WebServer.Response { Body = OnMain(HistoryPage) };
                     case "/settings":
-                        return new WebServer.Response { Body = SettingsPage() };
+                        return new WebServer.Response { Status = 302, Location = "./" };
                     case "/api/live":
                         if (Interlocked.Exchange(ref _webLivePending, 1) == 1)
                         {
@@ -270,7 +274,9 @@ namespace Tushonka.Cleaner.Client
                         string value = WebServer.Form(body, "value");
                         return WebServer.Response.Json(post ? OnMain(() => ApplyWebSetting(key, value)) : OnMain(BuildSettingsJson));
                     case "/server":
-                        return new WebServer.Response { Body = ServerPage() };
+                        return new WebServer.Response { Status = 302, Location = "./" };
+                    case "/api/ui":
+                        return post ? WebServer.Response.Json(OnMain(() => ApplyUiSetting(WebServer.Form(body, "key"), WebServer.Form(body, "value")))) : WebServer.Response.Json(OnMain(BuildUiState));
                     case "/api/cp/settings":
                         string cpKey = WebServer.Form(body, "key");
                         string cpValue = WebServer.Form(body, "value");
@@ -291,7 +297,7 @@ namespace Tushonka.Cleaner.Client
                 string message = ex is InvalidOperationException && ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 return path.StartsWith("/api/", StringComparison.Ordinal)
                     ? WebServer.Response.Json("{\"error\":" + WebServer.Str(message) + "}", 503)
-                    : new WebServer.Response { Status = 503, Body = Shell(Loc.L("RAM 클리너", "RAM Cleaner"), null, "<p class=\"sub\">" + WebUtility.HtmlEncode(message) + "</p>", null, null) };
+                    : new WebServer.Response { Status = 503, Body = Shell(Loc.L("Tushonka Cleaner", "Tushonka Cleaner"), null, "<p class=\"sub\">" + WebUtility.HtmlEncode(message) + "</p>", null, null) };
             }
         }
 
@@ -303,12 +309,10 @@ namespace Tushonka.Cleaner.Client
             {
                 var assets = new Dictionary<string, string>();
                 var assembly = typeof(CleanerPlugin).Assembly;
-                foreach (string file in new[] { "web.css", "common.js", "dashboard.js", "settings.js", "report.js" })
+                foreach (string resource in assembly.GetManifestResourceNames().Where(n => n.StartsWith("web.", StringComparison.Ordinal)))
                 {
-                    using (Stream stream = assembly.GetManifestResourceStream("web." + file))
-                    {
-                        assets[file] = stream == null ? string.Empty : new StreamReader(stream, Encoding.UTF8).ReadToEnd();
-                    }
+                    using (Stream stream = assembly.GetManifestResourceStream(resource))
+                        assets[resource.Substring(4)] = stream == null ? string.Empty : new StreamReader(stream, Encoding.UTF8).ReadToEnd();
                 }
 
                 s_webAssets = assets;
@@ -317,40 +321,42 @@ namespace Tushonka.Cleaner.Client
             return s_webAssets[name];
         }
 
-        private static string Nav(string active)
+        private string Nav(string active)
         {
-            string Link(string href, string id, string text) =>
-                $"<a href=\"{href}\"" + (id == active ? " class=\"on\" aria-current=\"page\"" : string.Empty) + $">{text}</a>";
-            return "<nav class=\"nav\"><span class=\"brand\">" + Loc.L("RAM 클리너", "RAM Cleaner") + "</span>" +
-                   Link("./", "live", Loc.L("실시간", "Live")) +
-                   Link("report", "report", Loc.L("세션 보고서", "Session report")) +
-                   Link("history", "history", Loc.L("지난 기록", "History")) +
-                   Link("settings", "settings", Loc.L("설정", "Settings")) +
-                   (CompoundingPerfReady ? Link("server", "server", Loc.L("서버 최적화", "Server optimisation")) : string.Empty) +
-                   "<button type=\"button\" id=\"lang\" class=\"lang\" data-to=\"" + (Loc.En ? LanguageKorean : LanguageEnglish) + "\">" +
-                   (Loc.En ? "한국어" : "English") + "</button></nav>";
+            string Link(string href, string id, string ko, string en) => "<a href=\"" + href + "\"" +
+                (active == id ? " aria-current=\"page\"" : "") + ">" + Loc.L(ko, en) + "</a>";
+            return "<header id=\"site-header\"><div class=\"header-inner\"><a class=\"brand\" href=\"./\"><span class=\"brand-mark\">T</span>Tushonka Cleaner</a><nav class=\"screen-nav\">" +
+                Link("./", "settings", "설정", "Settings") + Link("live", "live", "실시간 분석", "Live analysis") +
+                Link("report", "report", "레이드 보고서", "Raid report") + Link("history", "history", "지난 기록", "History") +
+                "</nav><label class=\"language-picker\">" + Loc.L("언어", "Language") +
+                "<select data-language aria-label=\"Language\"><option value=\"auto\">" + Loc.L("자동", "Auto") +
+                "</option><option value=\"ko\">한국어</option><option value=\"en\">English</option></select></label></div></header>" + LegacyBanner();
         }
 
-        /// <summary>A full page: the report's styles + the web styles, nav, content, then scripts.</summary>
-        private static string Shell(string title, string active, string content, string strings, string script)
+        private string LegacyBanner()
+        {
+            string banner = "";
+            if (_conflicts.Any) banner += "<div class=\"connection-banner offline legacy-warning\" role=\"alert\">" +
+                WebUtility.HtmlEncode(Loc.En ? LegacyConflicts.LegacyWarningEn : LegacyConflicts.LegacyWarningKo) + "</div>";
+            if (_conflicts.Smoothie) banner += "<div class=\"connection-banner offline legacy-warning\" role=\"alert\">" +
+                WebUtility.HtmlEncode(Loc.En ? LegacyConflicts.SmoothieWarningEn : LegacyConflicts.SmoothieWarningKo) + "</div>";
+            return banner;
+        }
+
+        private string BootScript() => "<script>window.TC_BOOT=" + BuildUiState().Replace("<", "\\u003c") + ";</script>";
+
+        private string Shell(string title, string active, string content, string strings, string script)
         {
             var sb = new StringBuilder(32 * 1024);
             sb.Append("<!doctype html><html lang=\"").Append(Loc.L("ko", "en")).Append("\"><head><meta charset=\"utf-8\">")
               .Append("<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>").Append(WebUtility.HtmlEncode(title)).Append("</title>")
-              .Append("<style>").Append(SessionReport.Css).Append('\n').Append(Asset("web.css")).Append("</style></head><body><main class=\"viz-root\">")
-              .Append(Nav(active)).Append(content).Append("<div id=\"tip\" role=\"tooltip\"></div></main>")
-              .Append("<script>").Append(SessionReport.Js).Append("</script>");
-            if (strings != null)
-            {
-                sb.Append("<script>window.RC=").Append(strings).Append(";</script>");
-            }
-
-            sb.Append("<script>").Append(Asset("common.js")).Append("</script>");
-            if (script != null)
-            {
-                sb.Append("<script>").Append(Asset(script)).Append("</script>");
-            }
-
+              .Append("<style>").Append(SessionReport.Css).Append('\n').Append(Asset("web.css")).Append("</style></head><body data-page=\"").Append(active).Append("\">")
+              .Append(Nav(active)).Append("<main class=\"shell viz-root\">").Append(content).Append("<div id=\"tip\" role=\"tooltip\"></div></main><footer class=\"shell\">Tushonka Cleaner</footer>")
+              .Append(BootScript()).Append("<script>").Append(SessionReport.Js).Append("</script>");
+            if (strings != null) sb.Append("<script>window.RC=").Append(strings).Append(";</script>");
+            foreach (string file in new[] { "measured.js", "i18n.js", "common.js" }) sb.Append("<script>").Append(Asset(file)).Append("</script>");
+            if (active == "settings") sb.Append("<script>").Append(Asset("advanced.js")).Append("</script>");
+            if (script != null) sb.Append("<script>").Append(Asset(script)).Append("</script>");
             return sb.Append("</body></html>").ToString();
         }
 
@@ -368,62 +374,12 @@ namespace Tushonka.Cleaner.Client
         private static string Offline => Loc.L("게임과 연결이 끊겼습니다 — 게임이 꺼졌거나 웹 페이지 설정이 꺼졌을 수 있습니다. 다시 연결을 시도하는 중...",
                                                "Lost the connection to the game — it was closed or the web page was turned off. Retrying...");
 
-        private static string DashboardPage()
-        {
-            string H(string text) => WebUtility.HtmlEncode(text);
-            string BarCard(string id, string title, string note) =>
-                $"<section class=\"card hidden\" id=\"{id}Card\"><h2>{H(title)}</h2>" + (note != null ? $"<p class=\"sub\">{H(note)}</p>" : string.Empty) +
-                $"<div class=\"bars\" id=\"{id}\"></div></section>";
+        private string DashboardPage() => Shell("Tushonka Cleaner", "live", Asset("live.html"),
+            Strings("offline", Offline, "collecting", Loc.L("기록을 모으는 중입니다. 2초마다 한 점씩 쌓입니다.", "Collecting data, one point every 2 seconds.")), "dashboard.js");
 
-            string content =
-                "<h1>" + H(Loc.L("실시간 현황", "Live view")) + "</h1><p class=\"sub\" id=\"sub\">" + H(Loc.L("연결 중...", "Connecting...")) + "</p>" +
-                "<div id=\"alerts\" role=\"status\"></div><div class=\"tiles\" id=\"tiles\"></div>" +
-                "<section><div class=\"grid2\">" +
-                "<figure class=\"chart\"><figcaption>" + H(Loc.L("메모리 (GB, 최근 10분)", "Memory (GB, last 10 min)")) + "</figcaption><div class=\"plot\" id=\"memChart\"></div></figure>" +
-                "<figure class=\"chart\"><figcaption>" + H(Loc.L("FPS (최근 10분)", "FPS (last 10 min)")) + "</figcaption><div class=\"plot\" id=\"fpsChart\"></div></figure>" +
-                "</div></section>" +
-                "<section class=\"card\"><h2>" + H(Loc.L("수동 실행", "Manual actions")) + "</h2><div class=\"actions\">" +
-                "<button type=\"button\" class=\"primary\" data-act=\"gc\">" + H(Loc.L("GC 정리", "Run GC")) + "</button>" +
-                "<button type=\"button\" data-act=\"trim\">" + H(Loc.L("워킹셋 정리", "Trim working set")) + "</button>" +
-                "<button type=\"button\" data-act=\"assets\">" + H(Loc.L("에셋 정리 (1~3초 멈춤)", "Unload assets (1-3 s pause)")) + "</button>" +
-                "<button type=\"button\" data-act=\"leak\">" + H(Loc.L("누수 추적 기록", "Take a leak snapshot")) + "</button>" +
-                "<button type=\"button\" data-act=\"diag\" id=\"diagBtn\">" + H(Loc.L("원인 추적 켜기", "Turn diagnostic mode on")) + "</button>" +
-                "</div><p class=\"msg\" id=\"actmsg\" role=\"status\"></p></section>" +
-                "<div class=\"grid2\">" +
-                BarCard("hitch", Loc.L("끊김 원인 (이번 레이드)", "Stutter causes (this raid)"), null) +
-                BarCard("mods", Loc.L("모드별 프레임 부하 (ms/프레임)", "Per-mod frame cost (ms/frame)"), null) +
-                BarCard("alloc", Loc.L("모드별 메모리 생성 (MB/분)", "Per-mod memory creation (MB/min)"), null) +
-                BarCard("heavy", Loc.L("[실험] 처음 로드 때 메모리를 많이 쓴 모드", "[Experimental] Mods costing the most memory on first load"),
-                    Loc.L("여러 판에서 반복해서 큰 것만 믿으세요.", "Trust only what stays large across raids.")) +
-                "</div>" +
-                "<section class=\"card\"><details><summary>" + H(Loc.L("자세한 상태 (F12 '현재 상태'와 같은 내용)", "Full status (same as F12 'Status')")) +
-                "</summary><pre id=\"status\"></pre></details></section>" +
-                "<p class=\"sub\">" + H(Loc.L("이 페이지는 1초마다 게임에서 숫자를 받아 옵니다. 탭을 숨기면 5초마다로 줄어듭니다.",
-                    "This page fetches numbers from the game once a second (every 5 s while the tab is hidden).")) + "</p>";
+        private string SettingsPage() => Shell("Tushonka Cleaner", "settings", Asset("index.html"), null, "settings.js");
+        private string DiagnosticsPage() => Shell("Tushonka Cleaner", "diagnostics", Asset("diagnostics.html"), null, "settings.js");
 
-            string strings = Strings(
-                "offline", Offline,
-                "collecting", Loc.L("기록 모으는 중 (2초마다 한 점)", "collecting (one point every 2 s)"),
-                "diagOn", Loc.L("원인 추적 켜기", "Turn diagnostic mode on"),
-                "diagOff", Loc.L("원인 추적 끄기", "Turn diagnostic mode off"));
-            return Shell(Loc.L("RAM 클리너 — 실시간", "RAM Cleaner — live"), "live", content, strings, "dashboard.js");
-        }
-
-        private static string SettingsPage()
-        {
-            string H(string text) => WebUtility.HtmlEncode(text);
-            string content =
-                "<h1>" + H(Loc.L("설정", "Settings")) + "</h1><p class=\"sub\">" +
-                H(Loc.L("F12와 같은 설정입니다. 바꾸면 게임에 바로 적용되고 저장됩니다(F12 창은 닫았다 열면 바뀐 값이 보임). '모드'를 고르면 아래 설정들이 한 번에 바뀝니다.",
-                        "The same settings as F12. Changes apply in the game at once and are saved (reopen the F12 window to see them there). Picking a 'mode' changes many settings at once.")) +
-                "</p><div class=\"toolbar\"><input type=\"search\" id=\"q\" placeholder=\"" + H(Loc.L("설정 검색 (예: 서버, 끊김, GC)", "Search settings (e.g. server, stutter, GC)")) +
-                "\" aria-label=\"" + H(Loc.L("설정 검색", "Search settings")) + "\"></div><p class=\"msg\" id=\"msg\" role=\"status\"></p><div id=\"list\"></div>";
-            return Shell(Loc.L("RAM 클리너 — 설정", "RAM Cleaner — settings"), "settings", content, SettingsStrings("api/settings", null), "settings.js");
-        }
-
-        /// <summary>Texts and endpoints for settings.js (this plugin's settings, or another plugin's with a status endpoint).
-        /// <paramref name="sentNote"/>: shown after each change (CompoundingPerf: "sent to the server"); <paramref name="reloadAll"/>:
-        /// read every value again after each change.</summary>
         private static string SettingsStrings(string api, string statusApi, string sentNote = null, bool reloadAll = false)
         {
             return Strings(
@@ -455,12 +411,12 @@ namespace Tushonka.Cleaner.Client
             float now = Time.realtimeSinceStartup;
             string html = _sessionReport.BuildLive(
                 r => FillSessionRaid(r, CurrentSuspects(), _raidStartedAt >= 0f ? (now - _raidStartedAt) / 60.0 : 0.0),
-                "<style>" + Asset("web.css") + "</style>" + Nav("report") + ReportToolbar() + "<script>" + Asset("common.js") + "</script>" +
+                "<style>" + Asset("web.css") + "</style>" + Nav("report") + ReportToolbar() + BootScript() + "<script>" + Asset("common.js") + "</script>" +
                 "<script>window.RC=" + Strings("offline", Offline, "updated", Loc.L("자동 갱신:", "updated:")) + ";</script><script>" + Asset("report.js") + "</script>");
             return _sessionReportEnabled.Value
                 ? html
-                : html.Replace("<h1>", "<p class=\"alert\">" + WebUtility.HtmlEncode(Loc.L("'16. 세션 보고서'가 꺼져 있어서 레이드 그래프가 기록되지 않습니다.",
-                    "'16. Session report' is off, so raid charts are not recorded.")) + "</p><h1>");
+                : html.Replace("<h1>", "<p class=\"alert\">" + WebUtility.HtmlEncode(Loc.L("이 메모리 모드에서는 레이드 그래프를 기록하지 않습니다.",
+                    "This memory mode does not record raid charts.")) + "</p><h1>");
         }
 
         /// <summary>Auto refresh switch above the report (report.js) and the way to older sessions.</summary>
@@ -512,7 +468,7 @@ namespace Tushonka.Cleaner.Client
                 sb.Append("</tbody></table></div></section>");
             }
 
-            return Shell(Loc.L("RAM 클리너 — 지난 기록", "RAM Cleaner — history"), "history", sb.ToString(), null, null);
+            return Shell(Loc.L("Tushonka Cleaner — 지난 기록", "Tushonka Cleaner — history"), "history", sb.ToString(), null, null);
         }
 
         /// <summary>Web thread: one saved report with the nav bar added (null = not one of ours).</summary>
@@ -535,10 +491,11 @@ namespace Tushonka.Cleaner.Client
 
             // Served under /reports/, so the nav's relative links need "../".
             const string root = "<main class=\"viz-root\">";
-            string nav = "<style>" + Asset("web.css") + "</style>" + Nav("history").Replace("href=\"", "href=\"../") +
-                         "<script>" + Asset("common.js").Replace("'api/settings'", "'../api/settings'") + "</script>";
+            html = html.Replace("<head>", "<head><base href=\"../\">");
+            string nav = OnMain(() => "<style>" + Asset("web.css") + "</style>" + Nav("history") + BootScript() +
+                         "<script>" + Asset("common.js") + "</script>");
             int at = html.IndexOf(root, StringComparison.Ordinal);
-            return new WebServer.Response { Body = at < 0 ? html : html.Insert(at + root.Length, nav) };
+            return new WebServer.Response { Body = CleanUiText(at < 0 ? html : html.Insert(at + root.Length, nav)) };
         }
 
         // ---------------------------------------------------------------- live data (main thread)
@@ -553,7 +510,7 @@ namespace Tushonka.Cleaner.Client
             void Tile(string label, string value, string note, int level) =>
                 tiles.Add("{\"k\":" + WebServer.Str(label) + ",\"v\":" + WebServer.Str(value) + ",\"n\":" + WebServer.Str(note ?? string.Empty) + ",\"lv\":" + level + "}");
 
-            Tile(Loc.L("게임 메모리 (커밋)", "Game memory (commit)"), MemoryStats.Gb(s.PrivateBytes) + " GB",
+            Tile(Loc.L("게임 메모리", "Game memory"), MemoryStats.Gb(s.PrivateBytes) + " GB",
                 Loc.L($"실제 RAM {MemoryStats.Gb(s.WorkingSet)} GB · 관리 {MemoryStats.Gb(s.MonoUsed)} GB", $"RAM in use {MemoryStats.Gb(s.WorkingSet)} GB · managed {MemoryStats.Gb(s.MonoUsed)} GB"), 0);
             if (s.SystemTotal > 0)
             {
@@ -565,7 +522,7 @@ namespace Tushonka.Cleaner.Client
             if (s.CommitLimit > 0)
             {
                 long floor = CommitFloor(s);
-                Tile(Loc.L("커밋 여유 (튕김 한도까지)", "Commit headroom (to the crash limit)"), MemoryStats.Gb(s.CommitAvailable) + " GB",
+                Tile(Loc.L("튕김 한도까지 여유", "Room before a crash"), MemoryStats.Gb(s.CommitAvailable) + " GB",
                     Loc.L($"한도 {MemoryStats.Gb(s.CommitLimit)} GB · 경고선 {MemoryStats.Gb(floor)} GB", $"limit {MemoryStats.Gb(s.CommitLimit)} GB · warning line {MemoryStats.Gb(floor)} GB"),
                     s.CommitAvailable < floor ? 2 : s.CommitAvailable < floor * 2 ? 1 : 0);
             }
@@ -585,7 +542,7 @@ namespace Tushonka.Cleaner.Client
             if (_vram.Dedicated >= 0)
             {
                 string cards = _vram.CardSummary();
-                Tile("VRAM", MemoryStats.Gb(_vram.Dedicated) + " GB",
+                Tile(Loc.L("VGA 메모리", "VRAM"), MemoryStats.Gb(_vram.Dedicated) + " GB",
                     Loc.L($"그래픽카드 {SystemInfo.graphicsMemorySize / 1024f:0.0} GB · 공유 {MemoryStats.Gb(_vram.Shared)} GB", $"graphics card {SystemInfo.graphicsMemorySize / 1024f:0.0} GB · shared {MemoryStats.Gb(_vram.Shared)} GB") +
                     (cards.Length > 0 ? " · " + cards : string.Empty), 0);
             }
@@ -628,7 +585,9 @@ namespace Tushonka.Cleaner.Client
                 : _inGame ? Loc.L("레이드 로딩·시작 대기", "raid loading / waiting to start") : Loc.L("메뉴·은신처", "menu / hideout");
             json.Append("{\"sub\":").Append(WebServer.Str(Loc.L($"{DateTime.Now:HH:mm:ss} 갱신 · {where} · 모드: {PresetShortName()}",
                 $"updated {DateTime.Now:HH:mm:ss} · {where} · mode: {PresetShortName()}")));
-            json.Append(",\"diagOn\":").Append(WebServer.Bool(_diagMode.Value));
+            json.Append(",\"state\":").Append(BuildUiState());
+            json.Append(",\"raidFreedGb\":").Append(WebServer.Num((_raidFreedGc + _raidFreedTrim + _raidFreedAssets) / MemoryStats.BytesPerGb));
+            json.Append(",\"inRaid\":").Append(WebServer.Bool(inRaid));
             json.Append(",\"tiles\":[").Append(string.Join(",", tiles)).Append(']');
             json.Append(",\"alerts\":[").Append(string.Join(",", alerts.Select(WebServer.Str))).Append(']');
             AppendHistory(json, now);
@@ -664,7 +623,7 @@ namespace Tushonka.Cleaner.Client
                     Loc.L($"{x.Mb:0}MB · 번들 {x.Count}개", $"{x.Mb:0} MB · {x.Count} bundles") + (x.Overlapped > 0 ? Loc.L($" (겹침 {x.Overlapped})", $" ({x.Overlapped} overlapped)") : string.Empty), null)));
             }
 
-            json.Append(",\"status\":").Append(WebServer.Str(_statusText));
+            json.Append(",\"status\":").Append(WebServer.Str(CleanUiText(_statusText)));
             return json.Append('}').ToString();
         }
 
@@ -721,6 +680,7 @@ namespace Tushonka.Cleaner.Client
 
         private string RunWebAction(string name)
         {
+            if (!_ramEnabled) return "{\"error\":" + WebServer.Str(Loc.En ? LegacyConflicts.LegacyWarningEn : LegacyConflicts.LegacyWarningKo) + "}";
             string message;
             switch (name)
             {
@@ -773,21 +733,43 @@ namespace Tushonka.Cleaner.Client
         }
 
         private IEnumerable<WebSetting> OwnWebSettings() =>
-            _localized.Where(e => e.Entry != null && e.Attributes.CustomDrawer == null && e.Attributes.Browsable != false)
+            _localized.Where(e => e.Entry != null && e.Attributes.CustomDrawer == null)
                 .Select(e => new WebSetting
                 {
                     Key = e.Key,
                     Category = e.Attributes.Category,
                     SortKey = e.CategoryKo,
-                    Name = e.Attributes.DispName,
+                    Name = CleanUiText(e.Attributes.DispName),
                     Description = e.Attributes.Description ?? string.Empty,
                     Order = e.Attributes.Order ?? 0,
                     Entry = e.Entry,
                 });
 
-        private string BuildSettingsJson() => SettingsJson(OwnWebSettings());
+        private IEnumerable<WebSetting> AllWebSettings() => OwnWebSettings().Concat(CompoundingPerfSettings()).Concat(
+            Config.Keys.Where(k => k.Section.StartsWith("Graphics", StringComparison.Ordinal)).Select(k => new WebSetting
+            {
+                Key = k.Section + "|" + k.Key, Category = Loc.L("그래픽", "Graphics"), SortKey = k.Section,
+                Name = k.Key, Description = Config[k].Description.Description, Entry = Config[k],
+            }));
 
-        private string ApplyWebSetting(string key, string value) => ApplySetting(OwnWebSettings(), key, value);
+        private string BuildSettingsJson()
+        {
+            string json = SettingsJson(AllWebSettings());
+            return json.Substring(0, json.Length - 1) + ",\"state\":" + BuildUiState() + "}";
+        }
+
+        private string ApplyWebSetting(string key, string value)
+        {
+            if (!_ramEnabled && OwnWebSettings().Any(e => e.Key == key) && key != ModeSection + "|Language")
+                return "{\"ok\":false,\"error\":" + WebServer.Str(Loc.En ? LegacyConflicts.LegacyWarningEn : LegacyConflicts.LegacyWarningKo) + "}";
+            if (_conflicts.Graphics && key != null && key.StartsWith("Graphics", StringComparison.Ordinal))
+                return "{\"ok\":false,\"error\":" + WebServer.Str(Loc.En ? LegacyConflicts.LegacyWarningEn : LegacyConflicts.LegacyWarningKo) + "}";
+            return ApplySetting(AllWebSettings(), key, value);
+        }
+
+        private static string CleanUiText(string text) => (text ?? "").Replace("Tushonka Cleaner", "Tushonka Cleaner").Replace("Tushonka Cleaner", "Tushonka Cleaner")
+            .Replace("Tushonka Cleaner", "Tushonka Cleaner").Replace("CompoundingPerf", "Tushonka Cleaner").Replace("컴파운드퍼프", "서버 최적화")
+            .Replace("DeClutter", "그래픽 정리").Replace("디클러터", "그래픽 정리");
 
         /// <summary>Grouped by category (numbered, so ordinal order is the F12 order), higher Order first like F12.</summary>
         private static string SettingsJson(IEnumerable<WebSetting> settings)
@@ -803,7 +785,7 @@ namespace Tushonka.Cleaner.Client
                          .Select(x => x.e)
                          .GroupBy(e => e.SortKey))
             {
-                json.Append(firstGroup ? string.Empty : ",").Append("{\"cat\":").Append(WebServer.Str(group.First().Category)).Append(",\"items\":[");
+                json.Append(firstGroup ? string.Empty : ",").Append("{\"cat\":").Append(WebServer.Str(CleanUiText(group.First().Category))).Append(",\"items\":[");
                 firstGroup = false;
                 json.Append(string.Join(",", group.Select(SettingJson)));
                 json.Append("]}");
@@ -833,7 +815,7 @@ namespace Tushonka.Cleaner.Client
                     break;
             }
 
-            return "{\"key\":" + WebServer.Str(e.Key) + ",\"name\":" + WebServer.Str(e.Name) + ",\"desc\":" + WebServer.Str(e.Description) +
+            return "{\"key\":" + WebServer.Str(e.Key) + ",\"name\":" + WebServer.Str(CleanUiText(e.Name)) + ",\"desc\":" + WebServer.Str(CleanUiText(e.Description)) +
                    ",\"type\":\"" + kind + "\",\"v\":" + WebServer.Str(entry.GetSerializedValue()) +
                    ",\"def\":" + WebServer.Str(TomlTypeConverter.ConvertToString(entry.DefaultValue, type)) + extra + "}";
         }

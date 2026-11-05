@@ -1,66 +1,35 @@
-// Live page: polls /api/live once a second (every 5 s while the tab is hidden) and redraws.
+﻿// 기존 실시간 API와 보고서의 그래프를 사용합니다.
 (function () {
-  var T = window.RC || {};
-  var $ = function (id) { return document.getElementById(id); };
-  var esc = window.rcEsc;
-  var hover = {};
-  ['memChart', 'fpsChart'].forEach(function (id) {
-    var box = $(id);
-    box.addEventListener('mouseenter', function () { hover[id] = 1; });
-    box.addEventListener('mouseleave', function () { hover[id] = 0; });
-  });
-
-  function bars(id, list) {
-    var card = $(id + 'Card');
-    if (!list || !list.length) { card.classList.add('hidden'); return; }
-    card.classList.remove('hidden');
-    $(id).innerHTML = list.map(function (b) {
-      var p = Math.max(1, Math.min(100, b.s * 100));
-      return '<div class="bar' + (b.c ? ' ' + b.c : '') + '"><span class="blbl" title="' + esc(b.l) + '">' + esc(b.l) +
-        '</span><span class="track"><span class="fill" style="width:' + p.toFixed(1) + '%"></span></span><span class="bval">' + esc(b.v) + '</span></div>';
-    }).join('');
+  'use strict';
+  const I=window.TC_I18N, T=window.RC||{}, $=id=>document.getElementById(id), esc=window.rcEsc, hover={};
+  let online=false;
+  ['memChart','fpsChart'].forEach(id=>{ $(id).addEventListener('mouseenter',()=>{hover[id]=true;});$(id).addEventListener('mouseleave',()=>{hover[id]=false;}); });
+  function bars(id,list) {
+    const box=$(id); $(''+id+'Card').hidden=false;
+    box.innerHTML=!list?.length?'<p class="small muted">'+esc(I.t(id==='hitch'?'needView':'needProfile'))+'</p>':list.map(b=>'<div class="bar"><span class="blbl">'+esc(b.l)+'</span><span class="track"><span class="fill" style="width:'+Math.max(1,Math.min(100,b.s*100)).toFixed(1)+'%"></span></span><span class="bval">'+esc(b.v)+'</span></div>').join('');
   }
-
-  function chart(id, d) {
-    var box = $(id);
-    if (!d || !d.x || d.x.length < 2) { box.innerHTML = '<p class="sub">' + esc(T.collecting) + '</p>'; return; }
-    if (!hover[id]) window.rcChart(box, d);
+  function chart(id,data) { if(!data?.x||data.x.length<2) $(id).innerHTML='<p class="small muted">'+esc(T.collecting)+'</p>';else if(!hover[id]) window.rcChart($(id),data); }
+  function disconnected(text) {
+    online=false;$('sub').textContent=text;
+    document.querySelectorAll('[data-act]').forEach(b=>{b.disabled=true;});
+    $('raid-freed').textContent='—';$('tiles').replaceChildren();
   }
-
   function render(d) {
-    if (d.busy) return; // another tab's update is still waiting for the game
-    if (d.error) { $('sub').textContent = d.error; return; }
-    $('sub').textContent = d.sub;
-    $('alerts').innerHTML = (d.alerts || []).map(function (a) { return '<div class="alert">' + esc(a) + '</div>'; }).join('');
-    $('tiles').innerHTML = d.tiles.map(function (t) {
-      return '<div class="tile lv' + t.lv + '"><div class="lbl">' + esc(t.k) + '</div><div class="val">' + esc(t.v) +
-        '</div><div class="note">' + esc(t.n) + '</div></div>';
-    }).join('');
-    chart('memChart', d.mem);
-    chart('fpsChart', d.fps);
-    bars('hitch', d.hitch);
-    bars('mods', d.mods);
-    bars('alloc', d.alloc);
-    bars('heavy', d.heavy);
-    $('diagBtn').textContent = d.diagOn ? T.diagOff : T.diagOn;
-    $('status').textContent = d.status;
+    if(d.busy)return;if(d.error){disconnected(d.error);return;}
+    online=true;$('sub').textContent=d.sub;window.tcModeBanner(d.state);
+    $('raid-freed').textContent=d.inRaid?Number(d.raidFreedGb).toFixed(2)+' GB':'—';
+    $('alerts').innerHTML=(d.alerts||[]).map(a=>'<div class="alert">'+esc(a)+'</div>').join('');
+    $('tiles').innerHTML=d.tiles.map(v=>'<article class="tile lv'+v.lv+'"><p class="metric-label">'+esc(v.k)+'</p><strong class="tile-value">'+esc(v.v)+'</strong><p class="small muted">'+esc(v.n)+'</p></article>').join('');
+    chart('memChart',d.mem);chart('fpsChart',d.fps);['hitch','mods','alloc','heavy'].forEach(id=>bars(id,d[id]));$('status').textContent=d.status;
+    document.querySelectorAll('[data-act]').forEach(b=>{b.disabled=!d.state.memoryAvailable;});
   }
-
-  function tick() {
-    fetch('api/live', { cache: 'no-store' })
-      .then(function (r) { return r.json(); })
-      .then(render, function () { $('sub').textContent = T.offline; })
-      .then(function () { setTimeout(tick, document.hidden ? 5000 : 1000); });
+  async function tick() {
+    try {const response=await fetch('api/live',{cache:'no-store'});render(await response.json());}
+    catch(error){disconnected(T.offline||error.message);}
+    finally{setTimeout(tick,document.hidden?5000:1000);}
   }
-
-  document.querySelectorAll('[data-act]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      b.disabled = true;
-      window.rcPost('api/action', { name: b.getAttribute('data-act') })
-        .then(function (r) { $('actmsg').textContent = r.msg || r.error || ''; }, function () { $('actmsg').textContent = T.offline; })
-        .then(function () { b.disabled = false; });
-    });
-  });
-
+  document.querySelectorAll('[data-act]').forEach(b=>{b.disabled=true;b.addEventListener('click',async()=>{
+    if(!online)return;b.disabled=true;try{const r=await window.rcPost('api/action',{name:b.dataset.act});$('actmsg').textContent=r.msg||'';}catch(error){$('actmsg').textContent=error.message;}finally{b.disabled=!online;}
+  });});
   tick();
 })();

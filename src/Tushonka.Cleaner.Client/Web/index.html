@@ -1,0 +1,78 @@
+
+    <div class="page-heading">
+      <div><p class="eyebrow" data-i18n="pageHome"></p><h1 data-i18n="homeTitle"></h1><p class="lead" data-i18n="homeIntro"></p></div>
+      
+    </div>
+
+    <p id="action-message" class="action-message" role="status" aria-live="polite"></p>
+    <p id="storage-message" class="connection-banner offline" role="alert" hidden></p>
+
+
+    <section class="feature-section" data-i18n-aria="tabLabel">
+      <div class="tabs" role="tablist" data-i18n-aria="tabLabel">
+        <button id="tab-quick" type="button" role="tab" aria-selected="true" aria-controls="panel-quick" data-i18n="quickTitle"></button>
+        <button id="tab-memory" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="panel-memory" data-i18n="memFeature"></button>
+        <button id="tab-server" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="panel-server" data-i18n="serverFeature"></button>
+        <button id="tab-graphics" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="panel-graphics" data-i18n="graphicsFeature"></button>
+      </div>
+      <div class="feature-panel" id="panel-quick" role="tabpanel" aria-labelledby="tab-quick" tabindex="0">
+        <div class="panel-heading"><div><h2 data-i18n="quickTitle"></h2><p data-i18n="quickIntro"></p></div></div>
+        <div class="quick-layout">
+        <button class="quick-action recommended" type="button" data-preset="recommended" aria-pressed="false"><span class="badge" data-i18n="suggested"></span><strong data-i18n="recommended"></strong><span class="preset-status" data-preset-selected="recommended" data-i18n="selected" hidden></span><span data-i18n="recommendedDesc"></span></button>
+        <fieldset class="feature-picker"><legend data-i18n="pickFeatures"></legend><div class="feature-choices">
+          <label class="feature-choice"><input type="checkbox" data-feature-toggle="memory"><span><strong data-i18n="memFeature"></strong><small data-i18n="quickMemory"></small></span></label>
+          <label class="feature-choice"><input type="checkbox" data-feature-toggle="server"><span><strong data-i18n="serverFeature"></strong><small data-i18n="quickServer"></small></span></label>
+          <label class="feature-choice"><input type="checkbox" data-feature-toggle="graphics"><span><strong data-i18n="graphicsFeature"></strong><small data-i18n="quickGraphics"></small></span></label>
+        </div><p class="small muted" data-i18n="pickHelp"></p></fieldset>
+        <button class="quick-action off-action" type="button" data-preset="off" aria-pressed="false"><strong data-i18n="offPreset"></strong><span data-i18n="offDesc"></span></button>
+      </div>
+      <div class="setup-result" aria-live="polite"><span><span class="muted" data-i18n="currentSetup"></span> <b data-current-setup></b></span><span class="small muted" data-i18n="localOnly"></span></div>
+      <p class="selected-features" data-current-features></p>
+      </div>
+      <div class="feature-panel" id="panel-memory" role="tabpanel" aria-labelledby="tab-memory" tabindex="0" hidden>
+        <div class="panel-heading"><div><h2 data-i18n="memFeature"></h2><p data-i18n="memoryLead"></p></div><span class="timing" data-timing></span></div>
+        <div class="setting-row shortcut-row"><div><span class="row-title" data-i18n="shortcut"></span><p data-i18n="shortcutHelp"></p></div><div class="key-capture"><output class="config-value" data-shortcut-value></output><button type="button" data-shortcut-capture data-i18n="shortcutChange"></button><button type="button" data-shortcut-clear data-i18n="shortcutClear"></button></div></div>
+        <fieldset class="mode-picker"><legend data-i18n="modeLegend"></legend><p class="small muted" data-i18n="modeIntro"></p>
+          <div class="memory-mode-grid">
+            <label class="mode-card game-mode"><input type="radio" name="memory-mode" value="game" data-setting="memoryMode"><span class="badge" data-i18n="recommended"></span><strong data-i18n="modeGame"></strong><span class="mode-use" data-i18n="modeGameUse"></span><span class="mode-does" data-i18n="modeGameDoes"></span><span class="mode-cost" data-i18n="modeCost"></span></label>
+            <label class="mode-card"><input type="radio" name="memory-mode" value="check" data-setting="memoryMode"><strong data-i18n="modeCheck"></strong><span class="mode-use" data-i18n="modeCheckUse"></span><span class="mode-does" data-i18n="modeCheckDoes"></span><span class="mode-cost" data-i18n="modeCost"></span></label>
+            <label class="mode-card"><input type="radio" name="memory-mode" value="analysis" data-setting="memoryMode"><strong data-i18n="modeAnalysis"></strong><span class="mode-use" data-i18n="modeAnalysisUse"></span><span class="mode-does" data-i18n="modeAnalysisDoes"></span><span class="mode-cost" data-i18n="modeCost"></span></label>
+            <label class="mode-card"><input type="radio" name="memory-mode" value="leak" data-setting="memoryMode"><strong data-i18n="modeLeak"></strong><span class="mode-use" data-i18n="modeLeakUse"></span><span class="mode-does" data-i18n="modeLeakDoes"></span><span class="mode-cost" data-i18n="modeCost"></span></label>
+            <label class="mode-card"><input type="radio" name="memory-mode" value="off" data-setting="memoryMode"><strong data-i18n="modeOff"></strong><span class="mode-use" data-i18n="modeOffUse"></span><span class="mode-does" data-i18n="modeOffDoes"></span><span class="mode-cost" data-i18n="modeCost"></span></label>
+          </div>
+        </fieldset>
+        <div class="mode-detail" aria-live="polite"><p id="leak-note" class="inline-note caution" data-i18n="modeCaution" hidden></p><p id="analysis-note" class="inline-note" data-i18n="analysisCaution" hidden></p></div>
+        <details class="help-toggle"><summary data-i18n="modeCompareOpen"></summary><p class="small muted" data-i18n="comparisonHint"></p><div class="table-scroll" role="region" tabindex="0" data-i18n-aria="modeCompare"><table id="mode-comparison"></table></div><p class="small muted" data-i18n="advModeNote"></p></details>
+        <div class="setting-row compact"><div><label for="combat-wait" data-i18n="waitCombat"></label><p data-i18n="waitHelp"></p></div><label class="switch"><input id="combat-wait" type="checkbox" data-setting="waitCombat" data-parent-feature="memory" data-i18n-aria="waitCombat"><span></span></label></div>
+        <section class="vram-settings" aria-labelledby="vram-cleanup-title">
+          <h3 id="vram-cleanup-title" data-i18n="graphicsResources"></h3><p class="small muted" data-i18n="graphicsResourcesHelp"></p>
+          <div class="setting-row compact"><div><label for="raid-start-assets" data-i18n="raidStartAssets"></label><p data-i18n="raidStartAssetsHelp"></p></div><label class="switch"><input id="raid-start-assets" type="checkbox" data-setting="raidStartAssets" data-parent-feature="memory" data-i18n-aria="raidStartAssets"><span></span></label></div>
+          <div class="setting-row compact"><div><label for="after-raid" data-i18n="afterRaid"></label><p data-i18n="afterRaidHelp"></p></div><label class="switch"><input id="after-raid" type="checkbox" data-setting="afterRaid" data-parent-feature="memory" data-i18n-aria="afterRaid"><span></span></label></div>
+        </section>
+        <div class="setting-row"><p id="cleanup-requires-game" data-i18n="requiresGame"></p><button id="cleanup-button" type="button" data-game-action="cleanup" data-i18n="cleanNow" aria-describedby="cleanup-requires-game"></button></div>
+        <details class="disclosure advanced-block" id="advanced-memory"><summary><span data-i18n="advanced"></span><span class="summary-hint" data-i18n="advMemoryHint"></span></summary><div class="details-body" data-advanced="memory"></div></details>
+      </div>
+      <div class="feature-panel" id="panel-server" role="tabpanel" aria-labelledby="tab-server" tabindex="0" hidden>
+        <div class="panel-heading"><div><h2 data-i18n="serverFeature"></h2><p data-i18n="serverLead"></p></div><span class="timing" id="server-connection"></span></div>
+        <fieldset class="mode-picker"><legend data-i18n="serverLegend"></legend><div class="server-level-grid">
+          <label class="mode-card"><input type="radio" name="server-level" value="recommended" data-setting="serverLevel"><strong data-i18n="recommended"></strong><span class="mode-use" data-i18n="serverRecommended"></span></label>
+          <label class="mode-card"><input type="radio" name="server-level" value="balanced" data-setting="serverLevel"><strong data-i18n="balanced"></strong><span class="mode-use" data-i18n="serverBalanced"></span></label>
+          <label class="mode-card"><input type="radio" name="server-level" value="off" data-setting="serverLevel"><strong data-i18n="offPreset"></strong><span class="mode-use" data-i18n="serverOff"></span></label>
+        </div></fieldset>
+        <p class="inline-note" data-server-summary aria-live="polite"></p><p class="small muted" data-i18n="serverProposal"></p>
+        <details class="disclosure advanced-block" id="advanced-server"><summary><span data-i18n="advanced"></span><span class="summary-hint" data-i18n="advServerHint"></span></summary><div class="details-body" data-advanced="server"></div></details>
+      </div>
+      <div class="feature-panel" id="panel-graphics" role="tabpanel" aria-labelledby="tab-graphics" tabindex="0" hidden>
+        <div class="panel-heading"><div><h2 data-i18n="graphicsFeature"></h2><p data-i18n="graphicsLead"></p></div><span class="timing" data-i18n="nextRaid"></span></div>
+        <fieldset class="mode-picker"><legend data-i18n="graphicsAmount"></legend><p class="small muted" data-i18n="graphicsAmountHelp"></p><div class="memory-mode-grid">
+          <label class="mode-card"><input type="radio" name="graphics-level" value="light" data-setting="graphicsLevel"><span class="badge" data-i18n="recommended"></span><strong data-i18n="graphicsLight"></strong><span class="mode-use" data-i18n="gfxLightUse"></span><span class="mode-does" data-i18n="gfxLightDoes"></span><span class="mode-cost" data-i18n="gfxEffect"></span></label>
+          <label class="mode-card"><input type="radio" name="graphics-level" value="more" data-setting="graphicsLevel"><strong data-i18n="graphicsMore"></strong><span class="mode-use" data-i18n="gfxMoreUse"></span><span class="mode-does" data-i18n="gfxMoreDoes"></span><span class="mode-cost" data-i18n="gfxEffect"></span></label>
+          <label class="mode-card"><input type="radio" name="graphics-level" value="most" data-setting="graphicsLevel"><strong data-i18n="graphicsMost"></strong><span class="mode-use" data-i18n="gfxMostUse"></span><span class="mode-does" data-i18n="gfxMostDoes"></span><span class="mode-cost" data-i18n="gfxEffect"></span></label>
+          <label class="mode-card"><input type="radio" name="graphics-level" value="off" data-setting="graphicsLevel"><strong data-i18n="graphicsNone"></strong><span class="mode-use" data-i18n="gfxNoneUse"></span><span class="mode-does" data-i18n="gfxNoneDoes"></span><span class="mode-cost" data-i18n="gfxNoneEffect"></span></label>
+        </div></fieldset>
+        <p class="inline-note" data-i18n="marksTiming"></p>
+        <details class="disclosure advanced-block" id="advanced-graphics"><summary><span data-i18n="advanced"></span><span class="summary-hint" data-i18n="advGraphicsHint"></span></summary><div class="details-body" data-advanced="graphics"></div></details>
+      </div>
+    </section>
+
+  

@@ -274,7 +274,7 @@ namespace Tushonka.Cleaner.Client
 
             var sb = new StringBuilder(64 * 1024);
             sb.Append("<!doctype html><html lang=\"" + Loc.L("ko", "en") + "\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">");
-            string title = Loc.L("RAM 클리너 세션 보고서", "RAM Cleaner session report");
+            string title = Loc.L("Tushonka Cleaner 세션 보고서", "Tushonka Cleaner session report");
             sb.Append($"<title>{title}</title><style>{Css}</style></head><body><main class=\"viz-root\">{nav}");
             sb.Append($"<h1>{title}</h1><p class=\"sub\">" +
                       Loc.L($"세션 시작 {_sessionStart:yyyy-MM-dd HH:mm} · 레이드 {_raids.Count}판" + (live != null ? " + 진행 중 1판" : string.Empty) + $" · 마지막 갱신 {DateTime.Now:HH:mm:ss}",
@@ -440,8 +440,8 @@ namespace Tushonka.Cleaner.Client
                 sb.Append("</section>");
             }
 
-            sb.Append("<p class=\"sub\">").Append(Loc.L("자세한 기록: BepInEx\\RamCleaner\\ 의 전용 로그, BepInEx\\LogOutput.log 의 RAM 클리너 줄",
-                "Details: the dedicated log in BepInEx\\RamCleaner\\ and the RAM cleaner lines in BepInEx\\LogOutput.log")).Append("</p>");
+            sb.Append("<p class=\"sub\">").Append(Loc.L("자세한 기록: BepInEx\\RamCleaner\\ 의 전용 로그, BepInEx\\LogOutput.log 의 Tushonka Cleaner 줄",
+                "Details: the dedicated log in BepInEx\\RamCleaner\\ and the Tushonka Cleaner lines in BepInEx\\LogOutput.log")).Append("</p>");
             sb.Append("<div id=\"tip\" role=\"tooltip\"></div></main><script>").Append(Js).Append("</script></body></html>");
             return sb.ToString();
         }

@@ -28,7 +28,7 @@ namespace Tushonka.Cleaner.Client
                 Directory.CreateDirectory(folder);
                 FilePath = Path.Combine(folder, $"RamCleaner-{DateTime.Now:yyyyMMdd-HHmmss}.log");
                 _writer = new StreamWriter(FilePath, false, new UTF8Encoding(false)) { AutoFlush = true };
-                _writer.WriteLine($"# RAM cleaner session log, started {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+                _writer.WriteLine($"# Tushonka Cleaner session log, started {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
 
                 foreach (string old in Directory.GetFiles(folder, "RamCleaner-*.log").OrderByDescending(f => f).Skip(KeepFiles))
                 {

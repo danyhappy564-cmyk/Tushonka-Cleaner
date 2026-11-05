@@ -18,8 +18,8 @@ namespace Tushonka.Cleaner.Client
         {
             ["00. 모드 · 언어"] = "00. Mode · language",
             ["01. 자동 메모리 정리 (GC) — 추천"] = "01. Automatic memory cleanup (GC) — recommended",
-            ["02. 워킹셋 정리 (원본 RAM 클리너 방식)"] = "02. Working set trim (original RAM cleaner method)",
-            ["03. 에셋·VRAM 정리 (SPTVRAMCleaner 개선판)"] = "03. Asset · VRAM cleanup (improved SPTVRAMCleaner)",
+            ["02. 워킹셋 정리 (원본 Tushonka Cleaner 방식)"] = "02. Working set trim (original Tushonka Cleaner method)",
+            ["03. 에셋·VRAM 정리 "] = "03. Asset · VRAM cleanup ()",
             ["04. 전투 중에는 미루기"] = "04. Wait while fighting",
             ["05. 공통 · 수동 실행 · 상태"] = "05. General · manual actions · status",
             ["06. 누수 추적 (진단용)"] = "06. Leak tracker (diagnostics)",
@@ -107,9 +107,9 @@ namespace Tushonka.Cleaner.Client
             ["6. Leak tracker|Interval (min)"] = new[] { "Interval (min)", "The baseline is taken 1 minute into the raid, then a record every this many minutes." },
 
             // 07. Hitch
-            ["7. Hitch detector|Enabled"] = new[] { "Enable hitch detector", "In raid, a frame that takes longer than the threshold is logged ([hitch] lines) together with whether this mod was doing a GC / asset cleanup / leak count / working set trim at that moment — to tell 'is this stutter the RAM cleaner?'. Recording only; it doesn't change the game." },
+            ["7. Hitch detector|Enabled"] = new[] { "Enable hitch detector", "In raid, a frame that takes longer than the threshold is logged ([hitch] lines) together with whether this mod was doing a GC / asset cleanup / leak count / working set trim at that moment — to tell 'is this stutter the Tushonka Cleaner?'. Recording only; it doesn't change the game." },
             ["7. Hitch detector|Threshold (ms)"] = new[] { "Stutter threshold (ms)", "Only frames longer than this are recorded. For reference: one frame at 60 fps is about 16 ms; 50 ms is a noticeable stutter." },
-            ["7. Hitch detector|Track mod causes"] = new[] { "Track stutter-causing mods", "Measures per-mod time for the whole raid and records, for each long frame, the mod that took longest in it. The cause is a mod / the RAM cleaner / waiting on the SPT server / a bot spawn / the game itself (rendering, physics, loading — outside mod code). Needs '10. Per-mod frame cost' on and makes it measure all the time (usually +0.1–0.5 ms per frame). Best left off and turned on with diagnostic mode (hotkey) when needed." },
+            ["7. Hitch detector|Track mod causes"] = new[] { "Track stutter-causing mods", "Measures per-mod time for the whole raid and records, for each long frame, the mod that took longest in it. The cause is a mod / the Tushonka Cleaner / waiting on the SPT server / a bot spawn / the game itself (rendering, physics, loading — outside mod code). Needs '10. Per-mod frame cost' on and makes it measure all the time (usually +0.1–0.5 ms per frame). Best left off and turned on with diagnostic mode (hotkey) when needed." },
             ["7. Hitch detector|Suspect notification"] = new[] { "Stutter suspect notification", "If one cause is behind 30%+ of this raid's stutters (3 or more), show one in-game notification per raid." },
 
             // 08. Report

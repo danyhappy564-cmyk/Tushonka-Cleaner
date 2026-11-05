@@ -179,7 +179,7 @@ namespace Tushonka.Cleaner.Client
         {
             try
             {
-                var lines = new List<string> { "# RAM cleaner raid history: date|map|minutes|avg fps|1% low fps|deaths|mods (name@version@dll time)" };
+                var lines = new List<string> { "# Tushonka Cleaner raid history: date|map|minutes|avg fps|1% low fps|deaths|mods (name@version@dll time)" };
                 foreach (Record r in records.Skip(Math.Max(0, records.Count - MaxRecords)))
                 {
                     lines.Add(string.Join(Sep.ToString(),

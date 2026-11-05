@@ -75,8 +75,10 @@ namespace Tushonka.Cleaner.Client
                         if (tag is ConfigurationManagerAttributes attributes) attributes.Browsable = false;
             }
             if (!_conflicts.Performance) _performance.Initialize(Config, Logger);
+            PrepareGraphicsUi();
             if (!_conflicts.Graphics)
                 _sceneCleanup.Init(Config, Logger, Path.GetDirectoryName(Info.Location));
+            InitializeSimpleUi();
         }
 
         private void DrawLegacyWarning()

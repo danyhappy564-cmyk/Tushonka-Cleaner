@@ -157,11 +157,11 @@ namespace Tushonka.Cleaner.Client
                       $"working set {MemoryStats.Gb(_peakWorkingSet)} GB, VRAM {MemoryStats.Gb(_peakVram)} GB, lowest free commit {commit} GB | " +
                       $"GC {GcCount}x reclaimed {MemoryStats.Gb(GcReclaimed)} GB (longest frame {GcMaxSliceMs:0}ms), " +
                       $"asset unloads {AssetUnloads}, trims {Trims}, warnings {Warnings} | " +
-                      $"long frames {hitches.Count} (100ms+ {hitches.CountOver100}, by RAM cleaner {hitches.Ours}, worst {hitches.MaxMs:0}ms: {hitches.MaxWhat}) | " +
+                      $"long frames {hitches.Count} (100ms+ {hitches.CountOver100}, by Tushonka Cleaner {hitches.Ours}, worst {hitches.MaxMs:0}ms: {hitches.MaxWhat}) | " +
                       $"fps avg {avgFps:0}, 1% low {lowFps:0}" + (suspect != null ? $" | suspect mod: {suspect}" : string.Empty);
 
             var sb = new StringBuilder();
-            sb.Append(Loc.L($"RAM 클리너 레이드 결산 ({minutes:0}분, 사망 {deaths}명)\n", $"RAM Cleaner raid report ({minutes:0} min, {deaths} deaths)\n"));
+            sb.Append(Loc.L($"Tushonka Cleaner 레이드 결산 ({minutes:0}분, 사망 {deaths}명)\n", $"Tushonka Cleaner raid report ({minutes:0} min, {deaths} deaths)\n"));
             sb.Append(Loc.L($"최고 메모리 {MemoryStats.Gb(_peakPrivate)}GB · 사망 1명당 {perDeathKo}\n", $"peak memory {MemoryStats.Gb(_peakPrivate)} GB · per death {perDeathKo}\n"));
             sb.Append(Loc.L($"FPS 평균 {avgFps:0} · 1% 저점 {lowFps:0} · 끊김 {hitches.Count}회(이 모드 {hitches.Ours}회, 최대 {hitches.MaxMs:0}ms)\n",
                             $"FPS avg {avgFps:0} · 1% low {lowFps:0} · stutters {hitches.Count} (this mod {hitches.Ours}, worst {hitches.MaxMs:0} ms)\n"));

@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Collections.Generic;
 using BepInEx.Configuration;
 
@@ -36,8 +37,8 @@ namespace Tushonka.Cleaner.Client
 
         private const string ModeCategory = "00. 모드 · 언어";
         private const string GcCategory = "01. 자동 메모리 정리 (GC) — 추천";
-        private const string TrimCategory = "02. 워킹셋 정리 (원본 RAM 클리너 방식)";
-        private const string AssetCategory = "03. 에셋·VRAM 정리 (SPTVRAMCleaner 개선판)";
+        private const string TrimCategory = "02. 워킹셋 정리 (원본 Tushonka Cleaner 방식)";
+        private const string AssetCategory = "03. 에셋·VRAM 정리 ";
         private const string TimingCategory = "04. 전투 중에는 미루기";
         private const string GeneralCategory = "05. 공통 · 수동 실행 · 상태";
         private const string LeakCategory = "06. 누수 추적 (진단용)";
@@ -220,11 +221,11 @@ namespace Tushonka.Cleaner.Client
 
         private void BindModeSettings()
         {
-            _language = Bind(ModeSection, ModeCategory, "Language", "언어 (Language)", LanguageKorean,
+            _language = Bind(ModeSection, ModeCategory, "Language", "언어 (Language)", LanguageAuto,
                 "F12, 왼쪽 위 화면 표시, 세션 보고서, 웹 페이지의 언어입니다. F12는 창을 닫았다 다시 열면 바뀐 언어로 보입니다.",
-                new AcceptableValueList<string>(LanguageKorean, LanguageEnglish), 100);
+                new AcceptableValueList<string>(LanguageAuto, LanguageKorean, LanguageEnglish), 100);
 
-            _preset = Bind(ModeSection, ModeCategory, "Preset", "모드", PresetCustom,
+            _preset = Bind(ModeSection, ModeCategory, "Preset", "메모리 모드", PresetAuto,
                 "고르면 아래 설정들을 한 번에 바꿉니다(그 뒤 개별 설정은 자유롭게 바꿔도 됩니다).\n" +
                 "• 자동 정리 — 메모리 정리만. 화면 표시 없음, 로그 거의 안 남김. 일반 게임·레이드용, 부담 가장 적음.\n" +
                 "• 간단 확인 — 자동 정리 + 왼쪽 위 화면 표시(메모리·FPS·서버·여유 예상), 끊김 횟수, 레이드 결산, 세션 보고서. 아주 가벼움.\n" +
@@ -243,7 +244,7 @@ namespace Tushonka.Cleaner.Client
         /// <summary>Rewrites what F12 shows (category, name, description) for the chosen language. F12 picks it up when reopened.</summary>
         private void ApplyLanguage()
         {
-            Loc.En = _language.Value == LanguageEnglish;
+            Loc.En = LanguagePolicy.Resolve(_language.Value, _lastGameLanguage ?? ReadGameLanguage(), CultureInfo.InstalledUICulture.Name) == "en";
             _cpLanguagePending = true; // CompoundingPerf follows (applied in the next once-a-second tick)
             foreach (LocalizedEntry entry in _localized)
             {
@@ -251,6 +252,22 @@ namespace Tushonka.Cleaner.Client
                 entry.Attributes.Category = Loc.En && Loc.Categories.TryGetValue(entry.CategoryKo, out string category) ? category : entry.CategoryKo;
                 entry.Attributes.DispName = Loc.En && english != null ? english[0] : entry.NameKo;
                 entry.Attributes.Description = Loc.En && english != null ? english[1] : entry.DescriptionKo;
+            }
+            if (_serverLevel != null)
+            {
+                foreach (var item in _localized.Where(e => e.Entry != null && e.Entry.Definition.Section == ModeSection))
+                {
+                    item.Attributes.DispName = item.Entry.Definition.Key switch
+                    {
+                        "Quick setup" => Loc.L("빠른 설정", "Quick setup"),
+                        "Server level" => Loc.L("서버 단계", "Server level"),
+                        "Open web" => Loc.L("웹 설정 열기", "Open web settings"),
+                        "Preset" => Loc.L("메모리 모드", "Memory mode"),
+                        _ => item.Attributes.DispName,
+                    };
+                }
+                var a = _graphicsLevel.Description.Tags.OfType<ConfigurationManagerAttributes>().FirstOrDefault();
+                if (a != null) { a.DispName = Loc.L("그래픽 단계", "Graphics level"); a.Category = Loc.L(ModeCategory, "00. Mode · language"); }
             }
         }
 
@@ -376,7 +393,7 @@ namespace Tushonka.Cleaner.Client
         {
             _hitchEnabled = Bind(HitchSection, HitchCategory, "Enabled", "끊김 감지기 켜기", true,
                 "레이드 중 한 프레임이 아래 기준보다 오래 걸리면 로그([hitch] 줄)에 남기고, 그 순간 이 모드가 GC·에셋 정리·누수 추적·" +
-                "워킹셋 정리 중이었는지 같이 적습니다. '이 끊김이 RAM 클리너 때문인가?'를 가려내는 용도입니다. " +
+                "워킹셋 정리 중이었는지 같이 적습니다. '이 끊김이 Tushonka Cleaner 때문인가?'를 가려내는 용도입니다. " +
                 "기록만 하므로 게임 동작에는 영향이 없습니다.",
                 null, 10);
 
@@ -386,7 +403,7 @@ namespace Tushonka.Cleaner.Client
 
             _hitchModTracking = Bind(HitchSection, HitchCategory, "Track mod causes", "끊김 원인 모드 추적 (상시 측정)", false,
                 "레이드 내내 모드별 시간을 재서, 끊긴 프레임마다 그 프레임에서 가장 오래 걸린 모드를 원인으로 기록합니다. " +
-                "원인은 모드명 / RAM 클리너 / 봇 스폰 / 게임 자체(렌더링·물리·로딩 등 모드 코드 밖) 중 하나. " +
+                "원인은 모드명 / Tushonka Cleaner / 봇 스폰 / 게임 자체(렌더링·물리·로딩 등 모드 코드 밖) 중 하나. " +
                 "'10. 모드별 부하 분석'이 켜져 있어야 하고, 켜면 그쪽도 상시 측정이 됩니다(보통 프레임당 0.1~0.5ms 추가). " +
                 "평소엔 꺼 두고 '원인 추적 모드'(단축키)로 필요할 때만 켜는 걸 추천합니다.",
                 null, 8);

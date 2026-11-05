@@ -91,6 +91,26 @@ internal sealed class ServerSettingsMenu
     private readonly ConfigEntry<int> _debugKeep;
 
     private bool _suppress;
+    private bool _setupPending;
+
+    internal void SetSetupPending(bool pending) => _setupPending = pending;
+
+    internal string CurrentStage => ServerLevelPolicy.Detect(new ServerStage
+    {
+        S8 = _s8Enabled.Value, S9 = _s9Enabled.Value, S11 = _s11Enabled.Value,
+        S12 = _s12Enabled.Value, S13 = _s13Enabled.Value, S15 = _s15Enabled.Value, S16 = _s16Enabled.Value,
+        C1 = ClientFixes.MenuVideo.Value, C2 = ClientFixes.AirdropPhysics.Value,
+        Compression = ToValue(_s9Level.Value, LevelLabels, LevelValues), StartGcMode = ToValue(_s15Mode.Value, ModeLabels, ModeValues),
+    });
+
+    internal void ApplyStage(ServerStage s)
+    {
+        Set(_s8Enabled, s.S8); Set(_s9Enabled, s.S9); Set(_s11Enabled, s.S11);
+        Set(_s12Enabled, s.S12); Set(_s13Enabled, s.S13); Set(_s15Enabled, s.S15); Set(_s16Enabled, s.S16);
+        Set(_s9Level, ToLabel(s.Compression, LevelLabels, LevelValues));
+        Set(_s15Mode, ToLabel(s.StartGcMode, ModeLabels, ModeValues));
+        Set(ClientFixes.MenuVideo, s.C1); Set(ClientFixes.AirdropPhysics, s.C2);
+    }
     private bool _loaded;
     private bool _warned;
     private int _inFlight;
@@ -111,9 +131,9 @@ internal sealed class ServerSettingsMenu
         _language = Bind(config, "Language", "Language", c0, LanguageKorean, 90,
             "언어 (Language)", "Language",
             "F12 화면과 상태 줄의 언어입니다. F12는 창을 닫았다 다시 열면 바뀐 언어로 보입니다.\n" +
-            "RAM 클리너(zzap)를 같이 쓰면 RAM 클리너의 언어를 따라갑니다.",
+            "Tushonka Cleaner(zzap)를 같이 쓰면 Tushonka Cleaner의 언어를 따라갑니다.",
             "Language of this F12 page and its status lines. F12 shows the new language after you close and reopen it.\n" +
-            "With RAM Cleaner (zzap) installed, it follows RAM Cleaner's language.",
+            "With Tushonka Cleaner (zzap) installed, it follows Tushonka Cleaner's language.",
             new AcceptableValueList<string>(LanguageKorean, LanguageEnglish), sendsToServer: false);
 
         _s16Enabled = Bind(config, "S16 PostRaidCleanup", "Enabled", true);
@@ -345,6 +365,7 @@ internal sealed class ServerSettingsMenu
         {
             FromServer(reply);
         }
+        if (_setupPending) ApplyStage(ServerLevelPolicy.Get("off"));
 
         if (!_loaded || _warned)
         {

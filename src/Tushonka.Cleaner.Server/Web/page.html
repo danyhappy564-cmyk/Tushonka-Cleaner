@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CompoundingPerf</title>
+<title>Tushonka Cleaner</title>
 <style>
 :root{color-scheme:light;--page:#f9f9f7;--surface:#fcfcfb;--text:#0b0b0b;--text2:#52514e;--muted:#898781;--grid:#e1e0d9;--axis:#c3c2b7;
 --border:rgba(11,11,11,.10);--accent:#2a78d6;--ok:#1a7f37;--warn:#b7791f;--bad:#cf222e}
@@ -47,7 +47,7 @@ input[type=range]{flex:1 1 140px;min-width:120px;accent-color:var(--accent)}
 </head>
 <body>
 <main>
-  <div class="top"><h1>CompoundingPerf</h1><button type="button" id="lang"></button></div>
+  <div class="top"><h1>Tushonka Cleaner</h1><button type="button" id="lang"></button></div>
   <p><a href="/tushonka-cleaner/">메모리·보고서 · Memory &amp; reports</a></p>
   <p class="sub" id="intro"></p>
   <div id="alerts"></div>
@@ -71,8 +71,8 @@ input[type=range]{flex:1 1 140px;min-width:120px;accent-color:var(--accent)}
   function texts() {
     document.documentElement.lang = lang;
     $('lang').textContent = lang === 'en' ? '한국어' : 'English';
-    $('intro').textContent = t('SPT 서버 최적화 모드 CompoundingPerf의 설정입니다. 바꾸면 서버에 바로 적용되고 config.json에 저장됩니다(서버 재시작 필요 없음). 게임 F12의 Tushonka Cleaner와 같은 설정이고, 게임을 켜지 않아도 바꿀 수 있습니다.',
-      'Settings of the SPT server optimisation mod CompoundingPerf. Changes apply on the server at once and are saved to config.json (no server restart). The same settings as Tushonka Cleaner in the game\'s F12, and they work without the game running.');
+    $('intro').textContent = t('Tushonka Cleaner 서버 최적화의 설정입니다. 바꾸면 서버에 바로 적용되고 config.json에 저장됩니다(서버 재시작 필요 없음). 게임 F12의 Tushonka Cleaner와 같은 설정이고, 게임을 켜지 않아도 바꿀 수 있습니다.',
+      'Settings of the Tushonka Cleaner server optimisation. Changes apply on the server at once and are saved to config.json (no server restart). The same settings as Tushonka Cleaner in the game\'s F12, and they work without the game running.');
     $('statusTitle').textContent = t('서버 상태', 'Server status');
     $('q').placeholder = t('설정 검색 (예: 정리, 압축, 로그)', 'Search settings (e.g. cleanup, compression, log)');
     $('q').setAttribute('aria-label', t('설정 검색', 'Search settings'));

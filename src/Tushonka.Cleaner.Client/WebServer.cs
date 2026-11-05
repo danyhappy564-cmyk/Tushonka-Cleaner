@@ -27,6 +27,7 @@ namespace Tushonka.Cleaner.Client
         internal sealed class Response
         {
             public int Status = 200;
+            public string Location;
             public string ContentType = "text/html; charset=utf-8";
             public string Body = string.Empty;
 
@@ -165,7 +166,7 @@ namespace Tushonka.Cleaner.Client
                 }
                 else if (request.HttpMethod == "POST" && request.Headers[ChangeHeader] != "1")
                 {
-                    response = new Response { Status = 403, ContentType = "text/plain; charset=utf-8", Body = "Changes are only accepted from the RAM cleaner page." };
+                    response = new Response { Status = 403, ContentType = "text/plain; charset=utf-8", Body = "Changes are only accepted from the Tushonka Cleaner page." };
                 }
                 else
                 {
@@ -186,6 +187,7 @@ namespace Tushonka.Cleaner.Client
                 HttpListenerResponse output = context.Response;
                 output.StatusCode = response.Status;
                 output.ContentType = response.ContentType;
+                if (response.Location != null) output.RedirectLocation = response.Location;
                 output.Headers["Cache-Control"] = "no-store";
                 output.Headers["X-Content-Type-Options"] = "nosniff";
                 output.ContentLength64 = bytes.Length;

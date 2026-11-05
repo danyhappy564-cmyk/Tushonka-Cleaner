@@ -30,7 +30,7 @@ namespace Tushonka.Cleaner.Client
         private string _prevServerPath;
 
         // Cause names are shown as-is (and used as keys), so they follow the language setting.
-        public static string CauseRamCleaner => Loc.L("RAM 클리너 (GC 등)", "RAM cleaner (GC etc.)");
+        public static string CauseRamCleaner => Loc.L("Tushonka Cleaner (GC 등)", "Tushonka Cleaner (GC etc.)");
         public static string CauseSpawn => Loc.L("봇 스폰", "bot spawn");
         public static string CauseGcIndirect => Loc.L("GC 진행 중 (간접)", "GC in progress (indirect)");
         public static string CauseGame => Loc.L("게임 자체 / 측정 밖", "the game itself / unmeasured");
@@ -232,7 +232,7 @@ namespace Tushonka.Cleaner.Client
                 ? $" | mod code in that frame {modsMs:0}ms, top {topMod} {topMs:0}ms"
                 : attributed ? " | mod code in that frame ~0ms" : string.Empty;
             _log.LogInfo($"[hitch] {frameMs:0}ms frame (threshold {thresholdMs:0}) — cause: {cause}" +
-                         (didSomething ? " (RAM cleaner work in that frame: " + DescribeOursEnglish() + ")" : string.Empty) +
+                         (didSomething ? " (Tushonka Cleaner work in that frame: " + DescribeOursEnglish() + ")" : string.Empty) +
                          (_prevServerMs > 1.0 ? $" | waited on the SPT server {_prevServerMs:0}ms ({_prevServerPath ?? "?"})" : string.Empty) +
                          $"{modPart} | {context()}{extra}");
         }
