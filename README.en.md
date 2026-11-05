@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-  <a href="https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/?lang=en"><img src="site/img/og.jpg" alt="Tushonka Cleaner project site" width="820"></a>
+  <a href="https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/?lang=en"><img src="site/img/og-en.jpg" alt="Tushonka Cleaner project site" width="820"></a>
 </p>
 
 <h2 align="center">📖 <a href="https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/?lang=en">Measurements and comparison shots are on the project site →</a></h2>
