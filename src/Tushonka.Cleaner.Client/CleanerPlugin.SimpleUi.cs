@@ -174,9 +174,9 @@ namespace Tushonka.Cleaner.Client
         {
             try
             {
-                // EFT는 게임 설정을 SharedGameSettings 싱글턴에 보관합니다. 접근은 주 스레드에서만 합니다.
+                // EFT는 게임 설정을 SettingsManager 싱글턴에 보관합니다. 접근은 주 스레드에서만 합니다.
                 var assembly = typeof(EFT.GameWorld).Assembly;
-                Type type = assembly.GetType("SharedGameSettings") ?? assembly.GetType("EFT.SharedGameSettings");
+                Type type = assembly.GetType("EFT.Settings.SettingsManager");
                 if (type == null) return null;
                 object current = typeof(Singleton<>).MakeGenericType(type).GetProperty("Instance", BindingFlags.Public | BindingFlags.Static)?.GetValue(null);
                 foreach (string name in new[] { "Game", "Settings", "Language", "Value" })

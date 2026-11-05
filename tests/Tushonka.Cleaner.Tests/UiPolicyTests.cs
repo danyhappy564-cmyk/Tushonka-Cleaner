@@ -45,6 +45,9 @@ public class UiPolicyTests
     [InlineData("한국어", "en", "en-US", "ko")]
     [InlineData("English", "ko", "ko-KR", "en")]
     [InlineData("auto", "Korean", "en", "ko")]
+    [InlineData("auto", "kr", "en", "ko")]
+    [InlineData("auto", "kr-en", "en", "ko")]
+    [InlineData("auto", "en", "ko-KR", "en")]
     public void LanguageFollowsExplicitThenGameThenSystem(string preference, string? game, string system, string expected)
         => Assert.Equal(expected, LanguagePolicy.Resolve(preference, game, system));
 

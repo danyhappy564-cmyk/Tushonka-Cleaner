@@ -55,6 +55,7 @@ public static class LanguagePolicy
         var source = string.IsNullOrWhiteSpace(game) ? system : game;
         return source != null && (source.Equals("ko", StringComparison.OrdinalIgnoreCase) ||
             source.StartsWith("ko-", StringComparison.OrdinalIgnoreCase) || source.StartsWith("ko_", StringComparison.OrdinalIgnoreCase) ||
+            source.Equals("kr", StringComparison.OrdinalIgnoreCase) || source.Equals("kr-en", StringComparison.OrdinalIgnoreCase) ||
             source.Equals("Korean", StringComparison.OrdinalIgnoreCase) || source == "한국어") ? "ko" : "en";
     }
 }
