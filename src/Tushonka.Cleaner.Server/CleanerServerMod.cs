@@ -22,7 +22,7 @@ public record ModMetadata : IModMetadata, SPTarkov.Server.Web.IModBlazorMetadata
     public string ModGuid { get; init; } = CleanerServerMod.ModGuid;
     public string Name { get; init; } = "Tushonka Cleaner";
     public string Author { get; init; } = "R_F";
-    public SemanticVersioning.Version Version { get; init; } = new("3.0.0");
+    public SemanticVersioning.Version Version { get; init; } = new("1.0.0");
     public SemanticVersioning.Range SptVersion { get; init; } = new("~4.1.5");
     public string License { get; init; } = "GPL-3.0";
     public bool HasPrepatcher { get; init; } = false;
