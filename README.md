@@ -3,7 +3,7 @@
   <a href="README.en.md"><img alt="English" src="https://img.shields.io/badge/English-Read%20in%20English-6e7681?style=for-the-badge"></a>
 </p>
 
-# Tushonka Cleaner 3.0.0
+# Tushonka Cleaner 1.0.0
 
 SPT 4.1.5의 메모리 정리·진단과 서버 최적화를 합친 모드입니다. 작성자는 R_F이며, 원작자·출처·라이선스 전문은 [NOTICE.md](NOTICE.md)와 [LICENSE](LICENSE)에 있습니다.
 
@@ -48,7 +48,7 @@ dotnet build Tushonka.Cleaner.sln -c Release -p:DeployPlugin=false -p:SkipDeploy
 dotnet test tests/Tushonka.Cleaner.Tests/Tushonka.Cleaner.Tests.csproj -c Release -p:SkipPackage=true -p:DeployPlugin=false -p:SkipDeploy=true
 ```
 
-다른 게임 경로는 `-p:SptRoot="경로"`로 지정합니다. Release 빌드는 `release/Tushonka-Cleaner-3.0.0.zip`을 생성하도록 구성되어 있습니다.
+다른 게임 경로는 `-p:SptRoot="경로"`로 지정합니다. Release 빌드는 `release/Tushonka-Cleaner-1.0.0.zip`을 생성하도록 구성되어 있습니다.
 
 ```text
 BepInEx/plugins/Tushonka-Cleaner/Tushonka.Cleaner.dll

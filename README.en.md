@@ -3,7 +3,7 @@
   <a href="README.en.md"><img alt="English (this page)" src="https://img.shields.io/badge/English-This%20page-1f6feb?style=for-the-badge"></a>
 </p>
 
-# Tushonka Cleaner 3.0.0
+# Tushonka Cleaner 1.0.0
 
 Memory cleanup, diagnostics and server optimisation for SPT 4.1.5, integrated by R_F. See [NOTICE.md](NOTICE.md) and [LICENSE](LICENSE) for the original authors and licence texts.
 
@@ -48,7 +48,7 @@ dotnet build Tushonka.Cleaner.sln -c Release -p:DeployPlugin=false -p:SkipDeploy
 dotnet test tests/Tushonka.Cleaner.Tests/Tushonka.Cleaner.Tests.csproj -c Release -p:SkipPackage=true -p:DeployPlugin=false -p:SkipDeploy=true
 ```
 
-Use `-p:SptRoot="path"` to override the game directory. Release builds are configured to create `release/Tushonka-Cleaner-3.0.0.zip` containing:
+Use `-p:SptRoot="path"` to override the game directory. Release builds are configured to create `release/Tushonka-Cleaner-1.0.0.zip` containing:
 
 ```text
 BepInEx/plugins/Tushonka-Cleaner/Tushonka.Cleaner.dll
