@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Tushonka.Cleaner.Server</RootNamespace>
+    <AssemblyName>Tushonka.Cleaner.Server</AssemblyName>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\Shared\*.cs" Link="Shared\%(Filename)%(Extension)" />
+    <ProjectReference Include="..\Tushonka.Cleaner.Client\Tushonka.Cleaner.Client.csproj" ReferenceOutputAssembly="false" />
+    <PackageReference Include="SPTushonka.Common" Version="4.1.5" PrivateAssets="all" ExcludeAssets="runtime" />
+    <PackageReference Include="SPTushonka.DI" Version="4.1.5" PrivateAssets="all" ExcludeAssets="runtime" />
+    <PackageReference Include="SPTushonka.Server.Core" Version="4.1.5" PrivateAssets="all" ExcludeAssets="runtime" />
+    <PackageReference Include="SPTushonka.Server.Web" Version="4.1.5" PrivateAssets="all" ExcludeAssets="runtime" />
+    <PackageReference Include="Lib.Harmony" Version="2.4.2" PrivateAssets="all" ExcludeAssets="runtime" />
+    <EmbeddedResource Include="Web\page.html" LogicalName="Tushonka.Cleaner.Server.Web.page.html" />
+    <EmbeddedResource Include="MemoryWeb\offline.html" LogicalName="Tushonka.Cleaner.Server.offline.html" />
+    <None Update="config.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <Target Name="PackageRelease" AfterTargets="Build"
+          Condition="'$(Configuration)' == 'Release' AND '$(SkipPackage)' != 'true'">
+    <PropertyGroup>
+      <PackageStageDir>$(MSBuildProjectDirectory)\$(IntermediateOutputPath)package\</PackageStageDir>
+      <PackageRoot>$(MSBuildProjectDirectory)\..\..\</PackageRoot>
+      <PackageClientDll>$(MSBuildProjectDirectory)\..\Tushonka.Cleaner.Client\bin\$(Configuration)\Tushonka.Cleaner.dll</PackageClientDll>
+      <PackageClientDir>$(PackageStageDir)BepInEx\plugins\Tushonka-Cleaner\</PackageClientDir>
+      <PackageServerDir>$(PackageStageDir)SPT_Runtime\user\mods\Tushonka-Cleaner\</PackageServerDir>
+      <PackageZipPath>$(PackageRoot)release\Tushonka-Cleaner-$(Version).zip</PackageZipPath>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(PackageClientDll)')" Text="클라이언트 DLL이 없습니다. 솔루션 전체를 빌드하십시오." />
+    <RemoveDir Directories="$(PackageStageDir)" />
+    <Copy SourceFiles="$(PackageClientDll)" DestinationFolder="$(PackageClientDir)" />
+    <Copy SourceFiles="$(TargetPath);$(MSBuildProjectDirectory)\config.json" DestinationFolder="$(PackageServerDir)" />
+    <Copy SourceFiles="$(PackageRoot)LICENSE;$(PackageRoot)NOTICE.md" DestinationFolder="$(PackageStageDir)" />
+    <MakeDir Directories="$(PackageRoot)release" />
+    <ZipDirectory SourceDirectory="$(PackageStageDir)" DestinationFile="$(PackageZipPath)" Overwrite="true" />
+    <Message Text="패키지 생성: $(PackageZipPath)" Importance="high" />
+  </Target>
+</Project>

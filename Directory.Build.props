@@ -1,0 +1,19 @@
+<Project>
+  <PropertyGroup>
+    <Version>3.0.0</Version>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
+    <FileVersion>3.0.0.0</FileVersion>
+    <Authors>R_F</Authors>
+    <Product>Tushonka Cleaner</Product>
+    <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+    <Deterministic>true</Deterministic>
+    <SptRoot Condition="'$(SptRoot)' == '' And '$(SPT_ROOT)' != ''">$(SPT_ROOT)</SptRoot>
+    <SptRoot Condition="'$(SptRoot)' == ''">E:\SPT 4.1</SptRoot>
+    <!-- 빌드는 저장소 안에만 출력합니다. 게임 설치 작업은 없습니다. -->
+    <DeployPlugin>false</DeployPlugin>
+    <SkipDeploy>true</SkipDeploy>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Bench)' == 'true'">
+    <DefineConstants>$(DefineConstants);BENCH</DefineConstants>
+  </PropertyGroup>
+</Project>
