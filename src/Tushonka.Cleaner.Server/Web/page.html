@@ -4,11 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Tushonka Cleaner</title>
+<script>try{var t=localStorage.getItem('tc-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
 <style>
 :root{color-scheme:light;--page:#f9f9f7;--surface:#fcfcfb;--text:#0b0b0b;--text2:#52514e;--muted:#898781;--grid:#e1e0d9;--axis:#c3c2b7;
 --border:rgba(11,11,11,.10);--accent:#2a78d6;--ok:#1a7f37;--warn:#b7791f;--bad:#cf222e}
-@media (prefers-color-scheme:dark){:root{color-scheme:dark;--page:#0d0d0d;--surface:#1a1a19;--text:#fff;--text2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--page:#0d0d0d;--surface:#1a1a19;--text:#fff;--text2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;
 --axis:#383835;--border:rgba(255,255,255,.10);--accent:#3987e5;--ok:#3fb950;--warn:#d29922;--bad:#f85149}}
+:root[data-theme=dark]{color-scheme:dark;--page:#0d0d0d;--surface:#1a1a19;--text:#fff;--text2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;
+--axis:#383835;--border:rgba(255,255,255,.10);--accent:#3987e5;--ok:#3fb950;--warn:#d29922;--bad:#f85149}
 html,body{margin:0;background:var(--page)}
 body{color:var(--text);font:14px/1.5 system-ui,-apple-system,'Segoe UI','Malgun Gothic',sans-serif}
 html:lang(ko) body{word-break:keep-all}
@@ -20,6 +23,7 @@ h1{font-size:22px;margin:0}h2{font-size:17px;margin:0 0 8px}
 button{font:inherit;padding:7px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer}
 button:hover{border-color:var(--accent)}button:disabled{opacity:.5;cursor:default}
 #lang{margin-left:auto;font-size:12px;padding:5px 10px}
+#theme{font:inherit;font-size:12px;padding:5px 8px;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:6px}
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:0 0 12px}
 .tile{border:1px solid var(--border);border-radius:10px;padding:10px 12px}.lbl{color:var(--text2);font-size:12px}
 .val{font-size:20px;font-weight:600}.note{color:var(--muted);font-size:12px;overflow-wrap:anywhere}
@@ -47,7 +51,7 @@ input[type=range]{flex:1 1 140px;min-width:120px;accent-color:var(--accent)}
 </head>
 <body>
 <main>
-  <div class="top"><h1>Tushonka Cleaner</h1><button type="button" id="lang"></button></div>
+  <div class="top"><h1>Tushonka Cleaner</h1><button type="button" id="lang"></button><select id="theme" aria-label="화면 · Theme"><option value="auto">자동 · Auto</option><option value="light">밝게 · Light</option><option value="dark">어둡게 · Dark</option></select></div>
   <p><a href="/tushonka-cleaner/">메모리·보고서 · Memory &amp; reports</a></p>
   <p class="sub" id="intro"></p>
   <div id="alerts"></div>
@@ -185,6 +189,18 @@ input[type=range]{flex:1 1 140px;min-width:120px;accent-color:var(--accent)}
   $('q').addEventListener('input', filter);
   load(true);
   setInterval(function () { if (!document.hidden) load(false); }, 5000);
+})();
+</script>
+<script>
+(function () {
+  var select = document.getElementById('theme'), saved = 'auto';
+  try { saved = localStorage.getItem('tc-theme') || 'auto'; } catch (error) { saved = 'auto'; }
+  select.value = saved;
+  select.addEventListener('change', function () {
+    var value = select.value;
+    if (value === 'auto') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = value;
+    try { if (value === 'auto') localStorage.removeItem('tc-theme'); else localStorage.setItem('tc-theme', value); } catch (error) { }
+  });
 })();
 </script>
 </body>

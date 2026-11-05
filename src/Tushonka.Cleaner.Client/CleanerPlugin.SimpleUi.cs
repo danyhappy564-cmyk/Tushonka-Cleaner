@@ -111,7 +111,7 @@ namespace Tushonka.Cleaner.Client
             ApplyPreset(_preset.Value);
             if (on) { _trimEnabled.Value = true; _gcGrowthGb.Value = 1.5f; _gcSliceMs.Value = 2f; }
             SetServerLevel(on ? "recommended" : "off");
-            _graphicsLevel.Value = on && !_conflicts.Graphics ? SceneCleanupLevel.LightTouch : SceneCleanupLevel.Off;
+            _graphicsLevel.Value = on && !_conflicts.Graphics ? SceneCleanupLevel.Balanced : SceneCleanupLevel.Off;
         }
 
         private void RefreshSimpleUi()
@@ -207,7 +207,7 @@ namespace Tushonka.Cleaner.Client
             else if (!later)
             {
                 SetServerLevel(_chooseServer ? "recommended" : "off");
-                _graphicsLevel.Value = _chooseGraphics && !_conflicts.Graphics ? SceneCleanupLevel.LightTouch : SceneCleanupLevel.Off;
+                _graphicsLevel.Value = _chooseGraphics && !_conflicts.Graphics ? SceneCleanupLevel.Balanced : SceneCleanupLevel.Off;
             }
             _onboardingDone.Value = true;
             ServerSettingsMenu.Instance?.SetSetupPending(false);
@@ -249,7 +249,7 @@ namespace Tushonka.Cleaner.Client
             GUILayout.Space(10);
             GUILayout.Label(Loc.L("01  메모리 및 VGA — 게임 중 메모리를 정리하고 부족할 때 알립니다.", "01  Memory & VRAM — Clean up memory while you play and warn when it runs low."), _welcomeText);
             GUILayout.Label(Loc.L("02  서버 — 안전한 서버 최적화를 함께 켭니다.", "02  Server — Enable the safe server optimizations."), _welcomeText);
-            GUILayout.Label(Loc.L("03  그래픽 — 작은 장식을 간단하게만 가립니다.", "03  Graphics — Use Light touch to hide a few small decorations."), _welcomeText);
+            GUILayout.Label(Loc.L("03  그래픽 — 그래픽을 조금 줄여 프레임을 올리고 작은 장식을 가립니다.", "03  Graphics — Lower graphics a little for more FPS and hide small clutter."), _welcomeText);
             GUILayout.Space(10);
             GUILayout.Label(Loc.L("자세한 설정은 웹에서 엽니다.", "Fine-tune your setup on the web."), _welcomeText);
             GUILayout.Label(_web?.Url ?? $"http://127.0.0.1:{_webPort.Value}/", _welcomeText);

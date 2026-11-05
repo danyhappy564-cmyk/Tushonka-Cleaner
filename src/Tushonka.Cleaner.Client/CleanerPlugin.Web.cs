@@ -330,7 +330,9 @@ namespace Tushonka.Cleaner.Client
                 Link("report", "report", "레이드 보고서", "Raid report") + Link("history", "history", "지난 기록", "History") +
                 "</nav><label class=\"language-picker\">" + Loc.L("언어", "Language") +
                 "<select data-language aria-label=\"Language\"><option value=\"auto\">" + Loc.L("자동", "Auto") +
-                "</option><option value=\"ko\">한국어</option><option value=\"en\">English</option></select></label></div></header>" + LegacyBanner();
+                "</option><option value=\"ko\">한국어</option><option value=\"en\">English</option></select></label>" +
+                "<label class=\"language-picker\">" + Loc.L("화면", "Theme") + "<select data-theme-select aria-label=\"" + Loc.L("화면", "Theme") + "\"><option value=\"auto\">" + Loc.L("자동", "Auto") +
+                "</option><option value=\"light\">" + Loc.L("밝게", "Light") + "</option><option value=\"dark\">" + Loc.L("어둡게", "Dark") + "</option></select></label></div></header>" + LegacyBanner();
         }
 
         private string LegacyBanner()
@@ -350,7 +352,7 @@ namespace Tushonka.Cleaner.Client
             var sb = new StringBuilder(32 * 1024);
             sb.Append("<!doctype html><html lang=\"").Append(Loc.L("ko", "en")).Append("\"><head><meta charset=\"utf-8\">")
               .Append("<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>").Append(WebUtility.HtmlEncode(title)).Append("</title>")
-              .Append("<style>").Append(SessionReport.Css).Append('\n').Append(Asset("web.css")).Append("</style></head><body data-page=\"").Append(active).Append("\">")
+              .Append(SessionReport.ThemeBoot).Append("<style>").Append(SessionReport.Css).Append('\n').Append(Asset("web.css")).Append("</style></head><body data-page=\"").Append(active).Append("\">")
               .Append(Nav(active)).Append("<main class=\"shell viz-root\">").Append(content).Append("<div id=\"tip\" role=\"tooltip\"></div></main><footer class=\"shell\">Tushonka Cleaner</footer>")
               .Append(BootScript()).Append("<script>").Append(SessionReport.Js).Append("</script>");
             if (strings != null) sb.Append("<script>window.RC=").Append(strings).Append(";</script>");

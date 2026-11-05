@@ -275,7 +275,7 @@ namespace Tushonka.Cleaner.Client
             var sb = new StringBuilder(64 * 1024);
             sb.Append("<!doctype html><html lang=\"" + Loc.L("ko", "en") + "\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">");
             string title = Loc.L("Tushonka Cleaner 세션 보고서", "Tushonka Cleaner session report");
-            sb.Append($"<title>{title}</title><style>{Css}</style></head><body><main class=\"viz-root\">{nav}");
+            sb.Append($"<title>{title}</title>{ThemeBoot}<style>{Css}</style></head><body><main class=\"viz-root\">{nav}");
             sb.Append($"<h1>{title}</h1><p class=\"sub\">" +
                       Loc.L($"세션 시작 {_sessionStart:yyyy-MM-dd HH:mm} · 레이드 {_raids.Count}판" + (live != null ? " + 진행 중 1판" : string.Empty) + $" · 마지막 갱신 {DateTime.Now:HH:mm:ss}",
                             $"session started {_sessionStart:yyyy-MM-dd HH:mm} · {_raids.Count} raids" + (live != null ? " + 1 in progress" : string.Empty) + $" · updated {DateTime.Now:HH:mm:ss}") + "</p>");
@@ -547,6 +547,8 @@ namespace Tushonka.Cleaner.Client
         }
 
         // Palette: reference data-viz palette, categorical slots 1-3 (validated all-pairs in both modes).
+        internal const string ThemeBoot = "<script>try{var t=localStorage.getItem('tc-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>";
+
         internal const string Css = @"
 .viz-root{color-scheme:light;--page:#f9f9f7;--surface-1:#fcfcfb;--text-primary:#0b0b0b;--text-secondary:#52514e;--muted:#898781;
 --grid:#e1e0d9;--axis:#c3c2b7;--border:rgba(11,11,11,.10);--series-1:#2a78d6;--series-2:#eb6834;--series-3:#1baf7a}

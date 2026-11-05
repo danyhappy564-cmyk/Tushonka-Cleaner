@@ -17,6 +17,17 @@ window.rcEsc = value => String(value == null ? '' : value).replace(/[&<>"']/g, c
       catch (error) { select.disabled = false; select.value = boot.language || 'auto'; window.alert(error.message); }
     });
   });
+  document.querySelectorAll('[data-theme-select]').forEach(select => {
+    let saved = 'auto';
+    try { saved = localStorage.getItem('tc-theme') || 'auto'; } catch (error) { saved = 'auto'; }
+    select.value = saved;
+    select.addEventListener('change', () => {
+      const value = select.value;
+      if (value === 'auto') delete document.documentElement.dataset.theme;
+      else document.documentElement.dataset.theme = value;
+      try { if (value === 'auto') localStorage.removeItem('tc-theme'); else localStorage.setItem('tc-theme', value); } catch (error) { /* 저장소를 못 써도 이번 화면에는 적용됩니다. */ }
+    });
+  });
   const I = window.TC_I18N;
   if (I) I.apply();
   window.tcModeBanner = function (state) {

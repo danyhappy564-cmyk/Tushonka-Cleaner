@@ -54,13 +54,13 @@
     const host = $('mode-comparison'); if (!host) return;
     const modes = ['game','check','analysis','leak','off'], labels = ['modeGame','modeCheck','modeAnalysis','modeLeak','modeOff'];
     const rows = [['compareCleanup',['yes','yes','yes','yes','no']],['compareOverlay',['no','yes','yes','leakOverlay','no']],['compareReports',['no','yes','yes','noStutterAlert','no']],['compareMod',['no','no','continuous','periodic','no']],['compareCause',['no','no','yes','no','no']],['compareHeavy',['no','no','yes','yes','no']],['compareLeak',['no','no','no','yes','no']],['compareLog',['no','seconds120','seconds30','seconds60','no']]];
-    const costs = modes.map(mode => t('compareCost', {}, mode));
+    const costs = modes.map(mode => ((window.TC_MEASURED || {})['compareCost.' + mode] || {})[I.language()] || '');
     const cell = (value, i, tag = 'td') => '<' + tag + (modes[i] === state.memoryMode ? ' class="current-mode-column"' : '') + '>' + esc(value) + '</' + tag + '>';
     host.innerHTML = '<thead><tr><th>' + esc(t('compareSetting')) + '</th>' + labels.map((key,i) => cell(t(key),i,'th')).join('') + '</tr></thead><tbody>' + rows.map(([label,values]) => '<tr><th>' + esc(t(label)) + '</th>' + values.map((key,i) => cell(t(key),i)).join('') + '</tr>').join('') + (costs.every(Boolean) ? '<tr><th>' + esc(I.language() === 'ko' ? '게임 부담' : 'Game overhead') + '</th>' + costs.map((v,i) => cell(v,i)).join('') + '</tr>' : '') + '</tbody>';
   }
   function render() {
     const flags = { memory: state.memoryMode !== 'off', server: state.serverLevel !== 'off', graphics: state.graphicsLevel !== 'off' };
-    const recommended = state.memoryMode === 'game' && state.serverLevel === 'recommended' && state.graphicsLevel === 'light' && ['waitCombat','afterRaid','workingSet'].every(k => read(keys[k])?.toLowerCase() === 'true') && ['assets','raidStartAssets'].every(k => read(keys[k])?.toLowerCase() === 'false') && Number(read(keys.growth)) === 1.5 && Number(read(keys.budget)) === 2;
+    const recommended = state.memoryMode === 'game' && state.serverLevel === 'recommended' && state.graphicsLevel === 'more' && ['waitCombat','afterRaid','workingSet'].every(k => read(keys[k])?.toLowerCase() === 'true') && ['assets','raidStartAssets'].every(k => read(keys[k])?.toLowerCase() === 'false') && Number(read(keys.growth)) === 1.5 && Number(read(keys.budget)) === 2;
     const setup = Object.values(flags).every(x => !x) ? 'off' : recommended ? 'recommended' : 'custom';
     document.querySelectorAll('[data-setting], [data-adv]').forEach(el => {
       const name = el.dataset.setting || el.dataset.adv;
