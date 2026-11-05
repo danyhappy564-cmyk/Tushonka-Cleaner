@@ -3,6 +3,20 @@
   <a href="README.en.md"><img alt="English (this page)" src="https://img.shields.io/badge/English-This%20page-1f6feb?style=for-the-badge"></a>
 </p>
 
+<p align="center">
+  <a href="https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/?lang=en"><img src="site/img/og.jpg" alt="Tushonka Cleaner project site" width="820"></a>
+</p>
+
+<h2 align="center">📖 <a href="https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/?lang=en">Measurements and comparison shots are on the project site →</a></h2>
+<p align="center">Graphics level comparison · memory modes · server results · install and old-mod migration · cautions, all on one page.</p>
+
+<p align="center">
+  <a href="https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/?lang=en"><img alt="Open the project site" src="https://img.shields.io/badge/Project%20site-Open-913e27?style=for-the-badge"></a>
+  <a href="https://github.com/danyhappy564-cmyk/Tushonka-Cleaner/releases/latest"><img alt="Download the latest release" src="https://img.shields.io/badge/Latest%20release-Download-2ea043?style=for-the-badge&logo=github&logoColor=white"></a>
+</p>
+
+---
+
 # Tushonka Cleaner 1.0.0
 
 An unofficial combined build of memory cleanup, diagnostics, server optimisation and graphics adjustments for SPT 4.1, based on the original authors' mods listed below. Tested on SPT 4.1.6. See [NOTICE.md](NOTICE.md) and [LICENSE](LICENSE) for the original authors and licence texts.

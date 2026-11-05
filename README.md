@@ -3,6 +3,20 @@
   <a href="README.en.md"><img alt="English" src="https://img.shields.io/badge/English-Read%20in%20English-6e7681?style=for-the-badge"></a>
 </p>
 
+<p align="center">
+  <a href="https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/"><img src="site/img/og.jpg" alt="Tushonka Cleaner 소개 사이트" width="820"></a>
+</p>
+
+<h2 align="center">📖 <a href="https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/">측정값과 비교 사진은 소개 사이트에 있습니다 →</a></h2>
+<p align="center">그래픽 단계 비교 · 메모리 모드 · 서버 측정 · 설치와 옛 모드 이동 · 주의사항을 한 페이지에 정리했습니다.</p>
+
+<p align="center">
+  <a href="https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/"><img alt="소개 사이트 열기" src="https://img.shields.io/badge/%EC%86%8C%EA%B0%9C%20%EC%82%AC%EC%9D%B4%ED%8A%B8-%EC%97%B4%EA%B8%B0-913e27?style=for-the-badge"></a>
+  <a href="https://github.com/danyhappy564-cmyk/Tushonka-Cleaner/releases/latest"><img alt="최신 버전 받기" src="https://img.shields.io/badge/%EC%B5%9C%EC%8B%A0%20%EB%B2%84%EC%A0%84-%EB%B0%9B%EA%B8%B0-2ea043?style=for-the-badge&logo=github&logoColor=white"></a>
+</p>
+
+---
+
 # Tushonka Cleaner 1.0.0
 
 SPT 4.1의 메모리 정리·진단, 서버 최적화, 그래픽 조정을 합친 비공식 통합본입니다. 아래 원작자들의 모드를 바탕으로 합니다. SPT 4.1.6에서 시험했습니다. 원작자·출처·라이선스 전문은 [NOTICE.md](NOTICE.md)와 [LICENSE](LICENSE)에 있습니다.

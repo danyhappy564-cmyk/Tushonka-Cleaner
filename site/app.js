@@ -25,9 +25,12 @@
   };
 
   let language;
+  // A link can ask for a language with ?lang=en. It wins for this visit and is not saved.
+  const requested = new URLSearchParams(location.search).get('lang');
+  if (supported(requested)) language = requested;
   try {
     const saved = localStorage.getItem(storageKey);
-    if (supported(saved)) language = saved;
+    if (!language && supported(saved)) language = saved;
   } catch { /* Storage can be unavailable, including when opened as a file. */ }
   if (!language) {
     const browserLanguage = navigator.languages?.[0] || navigator.language || 'en';
