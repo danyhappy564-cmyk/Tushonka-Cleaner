@@ -33,8 +33,9 @@ The full changelog (1 entry) is in the [`changelog/`](changelog/) folder, 10 per
 
 - Preserves the five RAM cleaner modes, custom settings, web pages, reports and diagnostics.
 - Preserves CompoundingPerf server features and client fixes C1 (hidden menu videos) and C2 (landed airdrop physics).
-- Detects legacy installations, disables overlapping features and displays removal warnings. Matching legacy RAM configuration sections and keys are imported once when the new cfg does not exist.
-- Graphics currently exposes `Graphics/ISceneCleanup.cs` with a no-op implementation. The graphics module belongs to a later stage.
+- Old mods (RAM Cleaner, CompoundingPerf, DeClutter) are moved to `Tushonka-Cleaner-OldMods` in the game folder when the server starts. Nothing is deleted, so you can restore them. Overlapping features stay off on that first run, so restart the server once. Matching legacy RAM configuration sections and keys are imported once when the new cfg does not exist.
+- **Do not use this mod together with Smoothie.** Both change the same game systems, which can cause overlapping effects or errors. If both are installed, a warning appears in the server console and on the menu screen. Smoothie files are left untouched.
+- The graphics feature hides small decorations that do not affect play. It is off by default. It was written from scratch without other mods' code; the supporting material is in `tests/SceneCleanup/`.
 
 Archived feature descriptions: [memory](docs/ram-cleaner.md), [server](docs/server-optimizations.md). Their legacy installation and build paths do not apply to this package.
 

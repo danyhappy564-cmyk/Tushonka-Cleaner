@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework>
+    <UseAppHost>false</UseAppHost>
+    <UseSharedCompilation>false</UseSharedCompilation>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <Nullable>disable</Nullable><ImplicitUsings>disable</ImplicitUsings>
+    <RestoreSources></RestoreSources><NuGetAudit>false</NuGetAudit><NoWarn>0649</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" /><Compile Include="RuntimeStubs.cs" /><Compile Include="RuntimeChecks.cs" /><Compile Include="CsvChecks.cs" />
+    <Compile Include="../../../src/Tushonka.Cleaner.Client/SceneCleanup/Core/*.cs" Link="Core/%(Filename)%(Extension)" />
+    <Compile Include="../../../src/Tushonka.Cleaner.Client/SceneCleanup/*.cs" Exclude="../../../src/Tushonka.Cleaner.Client/SceneCleanup/GameHooks.cs" Link="Runtime/%(Filename)%(Extension)" />
+  </ItemGroup>
+</Project>

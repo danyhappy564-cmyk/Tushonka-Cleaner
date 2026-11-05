@@ -53,4 +53,15 @@ public class IntegrationPolicyTests
         Assert.True(result.Memory && result.Performance && result.Graphics);
         Assert.Equal(3, result.Guids.Count);
     }
+
+    [Theory]
+    [InlineData("com.tominocz.smoothie")]
+    [InlineData("Smoothie")]
+    public void Smoothie_is_warned_about_without_disabling_any_feature(string id)
+    {
+        var result = LegacyConflicts.Detect([id]);
+        Assert.True(result.Smoothie);
+        Assert.False(result.Any);
+        Assert.Empty(result.Guids);
+    }
 }

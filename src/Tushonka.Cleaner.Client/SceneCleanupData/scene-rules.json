@@ -1,0 +1,1061 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "category": "Litter",
+      "pattern": "Garbage_bag_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "Garbage_bag_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "Garbage_bags_01_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "Garbage_bags_04_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "goshan_garbage10_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "goshan_garbage10_Shadow_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "goshan_garbage3_Shadow_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "goshan_garbage4_Shadow_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "goshan_garbage5_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "goshan_garbage5_Shadow_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "goshan_garbage9_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "goshan_garbage9_Shadow_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "Goshan_garbage_03_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "Goshan_garbage_04_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "Goshan_garbage_04_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "goshan_garbage_05_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "goshan_garbage_05_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "Goshan_garbage_10_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "Goshan_garbage_10_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "Package_garbage_set_01_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "Package_garbage_set_01_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "Package_garbage_set_02_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "Package_garbage_set_02_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "sack_construction_garbage_01_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "sack_construction_garbage_01_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "sack_construction_garbage_02_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "sack_construction_garbage_02_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "sack_construction_garbage_03_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "sack_construction_garbage_03_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "sack_construction_garbage_04_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "sack_construction_garbage_04_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "trash_pile_05x1_02_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "trash_pile_05x1_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "trash_pile_1x1_01_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "trash_pile_1x1_02_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "trash_pile_1x1_02_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "trash_pile_1x1_03_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "trash_pile_1x1_04_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "TrashBag_1_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "TrashBag_1_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "TrashBag_2_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "TrashBag_2_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "TrashBag_3_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "TrashBag_3_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "TrashBag_4_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Litter",
+      "pattern": "TrashBag_4_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 2.5
+    },
+    {
+      "category": "Rubble",
+      "pattern": "Debris_Concrete_01_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "debris_concrete_01_rezerv_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "debris_concrete_01_rezerv_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "Debris_Concrete_01_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "Debris_Concrete_02_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "Debris_Concrete_02_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "Debris_Concrete_03_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_01_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_01_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_02_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_02_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_03_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_03_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_05_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_05_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_06_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_06_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_07_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_07_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_08_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_08_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_09_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_09_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_10_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_10_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_11_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_11_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_group_01_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_group_01_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_group_02_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_group_02_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_group_03_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_group_03_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_group_04_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_group_04_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_group_05_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_group_05_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_group_06_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_group_06_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_group_07_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_group_07_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_group_08_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_group_08_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_group_09_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_group_09_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_group_10_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Rubble",
+      "pattern": "plaster_debris_group_10_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Casings",
+      "pattern": "rifleshell_grp",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Casings",
+      "pattern": "shotshell_grp",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.0
+    },
+    {
+      "category": "Food",
+      "pattern": "Pizza_1_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 1.25
+    },
+    {
+      "category": "Food",
+      "pattern": "Pizza_1_Shadow_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 1.25
+    },
+    {
+      "category": "Food",
+      "pattern": "Pizza_3_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 1.25
+    },
+    {
+      "category": "Food",
+      "pattern": "Pizza_4_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 1.25
+    },
+    {
+      "category": "Food",
+      "pattern": "Pizza_5_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 1.25
+    },
+    {
+      "category": "Food",
+      "pattern": "Pizza_6_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 1.25
+    },
+    {
+      "category": "Food",
+      "pattern": "Pizza_7_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 1.25
+    },
+    {
+      "category": "Food",
+      "pattern": "Pizza_8_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 1.25
+    },
+    {
+      "category": "Food",
+      "pattern": "Pizza_9_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 1.25
+    },
+    {
+      "category": "Food",
+      "pattern": "vegetables_cucumber_01_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 1.25
+    },
+    {
+      "category": "Food",
+      "pattern": "vegetables_cucumber_01_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 1.25
+    },
+    {
+      "category": "Food",
+      "pattern": "vegetables_tomato_01_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 1.25
+    },
+    {
+      "category": "Food",
+      "pattern": "vegetables_tomato_01_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 1.25
+    },
+    {
+      "category": "Food",
+      "pattern": "vegetables_tomatoes_01_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 1.25
+    },
+    {
+      "category": "Food",
+      "pattern": "vegetables_tomatoes_01_SHADOW_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 1.25
+    },
+    {
+      "category": "Puddles",
+      "pattern": "Puddle_atlas_01_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Puddles",
+      "pattern": "Puddle_atlas_02_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Puddles",
+      "pattern": "Puddle_atlas_03_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Puddles",
+      "pattern": "puddle_oil",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Glass",
+      "pattern": "glass_crush01_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.5
+    },
+    {
+      "category": "Glass",
+      "pattern": "Glass_Shards_01_Base_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.5
+    },
+    {
+      "category": "Glass",
+      "pattern": "Glass_Shards_01_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.5
+    },
+    {
+      "category": "Glass",
+      "pattern": "Glass_Shards_02_Base_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.5
+    },
+    {
+      "category": "Glass",
+      "pattern": "Glass_Shards_02_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.5
+    },
+    {
+      "category": "Glass",
+      "pattern": "Glass_Shards_03_Base_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.5
+    },
+    {
+      "category": "Glass",
+      "pattern": "Glass_Shards_03_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.5
+    },
+    {
+      "category": "Glass",
+      "pattern": "Glass_Shards_04_Base_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.5
+    },
+    {
+      "category": "Glass",
+      "pattern": "Glass_Shards_04_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.5
+    },
+    {
+      "category": "Glass",
+      "pattern": "shards_glass",
+      "renderer": "MeshRenderer",
+      "maxSize": 3.5
+    },
+    {
+      "category": "Decals",
+      "pattern": "City_Food_trash_pile_decal_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "decal_dirt",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "decal_drip",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "decal_paper",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Dust_decal_trim_2_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Dust_decal_trim_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "goshan_decal2",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "goshan_decal3",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Ground_decal_2_debris_2_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Ground_Decal_2_debris_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Ground_Decal_2_leaves_corner_inside_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Ground_Decal_2_leaves_corner_outside_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Ground_Decal_2_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Ground_Decal_corner_inside_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Ground_Decal_corner_outside_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Ground_Decal_trim2_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Plaster_debris_decal_01_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Plaster_debris_decal_02_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Plaster_debris_decal_03_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Plaster_debris_decal_04_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Plaster_debris_decal_05_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "plaster_debris_decal_big_001_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "plaster_debris_decal_big_002_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "plaster_debris_decal_big_003_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "plaster_debris_decal_big_004_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "plaster_debris_decal_big_005_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "plaster_debris_decal_big_006_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "plaster_debris_decal_big_007_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "plaster_debris_decal_big_008_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "plaster_debris_decal_big_009_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Reserve_decal_footstep_B_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Reserve_decal_footstep_C_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Reserve_decal_footstep_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Reserve_decal_footstep_traces_A_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Reserve_decal_footstep_traces_B_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Sand_decal_01_A_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Sand_decal_01_C_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Sand_decal_02_A_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Sand_decal_02_C_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Sand_decal_03_A_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Sand_decal_03_C_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Sand_decal_04_A_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Sand_decal_04_B_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Sand_decal_04_C_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Sand_decal_05_A_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Sand_decal_05_C_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Sand_decal_06_A_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Sand_decal_06_B_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Sand_decal_06_C_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Sand_decal_07_A_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Sand_decal_07_B_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    },
+    {
+      "category": "Decals",
+      "pattern": "Sand_decal_07_C_LOD",
+      "renderer": "MeshRenderer",
+      "maxSize": 6.0
+    }
+  ]
+}

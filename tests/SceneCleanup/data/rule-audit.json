@@ -1,0 +1,4930 @@
+{
+  "sources": [
+    {
+      "file": "scene-names/names-bigmap.csv",
+      "sha256": "fd5b0026892c5a990048f47c6613c6036944a696da45dff2161268645204e3d3"
+    },
+    {
+      "file": "scene-names/names-factory4_day.csv",
+      "sha256": "750e427c66b4902c11fc9345860d76dffc6b5b36a0488fa575876bd6b8fcf088"
+    },
+    {
+      "file": "scene-names/names-Interchange.csv",
+      "sha256": "86abc0283ca6901a00924d59aadf45640779d58d77b0bb22a24cd79ff6993553"
+    },
+    {
+      "file": "scene-names/names-laboratory.csv",
+      "sha256": "c057f0a306fb3ccd3d40ddd275e388d88d531ec40c992dfa59047803442de7d4"
+    },
+    {
+      "file": "scene-names/names-Lighthouse.csv",
+      "sha256": "0c0db6063da91cf69ff1e5eb313b72bb8e7cf3642f9579d042aa19624046127a"
+    },
+    {
+      "file": "scene-names/names-RezervBase.csv",
+      "sha256": "def912e6b35e72381db9b12766a796adf30d80aab6b2fafdaa924931b84fe555"
+    },
+    {
+      "file": "scene-names/names-Sandbox.csv",
+      "sha256": "0f6b480da0da6e8237a035e00e66a55c94829eef138f102b0f51f13db94e6f1c"
+    },
+    {
+      "file": "scene-names/names-Shoreline.csv",
+      "sha256": "496472847653ce2814e9b7c71946a64e8285bcd96d671e341f86b3780763cf80"
+    },
+    {
+      "file": "scene-names/names-TarkovStreets.csv",
+      "sha256": "1392b2683ffc626eb865b3a8fc85f1cc4d3ab7070a92fc969ecde541e911d7a8"
+    },
+    {
+      "file": "scene-names/names-Woods.csv",
+      "sha256": "f03fc2cf8d80c73f4ccc8e26362c3c5f954240959209fc102ad43092484e57c7"
+    }
+  ],
+  "counts": {
+    "Interchange": {
+      "Litter": 2439,
+      "Rubble": 0,
+      "Casings": 6,
+      "Food": 87,
+      "Puddles": 0,
+      "Glass": 24,
+      "Decals": 677
+    },
+    "Lighthouse": {
+      "Litter": 1430,
+      "Rubble": 0,
+      "Casings": 16,
+      "Food": 74,
+      "Puddles": 14,
+      "Glass": 382,
+      "Decals": 266
+    },
+    "RezervBase": {
+      "Litter": 484,
+      "Rubble": 0,
+      "Casings": 14,
+      "Food": 0,
+      "Puddles": 43,
+      "Glass": 83,
+      "Decals": 525
+    },
+    "Sandbox": {
+      "Litter": 1667,
+      "Rubble": 988,
+      "Casings": 27,
+      "Food": 69,
+      "Puddles": 82,
+      "Glass": 481,
+      "Decals": 578
+    },
+    "Shoreline": {
+      "Litter": 571,
+      "Rubble": 0,
+      "Casings": 20,
+      "Food": 0,
+      "Puddles": 1,
+      "Glass": 9,
+      "Decals": 28
+    },
+    "TarkovStreets": {
+      "Litter": 8878,
+      "Rubble": 1146,
+      "Casings": 122,
+      "Food": 470,
+      "Puddles": 368,
+      "Glass": 2599,
+      "Decals": 3004
+    },
+    "Woods": {
+      "Litter": 80,
+      "Rubble": 0,
+      "Casings": 4,
+      "Food": 10,
+      "Puddles": 1,
+      "Glass": 0,
+      "Decals": 178
+    },
+    "bigmap": {
+      "Litter": 418,
+      "Rubble": 0,
+      "Casings": 0,
+      "Food": 0,
+      "Puddles": 0,
+      "Glass": 0,
+      "Decals": 1217
+    },
+    "factory4_day": {
+      "Litter": 372,
+      "Rubble": 306,
+      "Casings": 42,
+      "Food": 3,
+      "Puddles": 0,
+      "Glass": 1,
+      "Decals": 5026
+    },
+    "laboratory": {
+      "Litter": 367,
+      "Rubble": 0,
+      "Casings": 0,
+      "Food": 0,
+      "Puddles": 4,
+      "Glass": 1,
+      "Decals": 770
+    }
+  },
+  "matches": [
+    {
+      "map": "bigmap",
+      "name": "decal_dirt",
+      "category": "Decals",
+      "count": 256,
+      "avg_size_m": 3.97,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Sand_decal_06_C_LOD",
+      "category": "Decals",
+      "count": 204,
+      "avg_size_m": 5.2,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Sand_decal_06_A_LOD",
+      "category": "Decals",
+      "count": 104,
+      "avg_size_m": 4.36,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Sand_decal_02_A_LOD",
+      "category": "Decals",
+      "count": 72,
+      "avg_size_m": 2.84,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Ground_Decal_trim2_LOD",
+      "category": "Decals",
+      "count": 67,
+      "avg_size_m": 4.39,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Ground_Decal_2_debris_LOD",
+      "category": "Decals",
+      "count": 58,
+      "avg_size_m": 2.91,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "TrashBag_4_LOD",
+      "category": "Litter",
+      "count": 52,
+      "avg_size_m": 1.45,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Sand_decal_05_C_LOD",
+      "category": "Decals",
+      "count": 50,
+      "avg_size_m": 3.55,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "decal_paper",
+      "category": "Decals",
+      "count": 48,
+      "avg_size_m": 1.17,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "City_Food_trash_pile_decal_LOD",
+      "category": "Decals",
+      "count": 45,
+      "avg_size_m": 3.4,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "TrashBag_1_LOD",
+      "category": "Litter",
+      "count": 44,
+      "avg_size_m": 1.63,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "TrashBag_3_LOD",
+      "category": "Litter",
+      "count": 40,
+      "avg_size_m": 1.23,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "TrashBag_4_SHADOW_LOD",
+      "category": "Litter",
+      "count": 39,
+      "avg_size_m": 1.45,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "goshan_garbage_05_LOD",
+      "category": "Litter",
+      "count": 38,
+      "avg_size_m": 0.76,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "TrashBag_2_LOD",
+      "category": "Litter",
+      "count": 36,
+      "avg_size_m": 1.77,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "TrashBag_1_SHADOW_LOD",
+      "category": "Litter",
+      "count": 33,
+      "avg_size_m": 1.62,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Sand_decal_07_A_LOD",
+      "category": "Decals",
+      "count": 33,
+      "avg_size_m": 2.73,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Ground_decal_2_debris_2_LOD",
+      "category": "Decals",
+      "count": 32,
+      "avg_size_m": 2.69,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "goshan_garbage_05_SHADOW_LOD",
+      "category": "Litter",
+      "count": 31,
+      "avg_size_m": 0.72,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Ground_Decal_2_LOD",
+      "category": "Decals",
+      "count": 31,
+      "avg_size_m": 2.48,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "TrashBag_3_SHADOW_LOD",
+      "category": "Litter",
+      "count": 30,
+      "avg_size_m": 1.23,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Sand_decal_01_A_LOD",
+      "category": "Decals",
+      "count": 30,
+      "avg_size_m": 2.56,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Sand_decal_04_A_LOD",
+      "category": "Decals",
+      "count": 28,
+      "avg_size_m": 3.78,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "TrashBag_2_SHADOW_LOD",
+      "category": "Litter",
+      "count": 27,
+      "avg_size_m": 1.77,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Ground_Decal_corner_outside_LOD",
+      "category": "Decals",
+      "count": 22,
+      "avg_size_m": 2.66,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Sand_decal_07_B_LOD",
+      "category": "Decals",
+      "count": 21,
+      "avg_size_m": 1.94,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Dust_decal_trim_2_LOD",
+      "category": "Decals",
+      "count": 20,
+      "avg_size_m": 4.04,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "trash_pile_1x1_01_LOD",
+      "category": "Litter",
+      "count": 20,
+      "avg_size_m": 1.73,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Sand_decal_06_B_LOD",
+      "category": "Decals",
+      "count": 20,
+      "avg_size_m": 4.36,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Sand_decal_03_A_LOD",
+      "category": "Decals",
+      "count": 20,
+      "avg_size_m": 1.73,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Ground_Decal_corner_inside_LOD",
+      "category": "Decals",
+      "count": 13,
+      "avg_size_m": 2.41,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Garbage_bag_LOD",
+      "category": "Litter",
+      "count": 11,
+      "avg_size_m": 0.86,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Garbage_bag_SHADOW_LOD",
+      "category": "Litter",
+      "count": 11,
+      "avg_size_m": 0.86,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Sand_decal_03_C_LOD",
+      "category": "Decals",
+      "count": 10,
+      "avg_size_m": 3.86,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Plaster_debris_decal_01_LOD",
+      "category": "Decals",
+      "count": 8,
+      "avg_size_m": 2.19,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Plaster_debris_decal_05_LOD",
+      "category": "Decals",
+      "count": 7,
+      "avg_size_m": 2.18,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Sand_decal_07_C_LOD",
+      "category": "Decals",
+      "count": 6,
+      "avg_size_m": 2.57,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Sand_decal_02_C_LOD",
+      "category": "Decals",
+      "count": 6,
+      "avg_size_m": 4.1,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "trash_pile_1x1_03_LOD",
+      "category": "Litter",
+      "count": 2,
+      "avg_size_m": 1.66,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Reserve_decal_footstep_traces_B_LOD",
+      "category": "Decals",
+      "count": 2,
+      "avg_size_m": 5.64,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "trash_pile_05x1_02_LOD",
+      "category": "Litter",
+      "count": 2,
+      "avg_size_m": 1.13,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Sand_decal_01_C_LOD",
+      "category": "Decals",
+      "count": 2,
+      "avg_size_m": 3.31,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "trash_pile_05x1_LOD",
+      "category": "Litter",
+      "count": 2,
+      "avg_size_m": 0.89,
+      "static": 0.0
+    },
+    {
+      "map": "bigmap",
+      "name": "Reserve_decal_footstep_B_LOD",
+      "category": "Decals",
+      "count": 2,
+      "avg_size_m": 3.78,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Sand_decal_07_A_LOD",
+      "category": "Decals",
+      "count": 1137,
+      "avg_size_m": 2.28,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Sand_decal_07_B_LOD",
+      "category": "Decals",
+      "count": 1005,
+      "avg_size_m": 2.37,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Sand_decal_06_A_LOD",
+      "category": "Decals",
+      "count": 342,
+      "avg_size_m": 3.89,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Sand_decal_05_C_LOD",
+      "category": "Decals",
+      "count": 308,
+      "avg_size_m": 3.42,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Sand_decal_04_C_LOD",
+      "category": "Decals",
+      "count": 298,
+      "avg_size_m": 3.42,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Sand_decal_03_C_LOD",
+      "category": "Decals",
+      "count": 274,
+      "avg_size_m": 2.86,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Sand_decal_05_A_LOD",
+      "category": "Decals",
+      "count": 272,
+      "avg_size_m": 3.23,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Sand_decal_04_A_LOD",
+      "category": "Decals",
+      "count": 272,
+      "avg_size_m": 3.2,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Sand_decal_02_C_LOD",
+      "category": "Decals",
+      "count": 190,
+      "avg_size_m": 3.54,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Sand_decal_01_C_LOD",
+      "category": "Decals",
+      "count": 188,
+      "avg_size_m": 3.35,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Sand_decal_02_A_LOD",
+      "category": "Decals",
+      "count": 178,
+      "avg_size_m": 3.33,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Sand_decal_01_A_LOD",
+      "category": "Decals",
+      "count": 164,
+      "avg_size_m": 3.07,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Sand_decal_03_A_LOD",
+      "category": "Decals",
+      "count": 116,
+      "avg_size_m": 3.17,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Sand_decal_06_C_LOD",
+      "category": "Decals",
+      "count": 98,
+      "avg_size_m": 3.52,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Ground_Decal_trim2_LOD",
+      "category": "Decals",
+      "count": 69,
+      "avg_size_m": 3.05,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "sack_construction_garbage_02_SHADOW_LOD",
+      "category": "Litter",
+      "count": 56,
+      "avg_size_m": 1.26,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "sack_construction_garbage_02_LOD",
+      "category": "Litter",
+      "count": 56,
+      "avg_size_m": 1.3,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "sack_construction_garbage_04_LOD",
+      "category": "Litter",
+      "count": 44,
+      "avg_size_m": 1.41,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_group_06_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 42,
+      "avg_size_m": 0.92,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_group_06_LOD",
+      "category": "Rubble",
+      "count": 42,
+      "avg_size_m": 0.92,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "sack_construction_garbage_04_SHADOW_LOD",
+      "category": "Litter",
+      "count": 33,
+      "avg_size_m": 1.38,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "shotshell_grp",
+      "category": "Casings",
+      "count": 30,
+      "avg_size_m": 2.03,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "sack_construction_garbage_03_SHADOW_LOD",
+      "category": "Litter",
+      "count": 27,
+      "avg_size_m": 1.4,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Reserve_decal_footstep_C_LOD",
+      "category": "Decals",
+      "count": 25,
+      "avg_size_m": 3.85,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "sack_construction_garbage_01_LOD",
+      "category": "Litter",
+      "count": 24,
+      "avg_size_m": 1.45,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "sack_construction_garbage_01_SHADOW_LOD",
+      "category": "Litter",
+      "count": 24,
+      "avg_size_m": 1.42,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "goshan_garbage_05_LOD",
+      "category": "Litter",
+      "count": 22,
+      "avg_size_m": 0.97,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "goshan_garbage_05_SHADOW_LOD",
+      "category": "Litter",
+      "count": 22,
+      "avg_size_m": 0.93,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_group_08_LOD",
+      "category": "Rubble",
+      "count": 21,
+      "avg_size_m": 0.68,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_group_08_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 21,
+      "avg_size_m": 0.68,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_03_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 21,
+      "avg_size_m": 0.64,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_03_LOD",
+      "category": "Rubble",
+      "count": 21,
+      "avg_size_m": 0.64,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Reserve_decal_footstep_traces_A_LOD",
+      "category": "Decals",
+      "count": 16,
+      "avg_size_m": 5.42,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "sack_construction_garbage_03_LOD",
+      "category": "Litter",
+      "count": 16,
+      "avg_size_m": 1.6,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "decal_drip",
+      "category": "Decals",
+      "count": 14,
+      "avg_size_m": 4.65,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Ground_Decal_corner_inside_LOD",
+      "category": "Decals",
+      "count": 13,
+      "avg_size_m": 1.65,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "rifleshell_grp",
+      "category": "Casings",
+      "count": 12,
+      "avg_size_m": 1.88,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_group_03_LOD",
+      "category": "Rubble",
+      "count": 12,
+      "avg_size_m": 1.24,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_group_05_LOD",
+      "category": "Rubble",
+      "count": 12,
+      "avg_size_m": 0.74,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_group_01_LOD",
+      "category": "Rubble",
+      "count": 12,
+      "avg_size_m": 1.86,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_group_03_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 12,
+      "avg_size_m": 1.24,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_group_05_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 12,
+      "avg_size_m": 0.74,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_group_01_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 12,
+      "avg_size_m": 1.86,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "decal_paper",
+      "category": "Decals",
+      "count": 12,
+      "avg_size_m": 1.35,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Ground_decal_2_debris_2_LOD",
+      "category": "Decals",
+      "count": 10,
+      "avg_size_m": 2.51,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_group_02_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 9,
+      "avg_size_m": 1.38,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_group_04_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 9,
+      "avg_size_m": 1.77,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_group_02_LOD",
+      "category": "Rubble",
+      "count": 9,
+      "avg_size_m": 1.38,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_group_04_LOD",
+      "category": "Rubble",
+      "count": 9,
+      "avg_size_m": 1.77,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Ground_Decal_2_debris_LOD",
+      "category": "Decals",
+      "count": 7,
+      "avg_size_m": 3.69,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Reserve_decal_footstep_LOD",
+      "category": "Decals",
+      "count": 6,
+      "avg_size_m": 5.53,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Ground_Decal_2_LOD",
+      "category": "Decals",
+      "count": 6,
+      "avg_size_m": 2.67,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "TrashBag_3_Shadow_LOD",
+      "category": "Litter",
+      "count": 4,
+      "avg_size_m": 1.28,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "TrashBag_3_LOD",
+      "category": "Litter",
+      "count": 4,
+      "avg_size_m": 1.28,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "trash_pile_1x1_02_LOD",
+      "category": "Litter",
+      "count": 4,
+      "avg_size_m": 1.48,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "trash_pile_1x1_01_LOD",
+      "category": "Litter",
+      "count": 4,
+      "avg_size_m": 1.66,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "trash_pile_05x1_LOD",
+      "category": "Litter",
+      "count": 4,
+      "avg_size_m": 1.2,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Goshan_garbage_10_LOD",
+      "category": "Litter",
+      "count": 3,
+      "avg_size_m": 1.48,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Goshan_garbage_10_SHADOW_LOD",
+      "category": "Litter",
+      "count": 3,
+      "avg_size_m": 1.46,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_group_09_LOD",
+      "category": "Rubble",
+      "count": 3,
+      "avg_size_m": 0.59,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_group_09_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 3,
+      "avg_size_m": 0.59,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_group_10_LOD",
+      "category": "Rubble",
+      "count": 3,
+      "avg_size_m": 0.48,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_group_07_LOD",
+      "category": "Rubble",
+      "count": 3,
+      "avg_size_m": 0.76,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_group_10_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 3,
+      "avg_size_m": 0.48,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_group_07_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 3,
+      "avg_size_m": 0.76,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_09_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 3,
+      "avg_size_m": 0.79,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Sand_decal_07_C_LOD",
+      "category": "Decals",
+      "count": 3,
+      "avg_size_m": 2.6,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_06_LOD",
+      "category": "Rubble",
+      "count": 3,
+      "avg_size_m": 0.63,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_06_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 3,
+      "avg_size_m": 0.63,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "plaster_debris_09_LOD",
+      "category": "Rubble",
+      "count": 3,
+      "avg_size_m": 0.79,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "garbage_bag_LOD",
+      "category": "Litter",
+      "count": 3,
+      "avg_size_m": 0.86,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Reserve_decal_footstep_B_LOD",
+      "category": "Decals",
+      "count": 2,
+      "avg_size_m": 4.75,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "goshan_garbage5_LOD",
+      "category": "Litter",
+      "count": 2,
+      "avg_size_m": 0.76,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "TrashBag_4_Shadow_LOD",
+      "category": "Litter",
+      "count": 2,
+      "avg_size_m": 1.91,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "TrashBag_4_LOD",
+      "category": "Litter",
+      "count": 2,
+      "avg_size_m": 1.91,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "TrashBag_1_Shadow_LOD",
+      "category": "Litter",
+      "count": 2,
+      "avg_size_m": 1.92,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Pizza_6_LOD",
+      "category": "Food",
+      "count": 2,
+      "avg_size_m": 1.13,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "TrashBag_1_LOD",
+      "category": "Litter",
+      "count": 2,
+      "avg_size_m": 1.92,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "trash_pile_1x1_02_SHADOW_LOD",
+      "category": "Litter",
+      "count": 2,
+      "avg_size_m": 1.02,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "trash_pile_1x1_03_LOD",
+      "category": "Litter",
+      "count": 2,
+      "avg_size_m": 1.63,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "garbage_bag_SHADOW_LOD",
+      "category": "Litter",
+      "count": 2,
+      "avg_size_m": 0.87,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Goshan_garbage_03_SHADOW_LOD",
+      "category": "Litter",
+      "count": 1,
+      "avg_size_m": 2.34,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "decal_dirt",
+      "category": "Decals",
+      "count": 1,
+      "avg_size_m": 3.0,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "goshan_garbage5_Shadow_LOD",
+      "category": "Litter",
+      "count": 1,
+      "avg_size_m": 0.74,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "Pizza_8_LOD",
+      "category": "Food",
+      "count": 1,
+      "avg_size_m": 0.46,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "goshan_garbage3_Shadow_LOD",
+      "category": "Litter",
+      "count": 1,
+      "avg_size_m": 2.28,
+      "static": 0.0
+    },
+    {
+      "map": "factory4_day",
+      "name": "glass_crush01_LOD",
+      "category": "Glass",
+      "count": 1,
+      "avg_size_m": 1.3,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "garbage_bag_LOD",
+      "category": "Litter",
+      "count": 597,
+      "avg_size_m": 0.9,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "garbage_bag_SHADOW_LOD",
+      "category": "Litter",
+      "count": 398,
+      "avg_size_m": 0.9,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "goshan_decal3",
+      "category": "Decals",
+      "count": 364,
+      "avg_size_m": 3.55,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "goshan_garbage5_LOD",
+      "category": "Litter",
+      "count": 352,
+      "avg_size_m": 0.67,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "goshan_garbage10_LOD",
+      "category": "Litter",
+      "count": 216,
+      "avg_size_m": 1.48,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "goshan_garbage5_Shadow_LOD",
+      "category": "Litter",
+      "count": 176,
+      "avg_size_m": 0.66,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "goshan_garbage9_LOD",
+      "category": "Litter",
+      "count": 174,
+      "avg_size_m": 1.54,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "decal_drip",
+      "category": "Decals",
+      "count": 161,
+      "avg_size_m": 4.44,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "goshan_garbage3_Shadow_LOD",
+      "category": "Litter",
+      "count": 152,
+      "avg_size_m": 2.37,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "decal_dirt",
+      "category": "Decals",
+      "count": 127,
+      "avg_size_m": 3.22,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "goshan_garbage4_Shadow_LOD",
+      "category": "Litter",
+      "count": 124,
+      "avg_size_m": 2.21,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "goshan_garbage10_Shadow_LOD",
+      "category": "Litter",
+      "count": 108,
+      "avg_size_m": 1.48,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "goshan_garbage9_Shadow_LOD",
+      "category": "Litter",
+      "count": 87,
+      "avg_size_m": 1.53,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "Pizza_5_LOD",
+      "category": "Food",
+      "count": 28,
+      "avg_size_m": 0.78,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "goshan_decal2",
+      "category": "Decals",
+      "count": 25,
+      "avg_size_m": 2.98,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "glass_crush01_LOD",
+      "category": "Glass",
+      "count": 24,
+      "avg_size_m": 2.64,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "Pizza_1_LOD",
+      "category": "Food",
+      "count": 22,
+      "avg_size_m": 0.9,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "TrashBag_4_LOD",
+      "category": "Litter",
+      "count": 12,
+      "avg_size_m": 1.49,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "Pizza_4_LOD",
+      "category": "Food",
+      "count": 12,
+      "avg_size_m": 0.81,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "Pizza_1_Shadow_LOD",
+      "category": "Food",
+      "count": 11,
+      "avg_size_m": 0.9,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "TrashBag_4_SHADOW_LOD",
+      "category": "Litter",
+      "count": 9,
+      "avg_size_m": 1.49,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "TrashBag_3_LOD",
+      "category": "Litter",
+      "count": 8,
+      "avg_size_m": 1.05,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "TrashBag_2_LOD",
+      "category": "Litter",
+      "count": 8,
+      "avg_size_m": 1.76,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "Pizza_7_LOD",
+      "category": "Food",
+      "count": 8,
+      "avg_size_m": 0.82,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "shotshell_grp",
+      "category": "Casings",
+      "count": 6,
+      "avg_size_m": 1.99,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "TrashBag_3_SHADOW_LOD",
+      "category": "Litter",
+      "count": 6,
+      "avg_size_m": 1.05,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "TrashBag_2_SHADOW_LOD",
+      "category": "Litter",
+      "count": 6,
+      "avg_size_m": 1.76,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "Pizza_3_LOD",
+      "category": "Food",
+      "count": 6,
+      "avg_size_m": 0.83,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "TrashBag_1_Shadow_LOD",
+      "category": "Litter",
+      "count": 3,
+      "avg_size_m": 1.64,
+      "static": 0.0
+    },
+    {
+      "map": "Interchange",
+      "name": "TrashBag_1_LOD",
+      "category": "Litter",
+      "count": 3,
+      "avg_size_m": 1.64,
+      "static": 0.0
+    },
+    {
+      "map": "laboratory",
+      "name": "decal_drip",
+      "category": "Decals",
+      "count": 712,
+      "avg_size_m": 3.62,
+      "static": 0.0
+    },
+    {
+      "map": "laboratory",
+      "name": "decal_dirt",
+      "category": "Decals",
+      "count": 58,
+      "avg_size_m": 3.05,
+      "static": 0.0
+    },
+    {
+      "map": "laboratory",
+      "name": "Garbage_bag_LOD",
+      "category": "Litter",
+      "count": 57,
+      "avg_size_m": 0.81,
+      "static": 0.0
+    },
+    {
+      "map": "laboratory",
+      "name": "Garbage_bag_SHADOW_LOD",
+      "category": "Litter",
+      "count": 57,
+      "avg_size_m": 0.81,
+      "static": 0.0
+    },
+    {
+      "map": "laboratory",
+      "name": "Goshan_garbage_10_LOD",
+      "category": "Litter",
+      "count": 43,
+      "avg_size_m": 1.44,
+      "static": 0.0
+    },
+    {
+      "map": "laboratory",
+      "name": "Goshan_garbage_10_SHADOW_LOD",
+      "category": "Litter",
+      "count": 43,
+      "avg_size_m": 1.43,
+      "static": 0.0
+    },
+    {
+      "map": "laboratory",
+      "name": "goshan_garbage_05_LOD",
+      "category": "Litter",
+      "count": 36,
+      "avg_size_m": 0.75,
+      "static": 0.0
+    },
+    {
+      "map": "laboratory",
+      "name": "goshan_garbage_05_SHADOW_LOD",
+      "category": "Litter",
+      "count": 36,
+      "avg_size_m": 0.72,
+      "static": 0.0
+    },
+    {
+      "map": "laboratory",
+      "name": "Goshan_garbage_04_LOD",
+      "category": "Litter",
+      "count": 20,
+      "avg_size_m": 2.45,
+      "static": 0.0
+    },
+    {
+      "map": "laboratory",
+      "name": "Goshan_garbage_04_SHADOW_LOD",
+      "category": "Litter",
+      "count": 20,
+      "avg_size_m": 2.45,
+      "static": 0.0
+    },
+    {
+      "map": "laboratory",
+      "name": "Goshan_garbage_03_SHADOW_LOD",
+      "category": "Litter",
+      "count": 9,
+      "avg_size_m": 2.08,
+      "static": 0.0
+    },
+    {
+      "map": "laboratory",
+      "name": "TrashBag_4_Shadow_LOD",
+      "category": "Litter",
+      "count": 8,
+      "avg_size_m": 1.68,
+      "static": 0.0
+    },
+    {
+      "map": "laboratory",
+      "name": "TrashBag_4_LOD",
+      "category": "Litter",
+      "count": 8,
+      "avg_size_m": 1.68,
+      "static": 0.0
+    },
+    {
+      "map": "laboratory",
+      "name": "TrashBag_2_Shadow_LOD",
+      "category": "Litter",
+      "count": 6,
+      "avg_size_m": 1.81,
+      "static": 0.0
+    },
+    {
+      "map": "laboratory",
+      "name": "TrashBag_2_LOD",
+      "category": "Litter",
+      "count": 6,
+      "avg_size_m": 1.81,
+      "static": 0.0
+    },
+    {
+      "map": "laboratory",
+      "name": "TrashBag_1_Shadow_LOD",
+      "category": "Litter",
+      "count": 5,
+      "avg_size_m": 1.78,
+      "static": 0.0
+    },
+    {
+      "map": "laboratory",
+      "name": "TrashBag_1_LOD",
+      "category": "Litter",
+      "count": 5,
+      "avg_size_m": 1.78,
+      "static": 0.0
+    },
+    {
+      "map": "laboratory",
+      "name": "puddle_oil",
+      "category": "Puddles",
+      "count": 4,
+      "avg_size_m": 3.55,
+      "static": 0.0
+    },
+    {
+      "map": "laboratory",
+      "name": "TrashBag_3_Shadow_LOD",
+      "category": "Litter",
+      "count": 4,
+      "avg_size_m": 1.28,
+      "static": 0.0
+    },
+    {
+      "map": "laboratory",
+      "name": "TrashBag_3_LOD",
+      "category": "Litter",
+      "count": 4,
+      "avg_size_m": 1.28,
+      "static": 0.0
+    },
+    {
+      "map": "laboratory",
+      "name": "shards_glass",
+      "category": "Glass",
+      "count": 1,
+      "avg_size_m": 3.08,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Glass_Shards_02_LOD",
+      "category": "Glass",
+      "count": 126,
+      "avg_size_m": 2.88,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "sack_construction_garbage_01_LOD",
+      "category": "Litter",
+      "count": 100,
+      "avg_size_m": 1.54,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "sack_construction_garbage_01_SHADOW_LOD",
+      "category": "Litter",
+      "count": 100,
+      "avg_size_m": 1.51,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "garbage_bag_LOD",
+      "category": "Litter",
+      "count": 93,
+      "avg_size_m": 0.88,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Glass_shards_01_LOD",
+      "category": "Glass",
+      "count": 76,
+      "avg_size_m": 2.65,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Glass_shards_01_Base_LOD",
+      "category": "Glass",
+      "count": 76,
+      "avg_size_m": 2.14,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "sack_construction_garbage_02_SHADOW_LOD",
+      "category": "Litter",
+      "count": 64,
+      "avg_size_m": 1.3,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "sack_construction_garbage_02_LOD",
+      "category": "Litter",
+      "count": 64,
+      "avg_size_m": 1.35,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "garbage_bag_SHADOW_LOD",
+      "category": "Litter",
+      "count": 62,
+      "avg_size_m": 0.88,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "goshan_garbage_05_LOD",
+      "category": "Litter",
+      "count": 60,
+      "avg_size_m": 0.77,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "goshan_garbage_05_SHADOW_LOD",
+      "category": "Litter",
+      "count": 60,
+      "avg_size_m": 0.74,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Reserve_decal_footstep_B_LOD",
+      "category": "Decals",
+      "count": 58,
+      "avg_size_m": 5.12,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "sack_construction_garbage_03_SHADOW_LOD",
+      "category": "Litter",
+      "count": 53,
+      "avg_size_m": 1.42,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "TrashBag_1_LOD",
+      "category": "Litter",
+      "count": 52,
+      "avg_size_m": 1.55,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "TrashBag_2_LOD",
+      "category": "Litter",
+      "count": 48,
+      "avg_size_m": 1.84,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Glass_Shards_04_LOD",
+      "category": "Glass",
+      "count": 45,
+      "avg_size_m": 1.69,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "sack_construction_garbage_03_LOD",
+      "category": "Litter",
+      "count": 44,
+      "avg_size_m": 1.53,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Goshan_garbage_10_LOD",
+      "category": "Litter",
+      "count": 42,
+      "avg_size_m": 1.47,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Goshan_garbage_10_SHADOW_LOD",
+      "category": "Litter",
+      "count": 42,
+      "avg_size_m": 1.46,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "TrashBag_1_SHADOW_LOD",
+      "category": "Litter",
+      "count": 39,
+      "avg_size_m": 1.54,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "trash_pile_1x1_01_LOD",
+      "category": "Litter",
+      "count": 38,
+      "avg_size_m": 1.59,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Goshan_garbage_03_SHADOW_LOD",
+      "category": "Litter",
+      "count": 38,
+      "avg_size_m": 2.15,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Ground_decal_2_debris_2_LOD",
+      "category": "Decals",
+      "count": 37,
+      "avg_size_m": 2.97,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "sack_construction_garbage_04_LOD",
+      "category": "Litter",
+      "count": 36,
+      "avg_size_m": 1.42,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Pizza_7_LOD",
+      "category": "Food",
+      "count": 36,
+      "avg_size_m": 0.86,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "TrashBag_2_SHADOW_LOD",
+      "category": "Litter",
+      "count": 36,
+      "avg_size_m": 1.84,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "TrashBag_4_LOD",
+      "category": "Litter",
+      "count": 36,
+      "avg_size_m": 1.51,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "trash_pile_1x1_04_LOD",
+      "category": "Litter",
+      "count": 34,
+      "avg_size_m": 1.55,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Glass_Shards_03_LOD",
+      "category": "Glass",
+      "count": 33,
+      "avg_size_m": 2.41,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Package_garbage_set_01_SHADOW_LOD",
+      "category": "Litter",
+      "count": 29,
+      "avg_size_m": 1.32,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Package_garbage_set_01_LOD",
+      "category": "Litter",
+      "count": 29,
+      "avg_size_m": 1.32,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Goshan_garbage_04_LOD",
+      "category": "Litter",
+      "count": 29,
+      "avg_size_m": 2.48,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Goshan_garbage_04_SHADOW_LOD",
+      "category": "Litter",
+      "count": 29,
+      "avg_size_m": 2.48,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Ground_Decal_2_debris_LOD",
+      "category": "Decals",
+      "count": 28,
+      "avg_size_m": 2.63,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "goshan_decal2",
+      "category": "Decals",
+      "count": 28,
+      "avg_size_m": 3.18,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "sack_construction_garbage_04_SHADOW_LOD",
+      "category": "Litter",
+      "count": 27,
+      "avg_size_m": 1.39,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "TrashBag_4_SHADOW_LOD",
+      "category": "Litter",
+      "count": 27,
+      "avg_size_m": 1.52,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "City_Food_trash_pile_decal_LOD",
+      "category": "Decals",
+      "count": 25,
+      "avg_size_m": 3.07,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "TrashBag_3_LOD",
+      "category": "Litter",
+      "count": 20,
+      "avg_size_m": 1.17,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Dust_decal_trim_LOD",
+      "category": "Decals",
+      "count": 17,
+      "avg_size_m": 3.07,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "trash_pile_05x1_LOD",
+      "category": "Litter",
+      "count": 16,
+      "avg_size_m": 0.92,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Pizza_5_LOD",
+      "category": "Food",
+      "count": 16,
+      "avg_size_m": 0.89,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "shotshell_grp",
+      "category": "Casings",
+      "count": 16,
+      "avg_size_m": 2.2,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Package_garbage_set_02_LOD",
+      "category": "Litter",
+      "count": 15,
+      "avg_size_m": 1.13,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Package_garbage_set_02_SHADOW_LOD",
+      "category": "Litter",
+      "count": 15,
+      "avg_size_m": 1.12,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Ground_Decal_2_LOD",
+      "category": "Decals",
+      "count": 15,
+      "avg_size_m": 2.61,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "TrashBag_3_SHADOW_LOD",
+      "category": "Litter",
+      "count": 15,
+      "avg_size_m": 1.17,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Glass_Shards_04_Base_LOD",
+      "category": "Glass",
+      "count": 15,
+      "avg_size_m": 1.97,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Dust_decal_trim_2_LOD",
+      "category": "Decals",
+      "count": 15,
+      "avg_size_m": 3.64,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "puddle_oil",
+      "category": "Puddles",
+      "count": 14,
+      "avg_size_m": 5.1,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "trash_pile_05x1_02_LOD",
+      "category": "Litter",
+      "count": 14,
+      "avg_size_m": 1.25,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Reserve_decal_footstep_C_LOD",
+      "category": "Decals",
+      "count": 12,
+      "avg_size_m": 4.74,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "trash_pile_1x1_02_LOD",
+      "category": "Litter",
+      "count": 12,
+      "avg_size_m": 1.46,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Glass_Shards_03_Base_LOD",
+      "category": "Glass",
+      "count": 11,
+      "avg_size_m": 1.95,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "decal_dirt",
+      "category": "Decals",
+      "count": 10,
+      "avg_size_m": 4.86,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Ground_Decal_trim2_LOD",
+      "category": "Decals",
+      "count": 9,
+      "avg_size_m": 3.26,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Pizza_8_LOD",
+      "category": "Food",
+      "count": 7,
+      "avg_size_m": 0.41,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "trash_pile_1x1_02_SHADOW_LOD",
+      "category": "Litter",
+      "count": 6,
+      "avg_size_m": 1.03,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "trash_pile_1x1_03_LOD",
+      "category": "Litter",
+      "count": 6,
+      "avg_size_m": 1.43,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Ground_Decal_corner_outside_LOD",
+      "category": "Decals",
+      "count": 5,
+      "avg_size_m": 1.52,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Pizza_3_LOD",
+      "category": "Food",
+      "count": 4,
+      "avg_size_m": 0.71,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "decal_paper",
+      "category": "Decals",
+      "count": 4,
+      "avg_size_m": 1.65,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Pizza_4_LOD",
+      "category": "Food",
+      "count": 4,
+      "avg_size_m": 0.65,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Pizza_1_LOD",
+      "category": "Food",
+      "count": 4,
+      "avg_size_m": 1.0,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Ground_Decal_2_leaves_corner_outside_LOD",
+      "category": "Decals",
+      "count": 2,
+      "avg_size_m": 1.75,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Pizza_1_Shadow_LOD",
+      "category": "Food",
+      "count": 2,
+      "avg_size_m": 1.0,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Pizza_9_LOD",
+      "category": "Food",
+      "count": 1,
+      "avg_size_m": 0.56,
+      "static": 0.0
+    },
+    {
+      "map": "Lighthouse",
+      "name": "Ground_Decal_2_leaves_corner_inside_LOD",
+      "category": "Decals",
+      "count": 1,
+      "avg_size_m": 1.82,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "decal_dirt",
+      "category": "Decals",
+      "count": 157,
+      "avg_size_m": 4.86,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "Dust_decal_trim_LOD",
+      "category": "Decals",
+      "count": 116,
+      "avg_size_m": 5.05,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "Ground_Decal_trim2_LOD",
+      "category": "Decals",
+      "count": 85,
+      "avg_size_m": 3.65,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "Goshan_garbage_10_LOD",
+      "category": "Litter",
+      "count": 81,
+      "avg_size_m": 1.49,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "Goshan_garbage_10_SHADOW_LOD",
+      "category": "Litter",
+      "count": 81,
+      "avg_size_m": 1.48,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "Goshan_garbage_03_SHADOW_LOD",
+      "category": "Litter",
+      "count": 77,
+      "avg_size_m": 2.22,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "glass_crush01_LOD",
+      "category": "Glass",
+      "count": 77,
+      "avg_size_m": 1.45,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "puddle_oil",
+      "category": "Puddles",
+      "count": 43,
+      "avg_size_m": 5.28,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "Garbage_bag_LOD",
+      "category": "Litter",
+      "count": 42,
+      "avg_size_m": 0.88,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "Garbage_bag_SHADOW_LOD",
+      "category": "Litter",
+      "count": 42,
+      "avg_size_m": 0.88,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "Reserve_decal_footstep_C_LOD",
+      "category": "Decals",
+      "count": 36,
+      "avg_size_m": 5.24,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "Ground_Decal_2_LOD",
+      "category": "Decals",
+      "count": 35,
+      "avg_size_m": 2.94,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "Reserve_decal_footstep_B_LOD",
+      "category": "Decals",
+      "count": 34,
+      "avg_size_m": 5.07,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "goshan_garbage_05_LOD",
+      "category": "Litter",
+      "count": 31,
+      "avg_size_m": 0.8,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "goshan_garbage_05_SHADOW_LOD",
+      "category": "Litter",
+      "count": 31,
+      "avg_size_m": 0.76,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "Ground_Decal_corner_outside_LOD",
+      "category": "Decals",
+      "count": 25,
+      "avg_size_m": 2.39,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "TrashBag_3_LOD",
+      "category": "Litter",
+      "count": 24,
+      "avg_size_m": 1.27,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "Ground_Decal_2_debris_LOD",
+      "category": "Decals",
+      "count": 20,
+      "avg_size_m": 2.71,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "TrashBag_3_SHADOW_LOD",
+      "category": "Litter",
+      "count": 18,
+      "avg_size_m": 1.26,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "shotshell_grp",
+      "category": "Casings",
+      "count": 14,
+      "avg_size_m": 2.21,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "TrashBag_2_LOD",
+      "category": "Litter",
+      "count": 12,
+      "avg_size_m": 1.75,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "Ground_Decal_corner_inside_LOD",
+      "category": "Decals",
+      "count": 10,
+      "avg_size_m": 2.14,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "TrashBag_2_SHADOW_LOD",
+      "category": "Litter",
+      "count": 9,
+      "avg_size_m": 1.75,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "TrashBag_4_LOD",
+      "category": "Litter",
+      "count": 8,
+      "avg_size_m": 1.33,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "shards_glass",
+      "category": "Glass",
+      "count": 6,
+      "avg_size_m": 2.7,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "TrashBag_4_SHADOW_LOD",
+      "category": "Litter",
+      "count": 6,
+      "avg_size_m": 1.33,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "Ground_decal_2_debris_2_LOD",
+      "category": "Decals",
+      "count": 5,
+      "avg_size_m": 2.51,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "Package_garbage_set_02_LOD",
+      "category": "Litter",
+      "count": 5,
+      "avg_size_m": 1.18,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "Package_garbage_set_02_SHADOW_LOD",
+      "category": "Litter",
+      "count": 5,
+      "avg_size_m": 1.18,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "TrashBag_1_Shadow_LOD",
+      "category": "Litter",
+      "count": 4,
+      "avg_size_m": 1.36,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "TrashBag_1_LOD",
+      "category": "Litter",
+      "count": 4,
+      "avg_size_m": 1.36,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "Package_garbage_set_01_SHADOW_LOD",
+      "category": "Litter",
+      "count": 2,
+      "avg_size_m": 1.15,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "Package_garbage_set_01_LOD",
+      "category": "Litter",
+      "count": 2,
+      "avg_size_m": 1.15,
+      "static": 0.0
+    },
+    {
+      "map": "RezervBase",
+      "name": "Ground_Decal_2_leaves_corner_inside_LOD",
+      "category": "Decals",
+      "count": 2,
+      "avg_size_m": 2.3,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "plaster_debris_06_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 213,
+      "avg_size_m": 0.95,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "plaster_debris_06_LOD",
+      "category": "Rubble",
+      "count": 213,
+      "avg_size_m": 0.95,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "TrashBag_1_LOD",
+      "category": "Litter",
+      "count": 189,
+      "avg_size_m": 1.75,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "TrashBag_1_SHADOW_LOD",
+      "category": "Litter",
+      "count": 141,
+      "avg_size_m": 1.74,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Glass_Shards_02_LOD",
+      "category": "Glass",
+      "count": 141,
+      "avg_size_m": 2.43,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "plaster_debris_07_LOD",
+      "category": "Rubble",
+      "count": 129,
+      "avg_size_m": 1.22,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "plaster_debris_07_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 129,
+      "avg_size_m": 1.22,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "TrashBag_4_LOD",
+      "category": "Litter",
+      "count": 121,
+      "avg_size_m": 1.67,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Glass_Shards_04_LOD",
+      "category": "Glass",
+      "count": 114,
+      "avg_size_m": 3.36,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Ground_decal_2_debris_2_LOD",
+      "category": "Decals",
+      "count": 110,
+      "avg_size_m": 2.49,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Ground_Decal_2_debris_LOD",
+      "category": "Decals",
+      "count": 99,
+      "avg_size_m": 2.83,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "TrashBag_2_LOD",
+      "category": "Litter",
+      "count": 96,
+      "avg_size_m": 1.82,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Glass_shards_01_Base_LOD",
+      "category": "Glass",
+      "count": 92,
+      "avg_size_m": 3.04,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "TrashBag_3_LOD",
+      "category": "Litter",
+      "count": 91,
+      "avg_size_m": 1.25,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "City_Food_trash_pile_decal_LOD",
+      "category": "Decals",
+      "count": 90,
+      "avg_size_m": 3.58,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "TrashBag_4_SHADOW_LOD",
+      "category": "Litter",
+      "count": 90,
+      "avg_size_m": 1.67,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "plaster_debris_group_06_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 78,
+      "avg_size_m": 2.41,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "plaster_debris_group_06_LOD",
+      "category": "Rubble",
+      "count": 78,
+      "avg_size_m": 2.41,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Reserve_decal_footstep_B_LOD",
+      "category": "Decals",
+      "count": 75,
+      "avg_size_m": 4.38,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "glass_crush01_LOD",
+      "category": "Glass",
+      "count": 71,
+      "avg_size_m": 2.1,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "TrashBag_3_SHADOW_LOD",
+      "category": "Litter",
+      "count": 69,
+      "avg_size_m": 1.25,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Reserve_decal_footstep_C_LOD",
+      "category": "Decals",
+      "count": 64,
+      "avg_size_m": 4.5,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "TrashBag_2_SHADOW_LOD",
+      "category": "Litter",
+      "count": 63,
+      "avg_size_m": 1.84,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "decal_drip",
+      "category": "Decals",
+      "count": 63,
+      "avg_size_m": 3.56,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "goshan_garbage_05_LOD",
+      "category": "Litter",
+      "count": 60,
+      "avg_size_m": 0.8,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "goshan_garbage_05_SHADOW_LOD",
+      "category": "Litter",
+      "count": 60,
+      "avg_size_m": 0.76,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "garbage_bag_LOD",
+      "category": "Litter",
+      "count": 54,
+      "avg_size_m": 0.84,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "trash_pile_1x1_01_LOD",
+      "category": "Litter",
+      "count": 50,
+      "avg_size_m": 1.56,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Glass_Shards_02_Base_LOD",
+      "category": "Glass",
+      "count": 47,
+      "avg_size_m": 3.03,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Goshan_garbage_10_LOD",
+      "category": "Litter",
+      "count": 42,
+      "avg_size_m": 1.58,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Goshan_garbage_10_SHADOW_LOD",
+      "category": "Litter",
+      "count": 42,
+      "avg_size_m": 1.57,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "sack_construction_garbage_01_LOD",
+      "category": "Litter",
+      "count": 40,
+      "avg_size_m": 1.66,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "sack_construction_garbage_01_SHADOW_LOD",
+      "category": "Litter",
+      "count": 40,
+      "avg_size_m": 1.63,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "trash_pile_1x1_03_LOD",
+      "category": "Litter",
+      "count": 40,
+      "avg_size_m": 1.8,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Puddle_atlas_01_LOD",
+      "category": "Puddles",
+      "count": 37,
+      "avg_size_m": 4.46,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "sack_construction_garbage_04_LOD",
+      "category": "Litter",
+      "count": 36,
+      "avg_size_m": 1.25,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "plaster_debris_group_01_LOD",
+      "category": "Rubble",
+      "count": 36,
+      "avg_size_m": 2.21,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "plaster_debris_group_01_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 36,
+      "avg_size_m": 2.21,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "garbage_bag_SHADOW_LOD",
+      "category": "Litter",
+      "count": 36,
+      "avg_size_m": 0.85,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Goshan_garbage_03_SHADOW_LOD",
+      "category": "Litter",
+      "count": 29,
+      "avg_size_m": 2.04,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "sack_construction_garbage_03_SHADOW_LOD",
+      "category": "Litter",
+      "count": 29,
+      "avg_size_m": 1.32,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "sack_construction_garbage_02_SHADOW_LOD",
+      "category": "Litter",
+      "count": 28,
+      "avg_size_m": 1.27,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "sack_construction_garbage_02_LOD",
+      "category": "Litter",
+      "count": 28,
+      "avg_size_m": 1.31,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Package_garbage_set_01_SHADOW_LOD",
+      "category": "Litter",
+      "count": 28,
+      "avg_size_m": 1.34,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Package_garbage_set_01_LOD",
+      "category": "Litter",
+      "count": 28,
+      "avg_size_m": 1.34,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "sack_construction_garbage_04_SHADOW_LOD",
+      "category": "Litter",
+      "count": 27,
+      "avg_size_m": 1.22,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "shotshell_grp",
+      "category": "Casings",
+      "count": 27,
+      "avg_size_m": 1.99,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "sack_construction_garbage_03_LOD",
+      "category": "Litter",
+      "count": 20,
+      "avg_size_m": 1.49,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "puddle_oil",
+      "category": "Puddles",
+      "count": 19,
+      "avg_size_m": 3.67,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Pizza_7_LOD",
+      "category": "Food",
+      "count": 18,
+      "avg_size_m": 0.86,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "trash_pile_05x1_LOD",
+      "category": "Litter",
+      "count": 18,
+      "avg_size_m": 0.95,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Sand_decal_06_C_LOD",
+      "category": "Decals",
+      "count": 18,
+      "avg_size_m": 1.41,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "trash_pile_1x1_04_LOD",
+      "category": "Litter",
+      "count": 17,
+      "avg_size_m": 1.56,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Puddle_atlas_03_LOD",
+      "category": "Puddles",
+      "count": 13,
+      "avg_size_m": 3.77,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Puddle_atlas_02_LOD",
+      "category": "Puddles",
+      "count": 13,
+      "avg_size_m": 3.91,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "TrashBag_2_Shadow_LOD",
+      "category": "Litter",
+      "count": 12,
+      "avg_size_m": 1.67,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Glass_Shards_03_LOD",
+      "category": "Glass",
+      "count": 12,
+      "avg_size_m": 3.37,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Ground_Decal_2_LOD",
+      "category": "Decals",
+      "count": 12,
+      "avg_size_m": 2.57,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "decal_dirt",
+      "category": "Decals",
+      "count": 10,
+      "avg_size_m": 4.22,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Dust_decal_trim_2_LOD",
+      "category": "Decals",
+      "count": 10,
+      "avg_size_m": 2.89,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Debris_Concrete_01_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 10,
+      "avg_size_m": 2.68,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "plaster_debris_01_LOD",
+      "category": "Rubble",
+      "count": 9,
+      "avg_size_m": 0.4,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "plaster_debris_01_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 9,
+      "avg_size_m": 0.4,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Package_garbage_set_02_LOD",
+      "category": "Litter",
+      "count": 9,
+      "avg_size_m": 1.18,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Package_garbage_set_02_SHADOW_LOD",
+      "category": "Litter",
+      "count": 9,
+      "avg_size_m": 1.17,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "plaster_debris_group_08_LOD",
+      "category": "Rubble",
+      "count": 9,
+      "avg_size_m": 1.16,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "plaster_debris_group_08_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 9,
+      "avg_size_m": 1.16,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Garbage_bags_01_LOD",
+      "category": "Litter",
+      "count": 8,
+      "avg_size_m": 1.43,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "vegetables_cucumber_01_LOD",
+      "category": "Food",
+      "count": 8,
+      "avg_size_m": 0.18,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "vegetables_tomato_01_LOD",
+      "category": "Food",
+      "count": 8,
+      "avg_size_m": 0.13,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "vegetables_tomatoes_01_LOD",
+      "category": "Food",
+      "count": 8,
+      "avg_size_m": 0.62,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "goshan_decal3",
+      "category": "Decals",
+      "count": 7,
+      "avg_size_m": 3.51,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Pizza_5_LOD",
+      "category": "Food",
+      "count": 6,
+      "avg_size_m": 0.82,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Pizza_6_LOD",
+      "category": "Food",
+      "count": 6,
+      "avg_size_m": 1.17,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "trash_pile_05x1_02_LOD",
+      "category": "Litter",
+      "count": 6,
+      "avg_size_m": 1.26,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "plaster_debris_group_07_LOD",
+      "category": "Rubble",
+      "count": 6,
+      "avg_size_m": 1.24,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "plaster_debris_group_07_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 6,
+      "avg_size_m": 1.24,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Dust_decal_trim_LOD",
+      "category": "Decals",
+      "count": 5,
+      "avg_size_m": 4.81,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "goshan_decal2",
+      "category": "Decals",
+      "count": 5,
+      "avg_size_m": 2.98,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Ground_Decal_trim2_LOD",
+      "category": "Decals",
+      "count": 4,
+      "avg_size_m": 3.69,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Glass_Shards_03_Base_LOD",
+      "category": "Glass",
+      "count": 4,
+      "avg_size_m": 2.6,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "trash_pile_1x1_02_LOD",
+      "category": "Litter",
+      "count": 4,
+      "avg_size_m": 1.47,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "vegetables_cucumber_01_SHADOW_LOD",
+      "category": "Food",
+      "count": 4,
+      "avg_size_m": 0.18,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "vegetables_tomato_01_SHADOW_LOD",
+      "category": "Food",
+      "count": 4,
+      "avg_size_m": 0.13,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "plaster_debris_05_LOD",
+      "category": "Rubble",
+      "count": 3,
+      "avg_size_m": 0.26,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "plaster_debris_05_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 3,
+      "avg_size_m": 0.26,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "plaster_debris_02_LOD",
+      "category": "Rubble",
+      "count": 3,
+      "avg_size_m": 0.5,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "plaster_debris_02_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 3,
+      "avg_size_m": 0.5,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "trash_pile_1x1_02_SHADOW_LOD",
+      "category": "Litter",
+      "count": 3,
+      "avg_size_m": 1.04,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "plaster_debris_10_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 3,
+      "avg_size_m": 1.17,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "plaster_debris_10_LOD",
+      "category": "Rubble",
+      "count": 3,
+      "avg_size_m": 1.17,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Pizza_8_LOD",
+      "category": "Food",
+      "count": 2,
+      "avg_size_m": 0.47,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "plaster_debris_decal_big_004_LOD",
+      "category": "Decals",
+      "count": 2,
+      "avg_size_m": 1.18,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Sand_decal_05_C_LOD",
+      "category": "Decals",
+      "count": 2,
+      "avg_size_m": 1.38,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Pizza_1_LOD",
+      "category": "Food",
+      "count": 2,
+      "avg_size_m": 1.05,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Garbage_bags_04_LOD",
+      "category": "Litter",
+      "count": 2,
+      "avg_size_m": 1.86,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "vegetables_tomatoes_01_SHADOW_LOD",
+      "category": "Food",
+      "count": 2,
+      "avg_size_m": 0.61,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "TrashBag_1_Shadow_LOD",
+      "category": "Litter",
+      "count": 1,
+      "avg_size_m": 1.15,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "TrashBag_4_Shadow_LOD",
+      "category": "Litter",
+      "count": 1,
+      "avg_size_m": 1.74,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Pizza_1_Shadow_LOD",
+      "category": "Food",
+      "count": 1,
+      "avg_size_m": 1.05,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "Ground_Decal_2_leaves_corner_outside_LOD",
+      "category": "Decals",
+      "count": 1,
+      "avg_size_m": 1.91,
+      "static": 0.0
+    },
+    {
+      "map": "Sandbox",
+      "name": "decal_paper",
+      "category": "Decals",
+      "count": 1,
+      "avg_size_m": 0.55,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "garbage_bag_LOD",
+      "category": "Litter",
+      "count": 111,
+      "avg_size_m": 0.91,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "TrashBag_3_LOD",
+      "category": "Litter",
+      "count": 88,
+      "avg_size_m": 1.22,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "garbage_bag_SHADOW_LOD",
+      "category": "Litter",
+      "count": 74,
+      "avg_size_m": 0.91,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "TrashBag_3_SHADOW_LOD",
+      "category": "Litter",
+      "count": 66,
+      "avg_size_m": 1.21,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "TrashBag_2_LOD",
+      "category": "Litter",
+      "count": 44,
+      "avg_size_m": 1.54,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "TrashBag_1_LOD",
+      "category": "Litter",
+      "count": 35,
+      "avg_size_m": 1.45,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "TrashBag_2_SHADOW_LOD",
+      "category": "Litter",
+      "count": 33,
+      "avg_size_m": 1.53,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "TrashBag_1_Shadow_LOD",
+      "category": "Litter",
+      "count": 31,
+      "avg_size_m": 1.47,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "TrashBag_4_LOD",
+      "category": "Litter",
+      "count": 28,
+      "avg_size_m": 1.86,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "TrashBag_4_SHADOW_LOD",
+      "category": "Litter",
+      "count": 21,
+      "avg_size_m": 1.86,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "shotshell_grp",
+      "category": "Casings",
+      "count": 20,
+      "avg_size_m": 1.95,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "goshan_garbage_05_LOD",
+      "category": "Litter",
+      "count": 8,
+      "avg_size_m": 0.74,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "goshan_garbage_05_SHADOW_LOD",
+      "category": "Litter",
+      "count": 8,
+      "avg_size_m": 0.7,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "shards_glass",
+      "category": "Glass",
+      "count": 8,
+      "avg_size_m": 3.1,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "Reserve_decal_footstep_B_LOD",
+      "category": "Decals",
+      "count": 8,
+      "avg_size_m": 5.23,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "decal_dirt",
+      "category": "Decals",
+      "count": 5,
+      "avg_size_m": 5.0,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "Ground_decal_2_debris_2_LOD",
+      "category": "Decals",
+      "count": 5,
+      "avg_size_m": 3.62,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "Package_garbage_set_02_LOD",
+      "category": "Litter",
+      "count": 5,
+      "avg_size_m": 1.03,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "Package_garbage_set_02_SHADOW_LOD",
+      "category": "Litter",
+      "count": 5,
+      "avg_size_m": 1.03,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "City_Food_trash_pile_decal_LOD",
+      "category": "Decals",
+      "count": 5,
+      "avg_size_m": 2.96,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "trash_pile_1x1_01_LOD",
+      "category": "Litter",
+      "count": 4,
+      "avg_size_m": 1.66,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "TrashBag_1_SHADOW_LOD",
+      "category": "Litter",
+      "count": 3,
+      "avg_size_m": 1.31,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "Ground_Decal_2_debris_LOD",
+      "category": "Decals",
+      "count": 3,
+      "avg_size_m": 3.35,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "decal_paper",
+      "category": "Decals",
+      "count": 2,
+      "avg_size_m": 2.36,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "trash_pile_1x1_04_LOD",
+      "category": "Litter",
+      "count": 2,
+      "avg_size_m": 1.89,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "trash_pile_05x1_LOD",
+      "category": "Litter",
+      "count": 2,
+      "avg_size_m": 1.22,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "Puddle_atlas_01_LOD",
+      "category": "Puddles",
+      "count": 1,
+      "avg_size_m": 5.88,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "Goshan_garbage_03_SHADOW_LOD",
+      "category": "Litter",
+      "count": 1,
+      "avg_size_m": 2.32,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "glass_crush01_LOD",
+      "category": "Glass",
+      "count": 1,
+      "avg_size_m": 1.69,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "Garbage_bag_LOD",
+      "category": "Litter",
+      "count": 1,
+      "avg_size_m": 0.79,
+      "static": 0.0
+    },
+    {
+      "map": "Shoreline",
+      "name": "Garbage_bag_SHADOW_LOD",
+      "category": "Litter",
+      "count": 1,
+      "avg_size_m": 0.79,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Glass_Shards_01_LOD",
+      "category": "Glass",
+      "count": 981,
+      "avg_size_m": 3.17,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "TrashBag_1_LOD",
+      "category": "Litter",
+      "count": 820,
+      "avg_size_m": 1.64,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "TrashBag_4_LOD",
+      "category": "Litter",
+      "count": 665,
+      "avg_size_m": 1.56,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "TrashBag_1_SHADOW_LOD",
+      "category": "Litter",
+      "count": 600,
+      "avg_size_m": 1.63,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Glass_Shards_03_LOD",
+      "category": "Glass",
+      "count": 585,
+      "avg_size_m": 2.55,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "TrashBag_4_SHADOW_LOD",
+      "category": "Litter",
+      "count": 492,
+      "avg_size_m": 1.56,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "TrashBag_3_LOD",
+      "category": "Litter",
+      "count": 491,
+      "avg_size_m": 1.24,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Ground_Decal_2_debris_LOD",
+      "category": "Decals",
+      "count": 471,
+      "avg_size_m": 3.15,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "decal_paper",
+      "category": "Decals",
+      "count": 468,
+      "avg_size_m": 0.76,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "TrashBag_2_LOD",
+      "category": "Litter",
+      "count": 425,
+      "avg_size_m": 1.71,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "decal_dirt",
+      "category": "Decals",
+      "count": 371,
+      "avg_size_m": 3.09,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Ground_decal_2_debris_2_LOD",
+      "category": "Decals",
+      "count": 366,
+      "avg_size_m": 2.5,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "garbage_bag_LOD",
+      "category": "Litter",
+      "count": 366,
+      "avg_size_m": 0.91,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "TrashBag_3_SHADOW_LOD",
+      "category": "Litter",
+      "count": 357,
+      "avg_size_m": 1.25,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Glass_Shards_01_Base_LOD",
+      "category": "Glass",
+      "count": 327,
+      "avg_size_m": 2.69,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "TrashBag_2_SHADOW_LOD",
+      "category": "Litter",
+      "count": 312,
+      "avg_size_m": 1.71,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "glass_crush01_LOD",
+      "category": "Glass",
+      "count": 291,
+      "avg_size_m": 1.99,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "decal_drip",
+      "category": "Decals",
+      "count": 264,
+      "avg_size_m": 3.25,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "sack_construction_garbage_01_LOD",
+      "category": "Litter",
+      "count": 244,
+      "avg_size_m": 1.45,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "sack_construction_garbage_01_SHADOW_LOD",
+      "category": "Litter",
+      "count": 244,
+      "avg_size_m": 1.42,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "garbage_bag_SHADOW_LOD",
+      "category": "Litter",
+      "count": 244,
+      "avg_size_m": 0.91,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "goshan_garbage_05_LOD",
+      "category": "Litter",
+      "count": 219,
+      "avg_size_m": 0.83,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "goshan_garbage_05_SHADOW_LOD",
+      "category": "Litter",
+      "count": 219,
+      "avg_size_m": 0.79,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Package_garbage_set_01_SHADOW_LOD",
+      "category": "Litter",
+      "count": 212,
+      "avg_size_m": 1.34,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Package_garbage_set_01_LOD",
+      "category": "Litter",
+      "count": 212,
+      "avg_size_m": 1.34,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Goshan_garbage_10_LOD",
+      "category": "Litter",
+      "count": 209,
+      "avg_size_m": 1.49,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Goshan_garbage_10_SHADOW_LOD",
+      "category": "Litter",
+      "count": 209,
+      "avg_size_m": 1.48,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "sack_construction_garbage_03_SHADOW_LOD",
+      "category": "Litter",
+      "count": 199,
+      "avg_size_m": 1.34,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Glass_Shards_03_Base_LOD",
+      "category": "Glass",
+      "count": 195,
+      "avg_size_m": 2.02,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "sack_construction_garbage_04_LOD",
+      "category": "Litter",
+      "count": 192,
+      "avg_size_m": 1.3,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Goshan_garbage_03_SHADOW_LOD",
+      "category": "Litter",
+      "count": 181,
+      "avg_size_m": 2.07,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Package_garbage_set_02_LOD",
+      "category": "Litter",
+      "count": 166,
+      "avg_size_m": 1.12,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Package_garbage_set_02_SHADOW_LOD",
+      "category": "Litter",
+      "count": 166,
+      "avg_size_m": 1.12,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Puddle_atlas_01_LOD",
+      "category": "Puddles",
+      "count": 165,
+      "avg_size_m": 3.64,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "sack_construction_garbage_02_SHADOW_LOD",
+      "category": "Litter",
+      "count": 160,
+      "avg_size_m": 1.22,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "sack_construction_garbage_02_LOD",
+      "category": "Litter",
+      "count": 160,
+      "avg_size_m": 1.26,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "sack_construction_garbage_03_LOD",
+      "category": "Litter",
+      "count": 152,
+      "avg_size_m": 1.48,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Goshan_garbage_04_LOD",
+      "category": "Litter",
+      "count": 148,
+      "avg_size_m": 2.5,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Goshan_garbage_04_SHADOW_LOD",
+      "category": "Litter",
+      "count": 148,
+      "avg_size_m": 2.5,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "sack_construction_garbage_04_SHADOW_LOD",
+      "category": "Litter",
+      "count": 141,
+      "avg_size_m": 1.28,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Reserve_decal_footstep_C_LOD",
+      "category": "Decals",
+      "count": 137,
+      "avg_size_m": 4.91,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Reserve_decal_footstep_B_LOD",
+      "category": "Decals",
+      "count": 137,
+      "avg_size_m": 4.98,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Ground_Decal_trim2_LOD",
+      "category": "Decals",
+      "count": 131,
+      "avg_size_m": 3.52,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "trash_pile_1x1_01_LOD",
+      "category": "Litter",
+      "count": 128,
+      "avg_size_m": 1.7,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Glass_Shards_04_LOD",
+      "category": "Glass",
+      "count": 123,
+      "avg_size_m": 2.33,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "shotshell_grp",
+      "category": "Casings",
+      "count": 122,
+      "avg_size_m": 1.97,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Pizza_7_LOD",
+      "category": "Food",
+      "count": 122,
+      "avg_size_m": 0.86,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "debris_concrete_01_rezerv_LOD",
+      "category": "Rubble",
+      "count": 120,
+      "avg_size_m": 2.5,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "puddle_oil",
+      "category": "Puddles",
+      "count": 109,
+      "avg_size_m": 3.99,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "vegetables_tomatoes_01_LOD",
+      "category": "Food",
+      "count": 104,
+      "avg_size_m": 0.83,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "vegetables_tomato_01_LOD",
+      "category": "Food",
+      "count": 88,
+      "avg_size_m": 0.17,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "debris_concrete_01_rezerv_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 84,
+      "avg_size_m": 2.37,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_05_LOD",
+      "category": "Rubble",
+      "count": 81,
+      "avg_size_m": 0.31,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_05_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 81,
+      "avg_size_m": 0.31,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "trash_pile_1x1_04_LOD",
+      "category": "Litter",
+      "count": 76,
+      "avg_size_m": 1.52,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_08_LOD",
+      "category": "Rubble",
+      "count": 72,
+      "avg_size_m": 0.32,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_08_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 72,
+      "avg_size_m": 0.32,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "City_Food_trash_pile_decal_LOD",
+      "category": "Decals",
+      "count": 71,
+      "avg_size_m": 3.2,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "goshan_decal3",
+      "category": "Decals",
+      "count": 70,
+      "avg_size_m": 3.59,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "trash_pile_1x1_02_LOD",
+      "category": "Litter",
+      "count": 66,
+      "avg_size_m": 1.49,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Plaster_debris_decal_01_LOD",
+      "category": "Decals",
+      "count": 64,
+      "avg_size_m": 1.74,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_group_07_LOD",
+      "category": "Rubble",
+      "count": 63,
+      "avg_size_m": 0.77,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_group_07_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 63,
+      "avg_size_m": 0.77,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "trash_pile_05x1_02_LOD",
+      "category": "Litter",
+      "count": 62,
+      "avg_size_m": 1.29,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "trash_pile_1x1_03_LOD",
+      "category": "Litter",
+      "count": 59,
+      "avg_size_m": 1.54,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Plaster_debris_decal_03_LOD",
+      "category": "Decals",
+      "count": 58,
+      "avg_size_m": 1.43,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "trash_pile_05x1_LOD",
+      "category": "Litter",
+      "count": 56,
+      "avg_size_m": 1.0,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Puddle_atlas_02_LOD",
+      "category": "Puddles",
+      "count": 51,
+      "avg_size_m": 3.59,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Sand_decal_06_C_LOD",
+      "category": "Decals",
+      "count": 50,
+      "avg_size_m": 2.73,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Plaster_debris_decal_04_LOD",
+      "category": "Decals",
+      "count": 45,
+      "avg_size_m": 1.43,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Puddle_atlas_03_LOD",
+      "category": "Puddles",
+      "count": 43,
+      "avg_size_m": 3.35,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Glass_Shards_02_LOD",
+      "category": "Glass",
+      "count": 42,
+      "avg_size_m": 2.15,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Glass_Shards_04_Base_LOD",
+      "category": "Glass",
+      "count": 41,
+      "avg_size_m": 2.66,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Plaster_debris_decal_05_LOD",
+      "category": "Decals",
+      "count": 36,
+      "avg_size_m": 1.65,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_group_06_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 36,
+      "avg_size_m": 1.06,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_group_06_LOD",
+      "category": "Rubble",
+      "count": 36,
+      "avg_size_m": 1.06,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_03_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 36,
+      "avg_size_m": 0.56,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_03_LOD",
+      "category": "Rubble",
+      "count": 36,
+      "avg_size_m": 0.56,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Pizza_5_LOD",
+      "category": "Food",
+      "count": 34,
+      "avg_size_m": 0.89,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Pizza_8_LOD",
+      "category": "Food",
+      "count": 33,
+      "avg_size_m": 0.37,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_09_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 33,
+      "avg_size_m": 1.1,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_09_LOD",
+      "category": "Rubble",
+      "count": 33,
+      "avg_size_m": 1.1,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Pizza_4_LOD",
+      "category": "Food",
+      "count": 32,
+      "avg_size_m": 0.76,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "goshan_decal2",
+      "category": "Decals",
+      "count": 32,
+      "avg_size_m": 2.86,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "trash_pile_1x1_02_SHADOW_LOD",
+      "category": "Litter",
+      "count": 29,
+      "avg_size_m": 1.03,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_group_01_LOD",
+      "category": "Rubble",
+      "count": 27,
+      "avg_size_m": 1.5,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_group_01_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 27,
+      "avg_size_m": 1.5,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Ground_Decal_corner_outside_LOD",
+      "category": "Decals",
+      "count": 27,
+      "avg_size_m": 0.9,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Plaster_debris_decal_02_LOD",
+      "category": "Decals",
+      "count": 26,
+      "avg_size_m": 1.36,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_01_LOD",
+      "category": "Rubble",
+      "count": 21,
+      "avg_size_m": 0.27,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_01_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 21,
+      "avg_size_m": 0.27,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "TrashBag_1_Shadow_LOD",
+      "category": "Litter",
+      "count": 20,
+      "avg_size_m": 1.63,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Sand_decal_06_B_LOD",
+      "category": "Decals",
+      "count": 20,
+      "avg_size_m": 2.35,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_06_LOD",
+      "category": "Rubble",
+      "count": 18,
+      "avg_size_m": 0.74,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_06_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 18,
+      "avg_size_m": 0.74,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Dust_decal_trim_2_LOD",
+      "category": "Decals",
+      "count": 16,
+      "avg_size_m": 4.26,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "vegetables_cucumber_01_LOD",
+      "category": "Food",
+      "count": 16,
+      "avg_size_m": 0.22,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_group_08_LOD",
+      "category": "Rubble",
+      "count": 15,
+      "avg_size_m": 0.54,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_group_08_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 15,
+      "avg_size_m": 0.54,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Ground_Decal_corner_inside_LOD",
+      "category": "Decals",
+      "count": 15,
+      "avg_size_m": 1.42,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_11_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 15,
+      "avg_size_m": 0.92,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_11_LOD",
+      "category": "Rubble",
+      "count": 15,
+      "avg_size_m": 0.92,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Glass_Shards_02_Base_LOD",
+      "category": "Glass",
+      "count": 14,
+      "avg_size_m": 2.69,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_decal_big_004_LOD",
+      "category": "Decals",
+      "count": 13,
+      "avg_size_m": 1.53,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Ground_Decal_2_leaves_corner_inside_LOD",
+      "category": "Decals",
+      "count": 13,
+      "avg_size_m": 1.79,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Ground_Decal_2_leaves_corner_outside_LOD",
+      "category": "Decals",
+      "count": 13,
+      "avg_size_m": 1.92,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Pizza_3_LOD",
+      "category": "Food",
+      "count": 12,
+      "avg_size_m": 0.69,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Pizza_1_LOD",
+      "category": "Food",
+      "count": 12,
+      "avg_size_m": 0.93,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "TrashBag_3_Shadow_LOD",
+      "category": "Litter",
+      "count": 11,
+      "avg_size_m": 1.18,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_decal_big_003_LOD",
+      "category": "Decals",
+      "count": 11,
+      "avg_size_m": 1.17,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_decal_big_005_LOD",
+      "category": "Decals",
+      "count": 11,
+      "avg_size_m": 1.7,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "TrashBag_2_Shadow_LOD",
+      "category": "Litter",
+      "count": 9,
+      "avg_size_m": 1.66,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "TrashBag_4_Shadow_LOD",
+      "category": "Litter",
+      "count": 9,
+      "avg_size_m": 1.6,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_group_03_LOD",
+      "category": "Rubble",
+      "count": 9,
+      "avg_size_m": 0.78,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_group_09_LOD",
+      "category": "Rubble",
+      "count": 9,
+      "avg_size_m": 0.64,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_group_09_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 9,
+      "avg_size_m": 0.64,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_02_LOD",
+      "category": "Rubble",
+      "count": 9,
+      "avg_size_m": 0.52,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_02_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 9,
+      "avg_size_m": 0.52,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_group_02_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 9,
+      "avg_size_m": 1.09,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_group_02_LOD",
+      "category": "Rubble",
+      "count": 9,
+      "avg_size_m": 1.09,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Sand_decal_07_A_LOD",
+      "category": "Decals",
+      "count": 9,
+      "avg_size_m": 1.9,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_decal_big_008_LOD",
+      "category": "Decals",
+      "count": 8,
+      "avg_size_m": 1.19,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_decal_big_006_LOD",
+      "category": "Decals",
+      "count": 7,
+      "avg_size_m": 1.93,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Ground_Decal_2_LOD",
+      "category": "Decals",
+      "count": 6,
+      "avg_size_m": 2.68,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Sand_decal_07_B_LOD",
+      "category": "Decals",
+      "count": 6,
+      "avg_size_m": 2.99,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Sand_decal_01_A_LOD",
+      "category": "Decals",
+      "count": 6,
+      "avg_size_m": 4.18,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_decal_big_002_LOD",
+      "category": "Decals",
+      "count": 6,
+      "avg_size_m": 1.27,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Pizza_1_Shadow_LOD",
+      "category": "Food",
+      "count": 6,
+      "avg_size_m": 0.92,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_group_03_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 6,
+      "avg_size_m": 0.72,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_group_10_LOD",
+      "category": "Rubble",
+      "count": 6,
+      "avg_size_m": 0.44,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_group_10_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 6,
+      "avg_size_m": 0.44,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_07_LOD",
+      "category": "Rubble",
+      "count": 6,
+      "avg_size_m": 0.34,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_07_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 6,
+      "avg_size_m": 0.34,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Pizza_9_LOD",
+      "category": "Food",
+      "count": 5,
+      "avg_size_m": 0.56,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_decal_big_009_LOD",
+      "category": "Decals",
+      "count": 4,
+      "avg_size_m": 0.97,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Sand_decal_02_C_LOD",
+      "category": "Decals",
+      "count": 4,
+      "avg_size_m": 3.76,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Sand_decal_01_C_LOD",
+      "category": "Decals",
+      "count": 4,
+      "avg_size_m": 3.51,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "vegetables_tomatoes_01_SHADOW_LOD",
+      "category": "Food",
+      "count": 4,
+      "avg_size_m": 0.7,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Debris_Concrete_01_LOD",
+      "category": "Rubble",
+      "count": 3,
+      "avg_size_m": 2.46,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Debris_Concrete_02_LOD",
+      "category": "Rubble",
+      "count": 3,
+      "avg_size_m": 2.86,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_group_04_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 3,
+      "avg_size_m": 1.34,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_group_04_LOD",
+      "category": "Rubble",
+      "count": 3,
+      "avg_size_m": 1.34,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Sand_decal_02_A_LOD",
+      "category": "Decals",
+      "count": 2,
+      "avg_size_m": 4.3,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_decal_big_007_LOD",
+      "category": "Decals",
+      "count": 2,
+      "avg_size_m": 0.96,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "plaster_debris_decal_big_001_LOD",
+      "category": "Decals",
+      "count": 2,
+      "avg_size_m": 0.67,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "vegetables_cucumber_01_SHADOW_LOD",
+      "category": "Food",
+      "count": 2,
+      "avg_size_m": 0.23,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Sand_decal_04_C_LOD",
+      "category": "Decals",
+      "count": 2,
+      "avg_size_m": 2.89,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Debris_Concrete_02_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 1,
+      "avg_size_m": 2.78,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Debris_Concrete_03_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 1,
+      "avg_size_m": 2.78,
+      "static": 0.0
+    },
+    {
+      "map": "TarkovStreets",
+      "name": "Debris_Concrete_01_SHADOW_LOD",
+      "category": "Rubble",
+      "count": 1,
+      "avg_size_m": 2.2,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "decal_dirt",
+      "category": "Decals",
+      "count": 43,
+      "avg_size_m": 4.14,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "Ground_decal_2_debris_2_LOD",
+      "category": "Decals",
+      "count": 26,
+      "avg_size_m": 2.53,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "Ground_Decal_2_debris_LOD",
+      "category": "Decals",
+      "count": 23,
+      "avg_size_m": 2.97,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "Sand_decal_02_C_LOD",
+      "category": "Decals",
+      "count": 22,
+      "avg_size_m": 3.82,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "Sand_decal_03_C_LOD",
+      "category": "Decals",
+      "count": 22,
+      "avg_size_m": 3.7,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "sack_construction_garbage_03_SHADOW_LOD",
+      "category": "Litter",
+      "count": 17,
+      "avg_size_m": 1.37,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "decal_paper",
+      "category": "Decals",
+      "count": 16,
+      "avg_size_m": 0.46,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "sack_construction_garbage_03_LOD",
+      "category": "Litter",
+      "count": 16,
+      "avg_size_m": 1.46,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "Pizza_7_LOD",
+      "category": "Food",
+      "count": 10,
+      "avg_size_m": 0.85,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "Reserve_decal_footstep_B_LOD",
+      "category": "Decals",
+      "count": 10,
+      "avg_size_m": 5.06,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "Package_garbage_set_02_LOD",
+      "category": "Litter",
+      "count": 6,
+      "avg_size_m": 1.22,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "Package_garbage_set_02_SHADOW_LOD",
+      "category": "Litter",
+      "count": 6,
+      "avg_size_m": 1.22,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "Sand_decal_04_B_LOD",
+      "category": "Decals",
+      "count": 6,
+      "avg_size_m": 3.52,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "Package_garbage_set_01_SHADOW_LOD",
+      "category": "Litter",
+      "count": 5,
+      "avg_size_m": 1.26,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "Package_garbage_set_01_LOD",
+      "category": "Litter",
+      "count": 5,
+      "avg_size_m": 1.26,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "shotshell_grp",
+      "category": "Casings",
+      "count": 4,
+      "avg_size_m": 1.96,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "sack_construction_garbage_04_LOD",
+      "category": "Litter",
+      "count": 4,
+      "avg_size_m": 1.14,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "sack_construction_garbage_01_SHADOW_LOD",
+      "category": "Litter",
+      "count": 4,
+      "avg_size_m": 1.2,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "sack_construction_garbage_01_LOD",
+      "category": "Litter",
+      "count": 4,
+      "avg_size_m": 1.22,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "sack_construction_garbage_02_SHADOW_LOD",
+      "category": "Litter",
+      "count": 4,
+      "avg_size_m": 1.26,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "sack_construction_garbage_02_LOD",
+      "category": "Litter",
+      "count": 4,
+      "avg_size_m": 1.31,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "sack_construction_garbage_04_SHADOW_LOD",
+      "category": "Litter",
+      "count": 3,
+      "avg_size_m": 1.11,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "Reserve_decal_footstep_C_LOD",
+      "category": "Decals",
+      "count": 2,
+      "avg_size_m": 5.6,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "Sand_decal_04_A_LOD",
+      "category": "Decals",
+      "count": 2,
+      "avg_size_m": 3.52,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "City_Food_trash_pile_decal_LOD",
+      "category": "Decals",
+      "count": 2,
+      "avg_size_m": 3.6,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "goshan_decal2",
+      "category": "Decals",
+      "count": 1,
+      "avg_size_m": 2.99,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "goshan_decal3",
+      "category": "Decals",
+      "count": 1,
+      "avg_size_m": 3.82,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "Puddle_atlas_01_LOD",
+      "category": "Puddles",
+      "count": 1,
+      "avg_size_m": 4.76,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "Goshan_garbage_10_LOD",
+      "category": "Litter",
+      "count": 1,
+      "avg_size_m": 1.47,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "Ground_Decal_2_LOD",
+      "category": "Decals",
+      "count": 1,
+      "avg_size_m": 2.65,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "Goshan_garbage_10_SHADOW_LOD",
+      "category": "Litter",
+      "count": 1,
+      "avg_size_m": 1.46,
+      "static": 0.0
+    },
+    {
+      "map": "Woods",
+      "name": "Reserve_decal_footstep_traces_A_LOD",
+      "category": "Decals",
+      "count": 1,
+      "avg_size_m": 4.85,
+      "static": 0.0
+    }
+  ]
+}

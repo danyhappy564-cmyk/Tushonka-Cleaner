@@ -15,6 +15,13 @@ Tushonka Cleaner 3.0.0 통합·유지보수: R_F.
    - 원본: https://forge.sp-tarkov.com/mod/2415/compoundingperf
    - 라이선스: MIT. 서버 최적화·설정·진단과 클라이언트 C1·C2 기능의 기반입니다.
 
+## 그래픽 기능
+
+그래픽 기능은 Tushonka Cleaner용으로 새로 작성했습니다. 다른 모드의 코드와 이름 목록을 사용하지 않았습니다.
+작성자는 동작 명세, 게임 어셈블리, 게임에서 추출한 물체 이름만 근거로 삼았습니다(`tests/SceneCleanup/SPEC.md`, `RESULT.md`).
+작은 장식을 가린다는 착상은 Tyrian(Xenoxia8953)의 Tyrian-DeClutterer에서 얻었습니다.
+- 원본: https://github.com/Xenoxia8953/Tyrian-DeClutterer
+
 ## CompoundingPerf MIT 라이선스 전문
 
 ```text

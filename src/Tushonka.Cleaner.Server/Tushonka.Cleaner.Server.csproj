@@ -34,7 +34,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(PackageClientDll)')" Text="클라이언트 DLL이 없습니다. 솔루션 전체를 빌드하십시오." />
     <RemoveDir Directories="$(PackageStageDir)" />
-    <Copy SourceFiles="$(PackageClientDll)" DestinationFolder="$(PackageClientDir)" />
+    <Copy SourceFiles="$(PackageClientDll);$(MSBuildProjectDirectory)\..\Tushonka.Cleaner.Client\SceneCleanupData\scene-rules.json;$(MSBuildProjectDirectory)\..\Tushonka.Cleaner.Client\SceneCleanupData\tushonka-exclude.example.txt" DestinationFolder="$(PackageClientDir)" />
     <Copy SourceFiles="$(TargetPath);$(MSBuildProjectDirectory)\config.json" DestinationFolder="$(PackageServerDir)" />
     <Copy SourceFiles="$(PackageRoot)LICENSE;$(PackageRoot)NOTICE.md" DestinationFolder="$(PackageStageDir)" />
     <MakeDir Directories="$(PackageRoot)release" />

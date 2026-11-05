@@ -10,8 +10,15 @@ public sealed class LegacyConflicts
     public bool Memory { get; private set; }
     public bool Performance { get; private set; }
     public bool Graphics { get; private set; }
+    /// <summary>Smoothie는 다른 작성자의 별도 모드입니다. 기능을 막거나 파일을 옮기지 않고 안내만 합니다.</summary>
+    public bool Smoothie { get; private set; }
     public List<string> Guids { get; } = new List<string>();
     public bool Any => Memory || Performance || Graphics;
+
+    public const string SmoothieWarningKo =
+        "Tushonka Cleaner: Smoothie 모드와 함께 쓰지 마십시오. 같은 게임 기능을 건드려 효과가 겹치거나 오류가 날 수 있습니다. 둘 중 하나만 설치하십시오.";
+    public const string SmoothieWarningEn =
+        "Tushonka Cleaner: Do not use this mod together with Smoothie. Both change the same game systems, which can cause overlapping effects or errors. Keep only one of them.";
 
     public static LegacyConflicts Detect(IEnumerable<string> identifiers)
     {
@@ -45,7 +52,11 @@ public sealed class LegacyConflicts
                 result.Graphics = true;
                 guid = "com.TYR.DeClutter";
             }
-            else continue;
+            else
+            {
+                if (EqualsAny(id, "com.tominocz.smoothie", "Smoothie")) result.Smoothie = true;
+                continue;
+            }
             if (seen.Add(guid)) result.Guids.Add(guid);
         }
         return result;

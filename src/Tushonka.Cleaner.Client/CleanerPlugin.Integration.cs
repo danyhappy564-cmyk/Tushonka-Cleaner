@@ -17,10 +17,11 @@ namespace Tushonka.Cleaner.Client
         public const string ModVersion = "3.0.0";
 
         private readonly PerformanceModule _performance = new PerformanceModule();
-        private readonly ISceneCleanup _sceneCleanup = new NullSceneCleanup();
+        private readonly ISceneCleanup _sceneCleanup = new ModuleSceneCleanup();
         private LegacyConflicts _conflicts = new LegacyConflicts();
         private bool _ramEnabled;
-        private string _legacyWarning = "";
+        private string _legacyWarningKo = "";
+        private string _legacyWarningEn = "";
         private Dictionary<string, string> _legacyValues;
         private int _migratedCount;
 
@@ -30,10 +31,14 @@ namespace Tushonka.Cleaner.Client
             _ramEnabled = !_conflicts.Memory;
             if (_conflicts.Any)
             {
-                _legacyWarning = "Tushonka Cleaner: 구형 모드가 함께 설치되어 겹치는 기능을 중지했습니다. 구형 모드를 삭제하십시오.\n" +
-                                 string.Join(", ", _conflicts.Guids);
-                Logger.LogWarning(_legacyWarning);
+                var guids = string.Join(", ", _conflicts.Guids);
+                _legacyWarningKo = "Tushonka Cleaner: 이전 모드가 함께 설치되어 겹치는 기능을 중지했습니다.\n" +
+                                   "게임과 서버를 끄고 서버를 다시 켜면 이전 모드가 백업 폴더로 자동으로 옮겨집니다.\n" + guids;
+                _legacyWarningEn = "Tushonka Cleaner: Old mods are still installed, so overlapping features are off.\n" +
+                                   "Close the game and server, then start the server again to move them to a backup folder automatically.\n" + guids;
+                Logger.LogWarning(_legacyWarningEn);
             }
+            if (_conflicts.Smoothie) Logger.LogWarning(LegacyConflicts.SmoothieWarningEn);
 
             var oldConfig = Path.Combine(BepInEx.Paths.ConfigPath, "com.cactuspie.ramcleanerinterval.cfg");
             if (!File.Exists(Config.ConfigFilePath) && File.Exists(oldConfig))
@@ -71,13 +76,18 @@ namespace Tushonka.Cleaner.Client
             }
             if (!_conflicts.Performance) _performance.Initialize(Config, Logger);
             if (!_conflicts.Graphics)
-                _sceneCleanup.Init(Config, Logger, Path.Combine(BepInEx.Paths.BepInExRootPath, "RamCleaner"));
+                _sceneCleanup.Init(Config, Logger, Path.GetDirectoryName(Info.Location));
         }
 
         private void DrawLegacyWarning()
         {
-            if (_legacyWarning.Length == 0) return;
-            GUI.Box(new Rect(12, Math.Max(12, Screen.height - 120), Math.Min(Screen.width - 24, 1000), 100), _legacyWarning);
+            var width = Math.Min(Screen.width - 24, 1000);
+            if (_legacyWarningKo.Length > 0)
+                GUI.Box(new Rect(12, Math.Max(12, Screen.height - 120), width, 100), Loc.En ? _legacyWarningEn : _legacyWarningKo);
+            // 레이드 화면을 가리지 않도록 메뉴에서만 보여 줍니다.
+            if (_conflicts.Smoothie && !_inGame)
+                GUI.Box(new Rect(12, Math.Max(12, Screen.height - 190), width, 60),
+                    Loc.En ? LegacyConflicts.SmoothieWarningEn : LegacyConflicts.SmoothieWarningKo);
         }
     }
 }
