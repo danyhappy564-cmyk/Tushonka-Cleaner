@@ -27,6 +27,7 @@ namespace Tushonka.Cleaner.Client
         private int _raidGeneration;
         private GUIStyle _welcomeTitle, _welcomeText, _welcomeButton, _welcomeBox;
         private Rect _welcomeRect;
+        private Texture2D _welcomeFill;
         private GUI.WindowFunction _welcomeDrawer;
 
         private void InitializeSimpleUi()
@@ -222,7 +223,12 @@ namespace Tushonka.Cleaner.Client
                 _welcomeTitle = new GUIStyle(GUI.skin.label) { fontSize = 25, fontStyle = FontStyle.Bold, wordWrap = true };
                 _welcomeText = new GUIStyle(GUI.skin.label) { fontSize = 16, wordWrap = true };
                 _welcomeButton = new GUIStyle(GUI.skin.button) { fontSize = 17, fixedHeight = 42 };
+                _welcomeFill = new Texture2D(1, 1);
+                _welcomeFill.SetPixel(0, 0, new Color(0.09f, 0.1f, 0.11f, 1f));
+                _welcomeFill.Apply();
                 _welcomeBox = new GUIStyle(GUI.skin.window) { padding = new RectOffset(24, 24, 32, 24) };
+                _welcomeBox.normal.background = _welcomeFill;
+                _welcomeBox.onNormal.background = _welcomeFill;
             }
             float width = Math.Min(820, Screen.width - 32), height = Math.Min(680, Screen.height - 24);
             _welcomeRect = new Rect((Screen.width - width) / 2, (Screen.height - height) / 2, width, height);
