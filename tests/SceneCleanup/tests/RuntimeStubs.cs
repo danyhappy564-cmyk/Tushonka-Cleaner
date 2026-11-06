@@ -113,7 +113,7 @@ namespace UnityEngine
         private static float bias=2,distance=150;
         public static ShadowQuality shadows { get { return shadowQuality; } set { if(value==ShadowQuality.Disable) ++DisableWrites; shadowQuality=value; } }
         public static ShadowResolution shadowResolution { get { ++ShadowResolutionTouches; return resolution; } set { ++ShadowResolutionTouches; resolution=value; } }
-        public static float lodBias { get { ++LodBiasTouches; return bias; } set { ++LodBiasTouches; bias=value; } }
+        public static float lodBias { get { return bias; } set { ++LodBiasTouches; bias=value; } }
         public static float shadowDistance { get { ++ShadowDistanceTouches; return distance; } set { ++ShadowDistanceTouches; distance=value; } }
         // 시험이 게임 쪽 원래 값을 정할 때만 씁니다. 금지된 쓰기로 세지 않습니다.
         public static void SetGameShadows(ShadowQuality value) { shadowQuality=value; }

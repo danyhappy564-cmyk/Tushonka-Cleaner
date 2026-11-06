@@ -4,13 +4,16 @@ using UnityEngine;
 
 namespace Tushonka.Cleaner.SceneCleanup
 {
-    // LOD 거리 배율을 낮추면 벽과 바닥이 사라집니다. 이 배율과 그림자 해상도·거리는 읽지도 쓰지도 않습니다.
+    // LOD 거리 배율은 많이 가림에서만 원래 값의 1/1.5로 낮춥니다. 고정값으로 누르면 벽과 바닥이 사라집니다(1.0.0의 0.8·0.5).
+    // 그림자 해상도·거리는 읽지도 쓰지도 않습니다.
     internal sealed class GraphicsState
     {
-        internal const int SlotCount=7;
+        internal const int SlotCount=8;
         private const int MinParticleBudget=4, MaxCascades=2;
+        private const float MaxLodDivider=1.5f;
         private bool captured;
         private int particleBudget,pixelLights,cascades;
+        private float lodBias;
         private bool softParticles,softVegetation,reflections;
         private ShadowQuality shadows;
         internal void Capture()
@@ -19,7 +22,7 @@ namespace Tushonka.Cleaner.SceneCleanup
             particleBudget=QualitySettings.particleRaycastBudget; pixelLights=QualitySettings.pixelLightCount;
             softParticles=QualitySettings.softParticles; softVegetation=QualitySettings.softVegetation;
             reflections=QualitySettings.realtimeReflectionProbes; shadows=QualitySettings.shadows;
-            cascades=QualitySettings.shadowCascades; captured=true;
+            cascades=QualitySettings.shadowCascades; lodBias=QualitySettings.lodBias; captured=true;
         }
         // 한 Tick에 한 속성만 적용하여 설정 변경을 분산합니다.
         internal void Apply(int slot,CleanupSettings s,SceneCleanupLevel level)
@@ -35,6 +38,7 @@ namespace Tushonka.Cleaner.SceneCleanup
                 case 4: WriteShadows(max&&s.Shadows.Value&&shadows==ShadowQuality.All?ShadowQuality.HardOnly:shadows); break;
                 case 5: QualitySettings.shadowCascades=max&&s.Shadows.Value?Mathf.Min(cascades,MaxCascades):cascades; break;
                 case 6: QualitySettings.pixelLightCount=max&&s.Lights.Value?Math.Max(pixelLights/2,0):pixelLights; break;
+                case 7: QualitySettings.lodBias=max&&s.Lod.Value?lodBias/MaxLodDivider:lodBias; break;
             }
         }
         internal void Restore()
@@ -43,7 +47,7 @@ namespace Tushonka.Cleaner.SceneCleanup
             QualitySettings.particleRaycastBudget=particleBudget; QualitySettings.pixelLightCount=pixelLights;
             QualitySettings.softParticles=softParticles; QualitySettings.softVegetation=softVegetation;
             QualitySettings.realtimeReflectionProbes=reflections; WriteShadows(shadows);
-            QualitySettings.shadowCascades=cascades; captured=false;
+            QualitySettings.shadowCascades=cascades; QualitySettings.lodBias=lodBias; captured=false;
         }
         // 게임 값이 Disable이면 이 값을 바꾼 적이 없으므로 쓸 일도 없습니다.
         private static void WriteShadows(ShadowQuality value) { if(value!=ShadowQuality.Disable) QualitySettings.shadows=value; }

@@ -48,7 +48,7 @@
 
 ## 변경 이력
 
-전체 변경 이력 2개는 [`changelog/`](changelog/) 폴더에 10개씩 나눠 있습니다 (번호가 클수록 최신, 최신 파일: [`CHANGELOG-001.md`](changelog/CHANGELOG-001.md)). 릴리즈별 요약은 [Releases](../../releases).
+전체 변경 이력 3개는 [`changelog/`](changelog/) 폴더에 10개씩 나눠 있습니다 (번호가 클수록 최신, 최신 파일: [`CHANGELOG-001.md`](changelog/CHANGELOG-001.md)). 릴리즈별 요약은 [Releases](../../releases).
 
 ## 포함 기능
 
@@ -62,14 +62,16 @@
 
 ## 측정 결과
 
+**아래 프레임 수치는 1.0.0 기준입니다.** 1.0.1에서 벽이 뚫리던 LOD 값을 고쳐 프레임 이득이 줄어들 수 있으며, 다시 잰 뒤 갱신합니다.
+
 RTX 4080, 2560x1440, 봇 없음, SPT 4.1.6에서 쟀습니다. 3곳을 4초씩 3회 잰 평균입니다. PC와 맵 상태에 따라 달라집니다.
 
 | 그래픽 단계 | 스트리트 (ms) | 등대 (ms) | 화면 변화 |
 |---|---|---|---|
 | 끔 | 8.4 / 7.8 / 6.8 | 5.7 / 5.2 / 5.6 | 없음 |
 | 간단하게만 가림 | 8.4 / 7.9 / 6.9 | 5.7 / 5.2 / 5.6 | 먼 장식만 사라집니다. 프레임은 늘지 않습니다. |
-| 조금 더 가림 (권장) | 7.1 / 6.7 / 6.0 | 5.1 / 4.6 / 5.3 | 먼 모델과 그림자가 단순해집니다. |
-| 많이 가림 | 5.4 / 5.2 / 4.7 | 5.0 / 4.7 / 5.1 | 그림자가 꺼져 어두운 곳이 밝아지고, 가까운 벽도 거칠어집니다. |
+| 조금 더 가림 (권장) | 7.1 / 6.7 / 6.0 | 5.1 / 4.6 / 5.3 | 파티클 계산과 부드러운 효과, 실시간 반사를 줄입니다. |
+| 많이 가림 | 5.4 / 5.2 / 4.7 | 5.0 / 4.7 / 5.1 | 그림자가 단순해지고 조명 수가 줄며, 먼 모델이 더 빨리 단순해집니다. |
 
 - 프레임 향상은 그래픽 조정에서 나옵니다. 스트리트에서 규칙에 맞는 장식 15,696개를 모두 꺼도 프레임은 변하지 않았습니다.
 - 메모리 모드의 프레임 부담은 측정 오차(±0.5ms) 안이었습니다.
@@ -85,7 +87,7 @@ dotnet build Tushonka.Cleaner.sln -c Release -p:DeployPlugin=false -p:SkipDeploy
 dotnet test tests/Tushonka.Cleaner.Tests/Tushonka.Cleaner.Tests.csproj -c Release -p:SkipPackage=true -p:DeployPlugin=false -p:SkipDeploy=true
 ```
 
-다른 게임 경로는 `-p:SptRoot="경로"`로 지정합니다. Release 빌드는 `release/Tushonka-Cleaner-1.0.0.zip`을 생성하도록 구성되어 있습니다.
+다른 게임 경로는 `-p:SptRoot="경로"`로 지정합니다. Release 빌드는 `release/Tushonka-Cleaner-1.0.1.zip`을 생성하도록 구성되어 있습니다.
 
 ```text
 BepInEx/plugins/Tushonka-Cleaner/Tushonka.Cleaner.dll

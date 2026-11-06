@@ -48,7 +48,7 @@
 
 ## Changelog
 
-The full changelog (2 entries) is in the [`changelog/`](changelog/) folder, 10 per file (higher number = newer, latest: [`CHANGELOG-001.md`](changelog/CHANGELOG-001.md)). Per-release summaries: [Releases](../../releases).
+The full changelog (3 entries) is in the [`changelog/`](changelog/) folder, 10 per file (higher number = newer, latest: [`CHANGELOG-001.md`](changelog/CHANGELOG-001.md)). Per-release summaries: [Releases](../../releases).
 
 ## Features
 
@@ -62,14 +62,16 @@ Archived feature descriptions: [memory](docs/ram-cleaner.md), [server](docs/serv
 
 ## Measured results
 
+**The frame numbers below are from 1.0.0.** Version 1.0.1 fixes the LOD values that opened holes in walls, so gains may be smaller. They will be updated after re-measuring.
+
 Measured on an RTX 4080 at 2560x1440 with no bots on SPT 4.1.6. Each value is the average of three 4-second runs at one of three spots. Results vary by PC and map state.
 
 | Graphics level | Streets (ms) | Lighthouse (ms) | Visual change |
 |---|---|---|---|
 | Off | 8.4 / 7.8 / 6.8 | 5.7 / 5.2 / 5.6 | None |
 | Light touch | 8.4 / 7.9 / 6.9 | 5.7 / 5.2 / 5.6 | Only distant clutter disappears. FPS does not rise. |
-| Hide a bit more (recommended) | 7.1 / 6.7 / 6.0 | 5.1 / 4.6 / 5.3 | Distant models and shadows get simpler. |
-| Hide more clutter | 5.4 / 5.2 / 4.7 | 5.0 / 4.7 / 5.1 | Shadows turn off, dark areas get brighter, and nearby walls look rougher. |
+| Hide a bit more (recommended) | 7.1 / 6.7 / 6.0 | 5.1 / 4.6 / 5.3 | Particle work, soft effects, and realtime reflections are reduced. |
+| Hide more clutter | 5.4 / 5.2 / 4.7 | 5.0 / 4.7 / 5.1 | Shadows get simpler, fewer lights are used, and distant models simplify sooner. |
 
 - FPS gains come from the graphics adjustments. Turning off all 15,696 matching decorations on Streets did not change FPS.
 - The frame cost of the memory modes stayed within measurement noise (±0.5 ms).
@@ -85,7 +87,7 @@ dotnet build Tushonka.Cleaner.sln -c Release -p:DeployPlugin=false -p:SkipDeploy
 dotnet test tests/Tushonka.Cleaner.Tests/Tushonka.Cleaner.Tests.csproj -c Release -p:SkipPackage=true -p:DeployPlugin=false -p:SkipDeploy=true
 ```
 
-Use `-p:SptRoot="path"` to override the game directory. Release builds are configured to create `release/Tushonka-Cleaner-1.0.0.zip` containing:
+Use `-p:SptRoot="path"` to override the game directory. Release builds are configured to create `release/Tushonka-Cleaner-1.0.1.zip` containing:
 
 ```text
 BepInEx/plugins/Tushonka-Cleaner/Tushonka.Cleaner.dll

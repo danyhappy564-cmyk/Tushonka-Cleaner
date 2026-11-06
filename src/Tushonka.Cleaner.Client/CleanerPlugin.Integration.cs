@@ -14,7 +14,7 @@ namespace Tushonka.Cleaner.Client
     {
         public const string ModGuid = "com.zzap.tushonka.cleaner";
         public const string ModName = "Tushonka Cleaner";
-        public const string ModVersion = "1.0.0";
+        public const string ModVersion = "1.0.1";
 
         private readonly PerformanceModule _performance = new PerformanceModule();
         private readonly ISceneCleanup _sceneCleanup = new ModuleSceneCleanup();

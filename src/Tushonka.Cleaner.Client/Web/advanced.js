@@ -37,7 +37,7 @@
     graphics: [
       ['grpGfxHide', [sw('gfxLitter', 'gfxLitter', true), sw('gfxRubble', 'gfxRubble', true), sw('gfxCasings', 'gfxCasings', true), sw('gfxFood', 'gfxFood', true), sw('gfxPuddles', 'gfxPuddles', true), sw('gfxGlass', 'gfxGlass', true),
         bound('<div class="setting-row compact"><div><label for="decals" data-i18n="decals"></label><p data-i18n="decalsHelp"></p></div><label class="switch"><input id="decals" type="checkbox" data-setting="decals" data-parent-feature="graphics" data-i18n-aria="decals"><span></span></label></div>'), note('gfxExclude')]],
-      ['grpGfxTune', [note('gfxTuneNote'), sw('gfxParticles', 'gfxParticles', true), sw('gfxSoftParticles', 'gfxSoftParticles', true), sw('gfxSoftVeg', 'gfxSoftVeg', true), sw('gfxReflect', 'gfxReflect', true), sw('gfxShadows', 'gfxShadows', true), sw('gfxLights', 'gfxLights', true), sw('gfxMuzzle', 'gfxMuzzle', true)]],
+      ['grpGfxTune', [note('gfxTuneNote'), sw('gfxParticles', 'gfxParticles', true), sw('gfxSoftParticles', 'gfxSoftParticles', true), sw('gfxSoftVeg', 'gfxSoftVeg', true), sw('gfxReflect', 'gfxReflect', true), sw('gfxShadows', 'gfxShadows', true), sw('gfxLights', 'gfxLights', true), sw('gfxLod', 'gfxLod', true), sw('gfxMuzzle', 'gfxMuzzle', true)]],
       ['grpGfxCaps', [sw('gfxShellCap', 'gfxShellCap', true)]],
       ['grpGfxRun', [num('gfxDelay', 'gfxDelay', 10, 0, 120), num('gfxBudget', 'gfxBudget', 2, .5, 10, .5), { ...num('gfxDistance', 'gfxDistance', 80, 10, 500), help: 'gfxDistanceHelp' }, num('gfxChanges', 'gfxChanges', 24, 1, 256)]]
     ]

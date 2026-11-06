@@ -79,7 +79,7 @@ namespace Tushonka.Cleaner.Client
             void Flag(string section, string key) => Config.Bind(section, key, true,
                 new ConfigDescription("그래픽 세부 설정 / Graphics details", null, new ConfigurationManagerAttributes { Browsable = false }));
             foreach (var key in new[] { "Litter", "Rubble", "Casings", "Food", "Puddles", "Glass", "Decals" }) Flag("Graphics.Categories", key);
-            foreach (var key in new[] { "ReduceParticles", "SoftParticles", "SoftVegetation", "RealtimeReflections", "Shadows", "PixelLights", "ShellCap", "OtherMuzzleShadows" }) Flag("Graphics.Tuning", key);
+            foreach (var key in new[] { "ReduceParticles", "SoftParticles", "SoftVegetation", "RealtimeReflections", "Shadows", "PixelLights", "Lod", "ShellCap", "OtherMuzzleShadows" }) Flag("Graphics.Tuning", key);
             Config.Bind("Graphics.Advanced", "StartDelaySeconds", 10f, new ConfigDescription("검사 대기 시간(초) / Start delay (s)", new AcceptableValueRange<float>(0, 120), new ConfigurationManagerAttributes { Browsable = false }));
             Config.Bind("Graphics.Advanced", "FrameBudgetMs", 2f, new ConfigDescription("프레임당 작업 시간(ms) / Work per frame (ms)", new AcceptableValueRange<float>(.1f, 4), new ConfigurationManagerAttributes { Browsable = false }));
             Config.Bind("Graphics.Advanced", "HideDistanceMeters", 80f, new ConfigDescription("가리는 거리(m) / Hide distance (m)", new AcceptableValueRange<float>(20, 300), new ConfigurationManagerAttributes { Browsable = false }));

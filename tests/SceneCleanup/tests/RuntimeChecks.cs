@@ -56,7 +56,7 @@ internal static class RuntimeChecks
         Check(state.Status.LitterHidden==2,"hidden count");
         SceneCleanupModule.SetLevel(SceneCleanupLevel.Off);RunTicks(state);
         Check(normal.gameObject.activeSelf && normal.enabled && disabled.gameObject.activeSelf && !disabled.enabled,"Off restores exact state");
-        Check(QualitySettings.pixelLightCount==4 && QualitySettings.LodBiasTouches==0,"quality restored");
+        Check(QualitySettings.pixelLightCount==4 && QualitySettings.lodBias==2f,"quality restored");
         QualitySettings.pixelLightCount=6;
         SceneCleanupModule.SetLevel(SceneCleanupLevel.Max);RunTicks(state);
         Check(QualitySettings.pixelLightCount==3,"Max halves the fresh original");
@@ -395,7 +395,7 @@ internal static class RuntimeChecks
     private static void Originals(int budget=256,ShadowQuality shadows=ShadowQuality.All,int cascades=4,int lights=5)
     {
         QualitySettings.particleRaycastBudget=budget;QualitySettings.SetGameShadows(shadows);QualitySettings.shadowCascades=cascades;QualitySettings.pixelLightCount=lights;
-        QualitySettings.softParticles=true;QualitySettings.softVegetation=true;QualitySettings.realtimeReflectionProbes=true;
+        QualitySettings.softParticles=true;QualitySettings.softVegetation=true;QualitySettings.realtimeReflectionProbes=true;QualitySettings.lodBias=2f;
     }
     private static void ExpectQuality(string label,int budget,bool soft,ShadowQuality shadows,int cascades,int lights)
     {
@@ -405,9 +405,11 @@ internal static class RuntimeChecks
         Check(QualitySettings.shadowCascades==cascades,label+": cascades "+QualitySettings.shadowCascades);
         Check(QualitySettings.pixelLightCount==lights,label+": pixel lights "+QualitySettings.pixelLightCount);
     }
+    // 많이 가림만 원래 값 ÷1.5입니다. 0.8·0.5 같은 고정값은 연구소 벽을 뚫었으므로 다른 값이면 실패합니다.
+    private static void ExpectLod(string label,float expected)
+    { Check(Math.Abs(QualitySettings.lodBias-expected)<0.001f,label+": lodBias "+QualitySettings.lodBias); }
     private static void ExpectUntouched(string label)
     {
-        Check(QualitySettings.LodBiasTouches==0,label+": lodBias never read or written");
         Check(QualitySettings.ShadowResolutionTouches==0 && QualitySettings.ShadowDistanceTouches==0,label+": shadow resolution and distance left to the game");
         Check(QualitySettings.DisableWrites==0,label+": ShadowQuality.Disable never written");
     }
@@ -416,9 +418,9 @@ internal static class RuntimeChecks
         // 지시서 표의 값을 그대로 적습니다. 원래 값은 256 / All / 4 / 5 입니다.
         switch(level)
         {
-            case SceneCleanupLevel.Max: ExpectQuality(label,64,false,ShadowQuality.HardOnly,2,2); break;
-            case SceneCleanupLevel.Balanced: ExpectQuality(label,128,false,ShadowQuality.All,4,5); break;
-            default: ExpectQuality(label,256,true,ShadowQuality.All,4,5); break;
+            case SceneCleanupLevel.Max: ExpectQuality(label,64,false,ShadowQuality.HardOnly,2,2); ExpectLod(label,2f/1.5f); break;
+            case SceneCleanupLevel.Balanced: ExpectQuality(label,128,false,ShadowQuality.All,4,5); ExpectLod(label,2f); break;
+            default: ExpectQuality(label,256,true,ShadowQuality.All,4,5); ExpectLod(label,2f); break;
         }
         ExpectUntouched(label);
     }
@@ -499,6 +501,9 @@ internal static class RuntimeChecks
         Flag("PixelLights").Value=false;RunTicks(state);
         Check(QualitySettings.pixelLightCount==5 && QualitySettings.shadows==ShadowQuality.HardOnly,"light flag restores only itself");
         Flag("PixelLights").Value=true;RunTicks(state);Check(QualitySettings.pixelLightCount==2,"light flag reapplies");
+        Flag("Lod").Value=false;RunTicks(state);ExpectLod("lod flag off",2f);
+        Check(QualitySettings.pixelLightCount==2,"lod flag restores only itself");
+        Flag("Lod").Value=true;RunTicks(state);ExpectLod("lod flag reapplies",2f/1.5f);
         ExpectRow(SceneCleanupLevel.Max,"after every flag toggle");
         SceneCleanupModule.Shutdown();SceneManager.Scenes.Clear();
     }
@@ -578,9 +583,9 @@ internal static class RuntimeChecks
     {
         var config=new ConfigFile();
         SceneCleanupModule.Init(config,new ManualLogSource(),Path.Combine(root,"data"));
-        foreach(var key in new[]{"ReduceParticles","SoftParticles","SoftVegetation","RealtimeReflections","Shadows","PixelLights","ShellCap","OtherMuzzleShadows"})
+        foreach(var key in new[]{"ReduceParticles","SoftParticles","SoftVegetation","RealtimeReflections","Shadows","PixelLights","Lod","ShellCap","OtherMuzzleShadows"})
             Check(config.Has("Graphics.Tuning",key),"setting kept: "+key);
-        foreach(var key in new[]{"Lod","ImpactCap","ShellLimit","ImpactLimit"})
+        foreach(var key in new[]{"ImpactCap","ShellLimit","ImpactLimit"})
             Check(!config.Has("Graphics.Tuning",key),"setting removed: "+key);
         SceneCleanupModule.Shutdown();
     }
@@ -588,7 +593,7 @@ internal static class RuntimeChecks
     private static void SourceAudit(string root)
     {
         string client=Path.GetFullPath(Path.Combine(root,"..","..","src","Tushonka.Cleaner.Client"));
-        var forbidden=new Regex(@"lodBias|\bLod\b|gfxLod|ImpactCap|ImpactLimit|AllowImpact|ImpactDecal|\bimpacts\b|gfxImpact|ShellLimit|gfxShellLimit|DrawDecal|DecalSystem");
+        var forbidden=new Regex(@"ImpactCap|ImpactLimit|AllowImpact|ImpactDecal|\bimpacts\b|gfxImpact|ShellLimit|gfxShellLimit|DrawDecal|DecalSystem");
         var files=new System.Collections.Generic.List<string>(Directory.GetFiles(Path.Combine(client,"SceneCleanup"),"*.cs",SearchOption.AllDirectories));
         files.Add(Path.Combine(client,"CleanerPlugin.SimpleUi.cs"));
         foreach(var web in new[]{"advanced.js","settings.js","i18n.js"}) files.Add(Path.Combine(client,"Web",web));
