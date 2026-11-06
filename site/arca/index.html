@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark"><meta name="theme-color" content="#0e1310">
+<title>Tushonka Cleaner — 아카라이브 안내</title>
+<meta name="description" content="SPT 4.1 메모리 정리, 서버, 그래픽 조정 모드입니다. 맵마다 재 보고 효과 없는 기능은 뺐습니다.">
+<meta property="og:type" content="website"><meta property="og:title" content="Tushonka Cleaner"><meta property="og:description" content="맵마다 재 보고, 효과 없는 것은 뺐습니다."><meta property="og:image" content="https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/img/og-ko.jpg"><meta property="og:url" content="https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/arca/"><meta name="twitter:card" content="summary_large_image">
+<script>document.documentElement.classList.add("js")</script>
+<link rel="stylesheet" href="../style.css">
+<style>
+.arca-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 28px; align-items: center; padding: 44px 0 30px; }
+.arca-hero h1 { font-size: clamp(44px, 7vw, 76px); line-height: 1; margin: 0 0 14px; }
+.arca-hero h1 span { display: block; color: var(--accent); }
+.arca-hero p { color: var(--muted); }
+.arca-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.is-off { opacity: .55; cursor: not-allowed; }
+.arca-sec { padding: 34px 0; border-top: 1px solid var(--line); }
+.arca-sec h2 { font-size: clamp(24px, 3.4vw, 34px); margin: 0 0 12px; }
+.arca-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.arca-cards article { border: 1px solid var(--line); background: var(--surface); padding: 18px; transition: transform .25s, border-color .25s; }
+.arca-cards article:hover { transform: translateY(-4px); border-color: var(--accent); }
+.arca-cards h3 { font-size: 17px; margin: 0 0 6px; color: var(--accent); }
+.arca-cards p { font-size: 14px; color: var(--muted); margin: 0; }
+.arca-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.arca-table th, .arca-table td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; }
+.arca-table thead th { color: var(--muted); font-size: 13px; }
+.arca-steps { margin: 0; padding-left: 20px; } .arca-steps li { margin-bottom: 8px; }
+.arca-end { text-align: center; padding: 44px 0 60px; border-top: 1px solid var(--line); }
+.arca-end .arca-actions { justify-content: center; }
+@media (max-width: 760px) { .arca-hero, .arca-cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <section class="arca-hero">
+    <div class="rv">
+      <p class="eyebrow">SPT 4.1 · v1.1.0</p>
+      <h1>Tushonka<span>Cleaner.</span></h1>
+      <p>메모리 정리와 진단, 서버 응답 압축, 그래픽 조정을 한곳에서 합니다. 기능을 하나씩 재 보고, 효과가 없거나 위험한 것은 뺐습니다.</p>
+      <div class="arca-actions"><span class="button primary is-off" aria-disabled="true">디스코드 주소 준비 중</span><a class="button" href="https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/#graphics">맵별 성능 비교 <span aria-hidden="true">↗</span></a></div>
+    </div>
+    <figure class="crt rv"><img src="../img/1.1.0/TarkovStreets.gif" width="720" height="405" alt="같은 자리에서 그래픽 단계를 바꾸며 찍은 스트리트 화면입니다."></figure>
+  </section>
+  <div class="stats">
+    <div class="stat rv"><b data-count="11">11</b><span>다시 잰 맵</span></div>
+    <div class="stat rv"><b data-count="792">792</b><span>벽 뚫림 점검 사진</span></div>
+    <div class="stat rv"><b data-count="7">7</b><span>재 보고 뺀 기능</span></div>
+    <div class="stat rv"><b data-count="0">0</b><span>측정 중 모드 오류</span></div>
+  </div>
+  <section class="arca-sec">
+    <h2 class="rv">하는 일</h2>
+    <div class="arca-cards">
+      <article class="rv"><h3>메모리</h3><p>레이드 뒤 메모리를 정리하고 부족해지면 알려 줍니다. Ctrl+F9로 상태 창과 끊김 분석, 누수 추적을 켭니다. <a href="https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/#overlay">창 읽는 법 ↗</a></p></article>
+      <article class="rv"><h3>서버</h3><p>응답 압축을 바꿔 크기는 그대로 두고 응답 시간을 636ms에서 440ms로 줄였습니다. 봇 장비 오류도 고칩니다. FPS를 올리는 기능은 아닙니다.</p></article>
+      <article class="rv"><h3>그래픽</h3><p>취향을 많이 타서 권장 단계가 없습니다. 기본은 끔이고, 맵별 비교를 보고 직접 고릅니다.</p></article>
+    </div>
+  </section>
+  <section class="arca-sec">
+    <h2 class="rv">많이 가림의 FPS 변화</h2>
+    <p class="rv">프레임을 크게 올리는 단계는 많이 가림뿐이며 맵의 풀을 그리지 않습니다. 조금 더 가림과 간단하게만 가림은 대부분의 자리에서 차이가 거의 없었습니다. 봇 없는 측정이라 교전 중 효과는 재지 못했습니다.</p>
+    <div class="table-scroll rv in-table"><table class="arca-table"><thead><tr><th scope="col">맵</th><th scope="col">같은 판의 끔 기준</th><th scope="col">다른 판의 끔 기준</th></tr></thead><tbody><tr class="rv"><th scope="row">해안</th><td><strong>+22% ~ +34%</strong><span class="gain" aria-hidden="true"><i style="--w:100%"></i></span></td><td>+21% ~ +28%</td></tr><tr class="rv"><th scope="row">삼림</th><td><strong>+21% ~ +27%</strong><span class="gain" aria-hidden="true"><i style="--w:79%"></i></span></td><td>+12% ~ +18%</td></tr><tr class="rv"><th scope="row">등대</th><td><strong>+22% ~ +25%</strong><span class="gain" aria-hidden="true"><i style="--w:75%"></i></span></td><td>+15% ~ +16%</td></tr><tr class="rv"><th scope="row">리저브</th><td><strong>+18% ~ +23%</strong><span class="gain" aria-hidden="true"><i style="--w:66%"></i></span></td><td>+19% ~ +24%</td></tr><tr class="rv"><th scope="row">연구소</th><td><strong>+16% ~ +23%</strong><span class="gain" aria-hidden="true"><i style="--w:68%"></i></span></td><td>+16% ~ +35%</td></tr><tr class="rv"><th scope="row">세관</th><td><strong>+9% ~ +22%</strong><span class="gain" aria-hidden="true"><i style="--w:65%"></i></span></td><td>+1% ~ +14%</td></tr><tr class="rv"><th scope="row">그라운드 제로</th><td><strong>+5% ~ +14%</strong><span class="gain" aria-hidden="true"><i style="--w:41%"></i></span></td><td>+5% ~ +13%</td></tr><tr class="rv"><th scope="row">스트리트</th><td><strong>+9% ~ +13%</strong><span class="gain" aria-hidden="true"><i style="--w:38%"></i></span></td><td>+4% ~ +7%</td></tr><tr class="rv"><th scope="row">인터체인지</th><td><strong>+3% ~ +9%</strong><span class="gain" aria-hidden="true"><i style="--w:27%"></i></span></td><td>+2% ~ +4%</td></tr><tr class="rv"><th scope="row">공장</th><td><strong>+2% ~ +7%</strong><span class="gain" aria-hidden="true"><i style="--w:19%"></i></span></td><td>0% ~ +5%</td></tr><tr class="rv"><th scope="row">미궁</th><td><strong>0% ~ +1%</strong><span class="gain" aria-hidden="true"><i style="--w:3%"></i></span></td><td>0% ~ +3%</td></tr></tbody></table></div>
+    <p class="table-note">RTX 4080, 2560×1440, 맵마다 3곳을 쟀습니다. 같은 끔이어도 판에 따라 FPS가 달라 두 기준을 함께 적었습니다. PC와 맵 상태에 따라 달라집니다. <a href="https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/#graphics">GIF와 비교 사진 보기 ↗</a></p>
+  </section>
+  <section class="arca-sec">
+    <h2 class="rv">설치</h2>
+    <ol class="arca-steps rv">
+      <li>디스코드에서 Tushonka-Cleaner-1.1.0.zip을 받습니다.</li>
+      <li>압축을 풀어 SPT 폴더에 덮어씁니다. 설정은 유지됩니다.</li>
+      <li>서버를 켰을 때 옛 모드를 옮겼다는 안내가 나오면 서버를 한 번 더 켭니다.</li>
+    </ol>
+    <p class="table-note">Smoothie와 함께 쓰지 마십시오. 원작과 라이선스, 기능별 검증 표는 <a href="https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/#verified">전체 소개 페이지 ↗</a>에 있습니다. 원작자의 승인을 받지 않은 비공식 통합본입니다.</p>
+  </section>
+  <section class="arca-end"><h2 class="rv">받는 곳은 디스코드입니다.</h2><div class="arca-actions rv"><span class="button primary is-off" aria-disabled="true">디스코드 주소 준비 중</span></div></section>
+</main>
+<script>
+(() => {
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add('in');
+    const c = e.target.querySelector('[data-count]');
+    if (c) {
+      const to = +c.dataset.count, t0 = performance.now();
+      if (reduced || !to) c.textContent = to;
+      else { const f = n => { const k = Math.min(1, (n - t0) / 1100); c.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(f); }; requestAnimationFrame(f); }
+    }
+    io.unobserve(e.target);
+  }), { threshold: .08 });
+  document.querySelectorAll('.rv').forEach((el, i) => { el.style.setProperty('--d', (i % 4) * .06 + 's'); io.observe(el); });
+})();
+</script>
+</body>
+</html>

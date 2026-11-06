@@ -312,7 +312,7 @@ internal sealed class OfflineSite
                     _files.WriteRaw("1. Auto GC", "Work per frame (ms)", "2");
                 }
 
-                _files.WriteRaw("Graphics", "Level", on ? "Balanced" : "Off");
+                if (!on) _files.WriteRaw("Graphics", "Level", "Off");
                 _files.WriteRaw("Internal", "Onboarding completed", "true");
                 ApplyServerStage(ServerLevelPolicy.Get(on ? "recommended" : "off"));
                 break;

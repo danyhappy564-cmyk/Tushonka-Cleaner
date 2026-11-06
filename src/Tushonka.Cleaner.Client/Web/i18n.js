@@ -68,13 +68,13 @@
     
     quickTitle: ['빠른 설정', 'Quick setup'],
     quickIntro: ['권장으로 모두 켜거나, 원하는 기능만 직접 고릅니다.', 'Turn everything on with Recommended, or pick just the features you want.'],
-    recommended: ['권장', 'Recommended'], offPreset: ['끄기', 'Turn off'], custom: ['직접 설정', 'Custom settings'], suggested: ['한 번에 모두 켭니다.', 'All three, one click.'],
-    recommendedDesc: ['세 기능을 모두 권장값으로 켭니다. 세부 설정도 권장값으로 맞춥니다.', 'Enable all three features and reset their details to recommended values.'],
+    recommended: ['권장', 'Recommended'], offPreset: ['끄기', 'Turn off'], custom: ['직접 설정', 'Custom settings'], suggested: ['메모리와 서버를 한 번에 켭니다.', 'Memory and server, one click.'],
+    recommendedDesc: ['메모리와 서버를 권장값으로 켭니다. 그래픽은 바꾸지 않습니다.', 'Enable memory and server at recommended values. Graphics stay as they are.'],
     offDesc: ['세 기능과 분석·알림을 끕니다. 웹을 열어 둔 동안 기본 수치는 계속 표시합니다.', 'Turn off all three features, analysis, and alerts. Basic readings remain visible while this page is open.'],
-    pickFeatures: ['사용할 기능을 고릅니다. 여러 개를 함께 골라도 됩니다.', 'Choose your features. Pick one, two, or all three.'],
+    pickFeatures: ['사용할 기능을 고릅니다. 함께 골라도 됩니다.', 'Choose your features. Pick one or both.'],
     pickHelp: ['각 선택은 독립적입니다. 개별 기능을 켜면 그 기능만 권장값으로 시작합니다.', 'Each choice is independent. Turning a feature on starts it at its recommended settings.'],
     memFeature: ['메모리 및 VGA', 'Memory & VRAM'], serverFeature: ['서버', 'Server'], graphicsFeature: ['그래픽', 'Graphics'],
-    quickMemory: ['자동 정리로 시작합니다.', 'Start with automatic cleanup.'], quickServer: ['안전한 최적화를 켭니다.', 'Enable the safe optimizations.'], quickGraphics: ['그래픽을 조금 줄여 프레임을 올립니다.', 'Lower graphics a little for more FPS.'],
+    quickMemory: ['자동 정리로 시작합니다.', 'Start with automatic cleanup.'], quickServer: ['안전한 최적화를 켭니다.', 'Enable the safe optimizations.'], quickGraphics: ['취향을 많이 타서 권장이 없습니다. 비교해 보고 그래픽 탭에서 고릅니다.', 'A matter of taste, so no recommendation. Compare, then choose in the Graphics tab.'],
     currentSetup: ['현재 설정', 'Current setup'], currentFeatures: ['선택한 기능: {names}', 'Selected: {names}'], noneSelected: ['선택한 기능이 없습니다.', 'No features selected.'],
     setupApplied: ['{name} 설정을 적용했습니다.', '{name} settings applied.'], changed: ['설정을 저장했습니다.', 'Settings saved.'],
     offSetup: ['모두 꺼짐', 'All off'], allDisabled: ['세 기능을 모두 껐습니다.', 'All three features are off.'],
@@ -117,7 +117,7 @@
     raidStartAssetsHelp: ['메뉴와 로딩에서 쓰고 남은 그림·모델을 한 번 정리합니다. 시작 직후 멈출 수 있어 권장에서는 끕니다.', 'Unload textures and models left over from menus and loading once. Recommended leaves this off because it can freeze the game just after a raid starts.'],
     afterRaid: ['메뉴 복귀 때 정리', 'Clean up on return to menu'], afterRaidHelp: ['레이드가 끝나고 메뉴로 돌아오면 쓰지 않는 그림·모델과 메모리를 정리합니다. 다음 로딩 때 일부를 다시 읽을 수 있습니다. 권장에서는 켭니다.', 'Unload unused textures and models and clean up memory after returning from a raid. Some resources may need to load again next time. Recommended keeps this on.'],
     cleanNow: ['지금 정리', 'Clean up now'], requiresGame: ['게임과 메모리 및 VGA 기능이 켜져 있어야 합니다.', 'Requires the game and Memory & VRAM to be on.'], cleanupPreview: ['정리한 메모리: 1.2 GB · 예시입니다.', 'Memory freed: 1.2 GB · Example.'],
-    serverLead: ['안전한 최적화를 모두 켜거나, 일부만 켜거나, 원래 서버 동작으로 돌아갑니다.', 'Enable all safe optimizations, use a lighter selection, or keep the original server behavior.'],
+    serverLead: ['안전한 최적화를 켜거나, 원래 서버 동작으로 돌아갑니다.', 'Enable the safe optimizations or keep the original server behavior.'],
     serverLegend: ['서버 단계를 고릅니다.', 'Choose a server level.'], serverRecommended: ['모든 안전한 최적화를 켭니다.', 'Enable all safe optimizations.'], serverOff: ['추가 최적화를 끄고 원래 서버 동작을 사용합니다.', 'Disable the added optimizations and use the original server behavior.'],
     serverSummaryRecommended: ['권장: 응답 압축 단축, 봇 장비 오류 수정, 게임 쪽 낭비 줄이기를 켭니다.', 'Recommended: faster response compression, the bot gear fix, and less waste in the game.'],
     
@@ -125,7 +125,7 @@
     serverProposal: ['효과·부담: {측정값}입니다.', 'Benefits and overhead: {측정값}.'],
     serverAvailable: ['서버 연결 중', 'Server connected'],
     
-    graphicsAmount: ['가리는 정도', 'How much to hide'], graphicsAmountHelp: ['권장은 화면 변화가 작은 조금 더 가림입니다. 프레임이 부족하면 많이 가림을 고릅니다. 강할수록 맵 모습도 많이 달라집니다.', 'Hide a bit more is recommended because it changes little. Pick Hide more clutter when FPS is short. Stronger levels change the map more.'],
+    graphicsAmount: ['가리는 정도', 'How much to hide'], graphicsAmountHelp: ['취향을 많이 타는 설정이라 권장 단계를 두지 않습니다. 맵별 성능과 화면을 보고 고릅니다. 강할수록 맵 모습도 많이 달라집니다.', 'This comes down to taste, so there is no recommended level. Compare performance and visuals per map, then choose. Stronger levels change the map more.'], gfxCompareLink: ['맵별 성능·화면 비교 보기 ↗', 'See per-map performance and visuals ↗'],
     graphicsNone: ['가리지 않음', 'Hide nothing'], graphicsLight: ['간단하게만 가림', 'Light touch'], graphicsMore: ['조금 더 가림', 'Hide a bit more'], graphicsMost: ['많이 가림', 'Hide more clutter'],
     simplerGraphics: ['반사·그림자도 줄이기', 'Reduce reflections and shadows too'], graphicsHelp: ['별도로 켤 수 있습니다. 화면 품질이 달라질 수 있습니다.', 'An optional extra. This can change visual quality.'],
     marksTiming: ['낙서·얼룩은 다음 레이드부터 바뀝니다. 다른 작은 장식은 레이드 중에도 바꿀 수 있습니다.', 'Graffiti and stain changes take effect next raid. Other small clutter can change during a raid.'],
@@ -151,7 +151,7 @@
     firstBadge: ['처음 한 번만 안내합니다.', 'A one-time setup.'], firstTitle: ['Tushonka Cleaner를 설정합니다.', 'Set up Tushonka Cleaner.'], firstIntro: ['권장을 누르면 세 기능을 함께 켭니다. 직접 고르면 원하는 기능만 켭니다.', 'Use Recommended to turn on all three features, or choose the ones you want.'],
     firstMemoryDesc: ['게임 중 메모리를 정리하고 부족할 때 알립니다.', 'Clean up memory while you play and warn when it runs low.'], firstServerDesc: ['안전한 서버 최적화를 함께 켭니다.', 'Enable the safe server optimizations.'], firstGraphicsDesc: ['그래픽을 조금 줄여 프레임을 올리고 작은 장식을 가립니다.', 'Lower graphics a little for more FPS and hide small clutter.'],
     webDiscovery: ['자세한 설정은 웹에서 엽니다.', 'Fine-tune your setup on the web.'], webDiscoveryDesc: ['이 안내의 웹 설정 열기 버튼이나 F12의 같은 버튼으로 엽니다.', 'Use Open web settings here or the same button in F12.'], webAddress: ['웹 설정 주소: /tushonka/ (자리표시자)', 'Web settings: /tushonka/ (placeholder)'],
-    enableRecommended: ['권장으로 모두 켜기', 'Enable all recommended'], chooseMyself: ['직접 고르기', 'Let me choose'], later: ['나중에', 'Not now'], laterHelp: ['나중에를 눌러도 다시 묻지 않습니다. 현재 설정을 유지하며 이후 F12에서 웹 설정을 엽니다.', 'Not now keeps your current settings and dismisses this prompt for good. You can open web settings from F12 later.'], chooseTitle: ['사용할 기능을 고릅니다.', 'Choose your features.'], saveChoices: ['선택한 기능만 켜기', 'Enable my choices'], back: ['돌아가기', 'Back'], setupComplete: ['선택을 기억했습니다.', 'Your choices are saved.'], setupLater: ['현재 설정을 유지했습니다.', 'Your current settings are unchanged.'], noRepeat: ['이 안내는 다시 띄우지 않습니다. 이후에는 F12에서 웹 설정을 열어 바꿉니다.', 'This prompt will not appear again. Open web settings from F12 to make changes later.'], openWeb: ['웹 설정 열기', 'Open web settings'],
+    enableRecommended: ['메모리·서버 권장으로 켜기', 'Enable memory and server'], chooseMyself: ['직접 고르기', 'Let me choose'], later: ['나중에', 'Not now'], laterHelp: ['나중에를 눌러도 다시 묻지 않습니다. 현재 설정을 유지하며 이후 F12에서 웹 설정을 엽니다.', 'Not now keeps your current settings and dismisses this prompt for good. You can open web settings from F12 later.'], chooseTitle: ['사용할 기능을 고릅니다.', 'Choose your features.'], saveChoices: ['선택한 기능만 켜기', 'Enable my choices'], back: ['돌아가기', 'Back'], setupComplete: ['선택을 기억했습니다.', 'Your choices are saved.'], setupLater: ['현재 설정을 유지했습니다.', 'Your current settings are unchanged.'], noRepeat: ['이 안내는 다시 띄우지 않습니다. 이후에는 F12에서 웹 설정을 열어 바꿉니다.', 'This prompt will not appear again. Open web settings from F12 to make changes later.'], openWeb: ['웹 설정 열기', 'Open web settings'],
     
     
     

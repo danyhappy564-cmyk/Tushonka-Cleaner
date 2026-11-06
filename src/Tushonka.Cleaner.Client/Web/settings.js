@@ -60,7 +60,7 @@
   }
   function render() {
     const flags = { memory: state.memoryMode !== 'off', server: state.serverLevel !== 'off', graphics: state.graphicsLevel !== 'off' };
-    const recommended = state.memoryMode === 'game' && state.serverLevel === 'recommended' && state.graphicsLevel === 'more' && ['waitCombat','afterRaid'].every(k => read(keys[k])?.toLowerCase() === 'true') && Number(read(keys.growth)) === 1.5 && Number(read(keys.budget)) === 2;
+    const recommended = state.memoryMode === 'game' && state.serverLevel === 'recommended' && ['waitCombat','afterRaid'].every(k => read(keys[k])?.toLowerCase() === 'true') && Number(read(keys.growth)) === 1.5 && Number(read(keys.budget)) === 2;
     const setup = Object.values(flags).every(x => !x) ? 'off' : recommended ? 'recommended' : 'custom';
     document.querySelectorAll('[data-setting], [data-adv]').forEach(el => {
       const name = el.dataset.setting || el.dataset.adv;

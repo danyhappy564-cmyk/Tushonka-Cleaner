@@ -88,7 +88,8 @@
 
     refreshMotion = () => {
       const playing = !reducedMotion.matches && !paused;
-      const source = playing ? animation.dataset.animation : animation.dataset.poster;
+      const en = language === 'en';
+      const source = playing ? (en ? animation.dataset.animationEn : animation.dataset.animation) : (en ? animation.dataset.posterEn : animation.dataset.poster);
       if (animation.getAttribute('src') !== source) animation.setAttribute('src', source);
       motionButton.hidden = reducedMotion.matches;
       motionButton.setAttribute('aria-pressed', String(playing));
@@ -104,6 +105,110 @@
     setLanguage(language);
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialize, { once: true });
-  else initialize();
+
+  // 1.1.0: 움직임과 맵 탐색기
+  function enhance() {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const bar = document.createElement('div');
+    bar.className = 'progress';
+    document.body.append(bar);
+    const onScroll = () => {
+      const h = document.documentElement.scrollHeight - innerHeight;
+      bar.style.setProperty('--p', h > 0 ? scrollY / h : 0);
+      root.classList.toggle('scrolled', scrollY > 10);
+    };
+    addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    const targets = document.querySelectorAll('.section-heading, .feature, .stat, .level-card, .conditions, .map-explorer, .summary-table, .table-note, .evidence, .inline-note, .mode-row, .cleanup-report, .mode-keys, .server-table, .server-explanation, .notice-card, .screen-role, .screen-figure, .web-shots, .install-steps li, .migration, .credit, .disclaimer');
+    targets.forEach((el, i) => { el.classList.add('rv'); el.style.setProperty('--d', (i % 4) * 0.06 + 's'); });
+    const countUp = el => {
+      const to = Number(el.dataset.count);
+      if (reduced || !to) { el.textContent = to; return; }
+      const start = performance.now();
+      const step = now => {
+        const k = Math.min(1, (now - start) / 1100);
+        el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3)));
+        if (k < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+    const seen = new IntersectionObserver(entries => entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      e.target.querySelectorAll('[data-count]').forEach(countUp);
+      if (e.target.classList.contains('map-explorer')) activeGo();
+      seen.unobserve(e.target);
+    }), { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
+    targets.forEach(el => seen.observe(el));
+
+    // 맵 탐색기
+    const tabs = [...document.querySelectorAll('.map-tab')];
+    const panels = [...document.querySelectorAll('[data-map-panel]')];
+    const activeGo = () => {
+      const p = panels.find(x => !x.hidden);
+      if (p) requestAnimationFrame(() => requestAnimationFrame(() => p.classList.add('go')));
+    };
+    const pick = name => {
+      tabs.forEach(b => b.setAttribute('aria-selected', String(b.dataset.map === name)));
+      panels.forEach(p => { p.hidden = p.dataset.mapPanel !== name; p.classList.remove('go'); });
+      activeGo();
+    };
+    tabs.forEach(b => b.addEventListener('click', () => pick(b.dataset.map)));
+    if (tabs[0]) pick(tabs[0].dataset.map);
+    document.querySelectorAll('.map-jump').forEach(b => b.addEventListener('click', () => {
+      pick(b.dataset.map);
+      document.getElementById('maps').scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+    }));
+
+    // 모드 사진과 번호
+    const shots = [...document.querySelectorAll('[data-shot-panel]')];
+    document.querySelectorAll('.mode-tab').forEach(b => b.addEventListener('click', () => {
+      document.querySelectorAll('.mode-tab').forEach(x => x.setAttribute('aria-selected', String(x === b)));
+      shots.forEach(p => { p.hidden = p.dataset.shotPanel !== b.dataset.shot; });
+    }));
+    document.querySelectorAll('.anno-pin').forEach(b => b.addEventListener('click', () => {
+      const row = document.querySelector(`.gloss-row[data-n="${b.dataset.pin}"]`);
+      if (!row) return;
+      row.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' });
+      row.classList.add('flash');
+      setTimeout(() => row.classList.remove('flash'), 1800);
+    }));
+
+    // 기능 검증 표 거르기
+    const vt = document.querySelector('.verify-table');
+    if (vt) {
+      const box = document.createElement('div');
+      box.className = 'verify-filter';
+      const names = { all: ['전체', 'All'], keep: ['유지', 'Kept'], cut: ['1.1.0 제거', 'Removed in 1.1.0'], gone: ['4.1이 해결', 'Solved by 4.1'] };
+      Object.entries(names).forEach(([key, [ko, en]], i) => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'mode-tab'; b.setAttribute('aria-selected', String(i === 0));
+        b.innerHTML = `<span class="ko">${ko}</span><span class="en" lang="en">${en}</span>`;
+        b.addEventListener('click', () => {
+          box.querySelectorAll('button').forEach(x => x.setAttribute('aria-selected', String(x === b)));
+          vt.querySelectorAll('tbody tr').forEach(tr => { tr.hidden = key !== 'all' && !tr.classList.contains('v-' + key); });
+        });
+        box.append(b);
+      });
+      vt.closest('.table-scroll').before(box);
+    }
+
+    // 현재 구역 표시와 대문 사진 기울기
+    const links = [...document.querySelectorAll('.main-nav a')];
+    const spy = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) links.forEach(a => a.classList.toggle('is-here', a.getAttribute('href') === '#' + e.target.id));
+    }), { rootMargin: '-45% 0px -50% 0px' });
+    links.forEach(a => { const t = document.querySelector(a.getAttribute('href')); if (t) spy.observe(t); });
+    const sheet = document.querySelector('.hero-media .media-sheet');
+    if (sheet && !reduced) document.querySelector('.hero').addEventListener('mousemove', e => {
+      const r = sheet.getBoundingClientRect();
+      sheet.style.setProperty('--ry', ((e.clientX - r.left - r.width / 2) / r.width * 6).toFixed(2) + 'deg');
+      sheet.style.setProperty('--rx', (-(e.clientY - r.top - r.height / 2) / r.height * 4).toFixed(2) + 'deg');
+    });
+  }
+
+  const start = () => { initialize(); enhance(); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
+  else start();
 })();

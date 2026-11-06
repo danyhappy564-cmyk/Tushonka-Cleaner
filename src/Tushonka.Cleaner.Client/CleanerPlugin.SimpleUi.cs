@@ -21,7 +21,8 @@ namespace Tushonka.Cleaner.Client
         private ConfigEntry<string> _serverLevel;
         private ConfigEntry<SceneCleanupLevel> _graphicsLevel;
         private bool _syncingSimpleUi;
-        private bool _showWelcome, _chooseFeatures, _chooseServer, _chooseGraphics;
+        internal const string GraphicsCompareUrl = "https://danyhappy564-cmyk.github.io/Tushonka-Cleaner/#graphics";
+        private bool _showWelcome, _chooseFeatures, _chooseServer;
         private string _lastGameLanguage;
         private long _raidFreedGc, _raidFreedAssets;
         private int _raidGeneration;
@@ -41,7 +42,7 @@ namespace Tushonka.Cleaner.Client
             Bind(ModeSection, ModeCategory, "Open web", "웹 설정 열기", "",
                 "자세한 설정은 웹에서 합니다. / Open web settings for the details.", null, 94, DrawOpenWeb);
             _graphicsLevel = Config.Bind("Graphics", "Level", SceneCleanupLevel.Off,
-                new ConfigDescription("그래픽 단계 / Graphics level", null, new ConfigurationManagerAttributes()));
+                new ConfigDescription("그래픽 단계. 취향을 많이 타서 권장이 없습니다. 맵별 비교: "+GraphicsCompareUrl+" / Graphics level. No recommended level. Per-map comparison: "+GraphicsCompareUrl, null, new ConfigurationManagerAttributes()));
             _graphicsLevel.SettingChanged += (_, __) =>
             {
                 if (!_conflicts.Graphics) _sceneCleanup.SetLevel(_graphicsLevel.Value);
@@ -109,7 +110,8 @@ namespace Tushonka.Cleaner.Client
             ApplyPreset(_preset.Value);
             if (on) { _gcGrowthGb.Value = 1.5f; _gcSliceMs.Value = 2f; }
             SetServerLevel(on ? "recommended" : "off");
-            _graphicsLevel.Value = on && !_conflicts.Graphics ? SceneCleanupLevel.Balanced : SceneCleanupLevel.Off;
+            // 그래픽은 취향을 많이 타서 권장 단계를 두지 않습니다. 끌 때만 함께 끕니다.
+            if (!on) _graphicsLevel.Value = SceneCleanupLevel.Off;
         }
 
         private void RefreshSimpleUi()
@@ -204,8 +206,7 @@ namespace Tushonka.Cleaner.Client
             if (recommended) QuickSetup(true);
             else if (!later)
             {
-                SetServerLevel(_chooseServer ? "recommended" : "off");
-                _graphicsLevel.Value = _chooseGraphics && !_conflicts.Graphics ? SceneCleanupLevel.Balanced : SceneCleanupLevel.Off;
+                SetServerLevel(_chooseServer ? "recommended" : "off");
             }
             _onboardingDone.Value = true;
             ServerSettingsMenu.Instance?.SetSetupPending(false);
@@ -243,11 +244,12 @@ namespace Tushonka.Cleaner.Client
             if (GUILayout.Button("English")) _language.Value = LanguageEnglish;
             GUILayout.EndHorizontal();
             GUILayout.Label(Loc.L("Tushonka Cleaner를 설정합니다.", "Set up Tushonka Cleaner."), _welcomeTitle);
-            GUILayout.Label(Loc.L("권장을 누르면 세 기능을 함께 켭니다. 직접 고르면 원하는 기능만 켭니다.", "Use Recommended to turn on all three features, or choose the ones you want."), _welcomeText);
+            GUILayout.Label(Loc.L("권장을 누르면 메모리와 서버를 켭니다. 그래픽은 취향을 많이 타서 직접 고릅니다.", "Recommended turns on memory and server. Graphics are a matter of taste, so you choose them yourself."), _welcomeText);
             GUILayout.Space(10);
             GUILayout.Label(Loc.L("01  메모리 및 VGA — 게임 중 메모리를 정리하고 부족할 때 알립니다.", "01  Memory & VRAM — Clean up memory while you play and warn when it runs low."), _welcomeText);
             GUILayout.Label(Loc.L("02  서버 — 안전한 서버 최적화를 함께 켭니다.", "02  Server — Enable the safe server optimizations."), _welcomeText);
-            GUILayout.Label(Loc.L("03  그래픽 — 그래픽을 조금 줄여 프레임을 올리고 작은 장식을 가립니다.", "03  Graphics — Lower graphics a little for more FPS and hide small clutter."), _welcomeText);
+            GUILayout.Label(Loc.L("03  그래픽 — 권장 단계가 없습니다. 맵별 성능과 화면을 보고 F12나 웹에서 고릅니다.", "03  Graphics — No recommended level. See per-map performance and visuals, then pick in F12 or on the web."), _welcomeText);
+            if (GUILayout.Button(Loc.L("그래픽 성능 비교 페이지 열기", "Open the graphics comparison page"), _welcomeButton)) Application.OpenURL(GraphicsCompareUrl);
             GUILayout.Space(10);
             GUILayout.Label(Loc.L("자세한 설정은 웹에서 엽니다.", "Fine-tune your setup on the web."), _welcomeText);
             GUILayout.Label(_web?.Url ?? $"http://127.0.0.1:{_webPort.Value}/", _welcomeText);
@@ -255,13 +257,12 @@ namespace Tushonka.Cleaner.Client
             if (_chooseFeatures)
             {
                 _chooseServer = GUILayout.Toggle(_chooseServer, Loc.L("서버", "Server"), _welcomeText);
-                _chooseGraphics = GUILayout.Toggle(_chooseGraphics, Loc.L("그래픽", "Graphics"), _welcomeText);
                 if (GUILayout.Button(Loc.L("선택한 기능만 켜기", "Enable my choices"), _welcomeButton)) CompleteWelcome(false, false);
                 if (GUILayout.Button(Loc.L("돌아가기", "Back"))) _chooseFeatures = false;
             }
             else
             {
-                if (GUILayout.Button(Loc.L("권장으로 모두 켜기", "Enable all recommended"), _welcomeButton)) CompleteWelcome(true, false);
+                if (GUILayout.Button(Loc.L("메모리·서버 권장으로 켜기", "Enable memory and server"), _welcomeButton)) CompleteWelcome(true, false);
                 if (GUILayout.Button(Loc.L("직접 고르기", "Let me choose"), _welcomeButton)) _chooseFeatures = true;
                 if (GUILayout.Button(Loc.L("나중에", "Not now"), _welcomeButton)) CompleteWelcome(false, true);
             }
