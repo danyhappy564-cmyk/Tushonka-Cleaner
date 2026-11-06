@@ -12,7 +12,6 @@ namespace Tushonka.Cleaner.Client
         // Section keys are never renamed (that would reset people's values) - only the categories are.
         private const string ModeSection = "0. Mode";
         private const string GcSection = "1. Auto GC";
-        private const string TrimSection = "2. Working set";
         private const string GeneralSection = "3. General";
         private const string AssetSection = "4. Assets";
         private const string TimingSection = "5. Timing";
@@ -37,7 +36,6 @@ namespace Tushonka.Cleaner.Client
 
         private const string ModeCategory = "00. 모드 · 언어";
         private const string GcCategory = "01. 자동 메모리 정리 (GC) — 추천";
-        private const string TrimCategory = "02. 워킹셋 정리 (원본 Tushonka Cleaner 방식)";
         private const string AssetCategory = "03. 에셋·VRAM 정리 ";
         private const string TimingCategory = "04. 전투 중에는 미루기";
         private const string GeneralCategory = "05. 공통 · 수동 실행 · 상태";
@@ -72,7 +70,6 @@ namespace Tushonka.Cleaner.Client
         private ConfigEntry<string> _language;
         private ConfigEntry<string> _preset;
         private ConfigEntry<string> _presetApplied;
-        private ConfigEntry<bool> _trimBeforeOff;
 
         /// <summary>Every F12 entry with its Korean texts, so the language switch can rewrite what F12 shows.</summary>
         private readonly List<LocalizedEntry> _localized = new List<LocalizedEntry>();
@@ -93,17 +90,7 @@ namespace Tushonka.Cleaner.Client
         private ConfigEntry<int> _gcCooldownSec;
         private ConfigEntry<bool> _gcAllowBlocking;
 
-        private ConfigEntry<bool> _trimEnabled;
-        private ConfigEntry<bool> _trimOnlyLowRam;
-        private ConfigEntry<int> _trimLowRamPercent;
-        private ConfigEntry<int> _trimIntervalSec;
-        private ConfigEntry<bool> _trimAfterGc;
 
-        private ConfigEntry<bool> _unloadAtStart;
-        private ConfigEntry<int> _unloadStartDelaySec;
-        private ConfigEntry<bool> _unloadAuto;
-        private ConfigEntry<float> _unloadNativeGrowthGb;
-        private ConfigEntry<int> _unloadCooldownMin;
         private ConfigEntry<bool> _unloadGcFirst;
 
         private ConfigEntry<bool> _waitForQuiet;
@@ -179,7 +166,6 @@ namespace Tushonka.Cleaner.Client
         {
             BindModeSettings();
             BindGcSettings();
-            BindTrimSettings();
             BindAssetSettings();
             BindTimingSettings();
             BindGeneralSettings();
@@ -203,9 +189,6 @@ namespace Tushonka.Cleaner.Client
                 ApplyPreset(_preset.Value);
                 _presetApplied.Value = _preset.Value;
             };
-
-            _trimBeforeOff = BindMigrated(InternalSection, "Trim before off", true,
-                new ConfigDescription("Do not edit.", null, new ConfigurationManagerAttributes { Browsable = false }));
 
             // The mode can also be changed in the .cfg while the game is closed (the SPT launcher's mod page does that):
             // a value read from the file raises no SettingChanged, so apply it here once.
@@ -294,25 +277,12 @@ namespace Tushonka.Cleaner.Client
             _gcEnabled.Value = on;
             _postRaidCleanup.Value = on;
             _waitForQuiet.Value = true;
-            _unloadAtStart.Value = false;
-            _unloadAuto.Value = false;
             _warnEnabled.Value = on;
             _warnNotify.Value = on;
             _forecastEnabled.Value = on;
             _forecastNotify.Value = on;
             _restartNotify.Value = on;
 
-            // The other modes leave the working-set trim as the user set it; only "off" stops it, and leaving "off" puts it back.
-            bool wasOff = _presetApplied != null && _presetApplied.Value == PresetOff;
-            if (off && !wasOff)
-            {
-                _trimBeforeOff.Value = _trimEnabled.Value;
-                _trimEnabled.Value = false;
-            }
-            else if (!off && wasOff)
-            {
-                _trimEnabled.Value = _trimBeforeOff.Value;
-            }
             _diagHeavy.Value = false;
 
             // What is measured, shown and logged.
@@ -358,27 +328,6 @@ namespace Tushonka.Cleaner.Client
             _configVersion = BindMigrated(InternalSection, "Config version", 0,
                 new ConfigDescription("Do not edit.", null, new ConfigurationManagerAttributes { Browsable = false }));
 
-            if (_configVersion.Value < 220)
-            {
-                // v2.1.0 real log: the raid-start unload froze the game 5.6 s and freed 0.07 GB of VRAM.
-                if (_unloadAtStart.Value)
-                {
-                    _unloadAtStart.Value = false;
-                    Logger.LogInfo("Settings migrated to 2.2.0: '레이드 시작 시 1회 정리' switched off (new default)");
-                }
-            }
-
-            if (_configVersion.Value < 230)
-            {
-                // Five real SAIN-sim logs (2026-09-29..10-01): every auto unload freed ~0 GB and cost a 0.5-1.5 s frame.
-                // The growth turned out to be per-death bot equipment that is still referenced (APBS mod item variety).
-                if (_unloadAuto.Value)
-                {
-                    _unloadAuto.Value = false;
-                    Logger.LogInfo("Settings migrated to 2.3.0: '레이드 중 자동 정리' switched off (new default)");
-                }
-            }
-
             if (_configVersion.Value < 280 && _hitchModTracking.Value)
             {
                 // 2.8.0: continuous per-mod measuring moved behind the one-key diagnostic mode; normal play stays light.
@@ -392,8 +341,8 @@ namespace Tushonka.Cleaner.Client
         private void BindHitchSettings()
         {
             _hitchEnabled = Bind(HitchSection, HitchCategory, "Enabled", "끊김 감지기 켜기", true,
-                "레이드 중 한 프레임이 아래 기준보다 오래 걸리면 로그([hitch] 줄)에 남기고, 그 순간 이 모드가 GC·에셋 정리·누수 추적·" +
-                "워킹셋 정리 중이었는지 같이 적습니다. '이 끊김이 Tushonka Cleaner 때문인가?'를 가려내는 용도입니다. " +
+                "레이드 중 한 프레임이 아래 기준보다 오래 걸리면 로그([hitch] 줄)에 남기고, 그 순간 이 모드가 GC·에셋 정리·누수 추적 중이었는지 " +
+                "같이 적습니다. '이 끊김이 Tushonka Cleaner 때문인가?'를 가려내는 용도입니다. " +
                 "기록만 하므로 게임 동작에는 영향이 없습니다.",
                 null, 10);
 
@@ -687,58 +636,8 @@ namespace Tushonka.Cleaner.Client
                 null, 6);
         }
 
-        private void BindTrimSettings()
-        {
-            _trimEnabled = Bind(TrimSection, TrimCategory, "Enabled", "워킹셋 정리 켜기", true,
-                "게임이 쓰던 메모리를 RAM 밖(대기 메모리/페이지 파일)으로 강제로 내보냅니다. " +
-                "메모리를 실제로 비우는 게 아니라 옮기는 것이라, 게임이 다시 쓸 때 읽어오느라 직후에 끊김이 생길 수 있습니다. " +
-                "v2.1.0부터는 게임과 별도 스레드에서 실행해서, 정리 자체로 게임이 멈추지는 않습니다.",
-                null, 10);
-
-            _trimOnlyLowRam = Bind(TrimSection, TrimCategory, "Only when RAM is low", "시스템 RAM 부족할 때만", true,
-                "켜면 윈도우 전체의 여유 RAM이 아래 기준보다 적을 때만 정리합니다 (추천). " +
-                "끄면 원본 모드처럼 정해진 간격마다 무조건 정리합니다.",
-                null, 9);
-
-            _trimLowRamPercent = Bind(TrimSection, TrimCategory, "Low RAM threshold (%)", "여유 RAM 기준 (%)", 10,
-                "시스템 여유 RAM이 전체의 몇 % 미만이면 '부족'으로 볼지 정합니다. 64GB에서 10%는 약 6.4GB입니다.",
-                new AcceptableValueRange<int>(3, 50), 8);
-
-            _trimIntervalSec = Bind(TrimSection, TrimCategory, "Interval (s)", "간격 (초)", 300,
-                "'RAM 부족할 때만'을 끄면 이 간격마다 정리합니다. 켜져 있으면 두 번 정리 사이의 최소 간격입니다.",
-                new AcceptableValueRange<int>(30, 1800), 7);
-
-            _trimAfterGc = Bind(TrimSection, TrimCategory, "After GC", "GC 정리 직후에도 실행", false,
-                "자동/수동 GC 정리가 끝날 때마다 워킹셋 정리도 같이 합니다. 작업 관리자 숫자는 크게 줄지만 직후 끊김이 생길 수 있습니다.",
-                null, 6);
-        }
-
         private void BindAssetSettings()
         {
-            _unloadAtStart = Bind(AssetSection, AssetCategory, "At raid start", "레이드 시작 시 1회 정리", false,
-                "카운트다운이 끝나고 레이드가 시작되면, 메뉴·로딩 때 쓰고 남은 텍스처·모델을 한 번 내립니다. " +
-                "SPTVRAMCleaner(matsix)의 기능입니다. 실측(2026-09-29): 게임이 5.6초 멈췄고 VRAM은 0.07GB만 줄어서 기본값을 껐습니다.",
-                null, 10);
-
-            _unloadStartDelaySec = Bind(AssetSection, AssetCategory, "Start delay (s)", "시작 후 대기 (초)", 3,
-                "레이드가 시작되고 몇 초 뒤에 정리할지 정합니다.",
-                new AcceptableValueRange<int>(0, 60), 9);
-
-            _unloadAuto = Bind(AssetSection, AssetCategory, "Auto in raid", "레이드 중 자동 정리", false,
-                "GC가 관리하지 않는 '네이티브 메모리'(텍스처·모델·사운드·물리, 모드가 만든 오브젝트 등)가 많이 늘면, " +
-                "조용한 순간에 안 쓰는 에셋을 내립니다. 두 번 연속 거의 안 줄면 게임을 끌 때까지 자동으로 그만둡니다. " +
-                "실측(SAIN 시뮬 로그 5개): 매번 거의 0GB만 줄고 0.5~1.5초 끊겨서 기본값을 껐습니다. " +
-                "레이드 중 메모리 증가는 대부분 죽은 봇의 장비(모드 아이템 종류가 많을수록 큼)라 에셋 정리로는 안 줄어듭니다.",
-                null, 8);
-
-            _unloadNativeGrowthGb = Bind(AssetSection, AssetCategory, "Native growth trigger (GB)", "시작 기준: 네이티브 증가량 (GB)", 8f,
-                "마지막 에셋 정리(또는 레이드 시작) 이후 네이티브 메모리가 이만큼 늘면 정리합니다.",
-                new AcceptableValueRange<float>(2f, 64f), 7);
-
-            _unloadCooldownMin = Bind(AssetSection, AssetCategory, "Minimum gap (min)", "자동 정리 최소 간격 (분)", 10,
-                "에셋 정리 사이의 최소 간격입니다. 에셋 정리는 GC보다 무거워서 1~3초 끊길 수 있습니다.",
-                new AcceptableValueRange<int>(3, 60), 6);
-
             _unloadGcFirst = Bind(AssetSection, AssetCategory, "GC first", "정리 전에 GC 먼저", true,
                 "레이드 중에는 GC가 꺼져 있어서, 이미 버려진 오브젝트가 에셋을 아직 붙잡고 있을 수 있습니다. " +
                 "켜면 GC를 먼저 끝낸 뒤 에셋을 내려서 더 많이 비웁니다. (원본 SPTVRAMCleaner의 GC.Collect()는 " +
@@ -749,7 +648,7 @@ namespace Tushonka.Cleaner.Client
         private void BindTimingSettings()
         {
             _waitForQuiet = Bind(TimingSection, TimingCategory, "Wait for quiet", "전투 중에는 미루기", true,
-                "켜면 자동 GC·에셋·워킹셋 정리를, 최근에 총을 쏘거나 맞거나 조준하지 않은 '조용한 순간'까지 미룹니다. " +
+                "켜면 자동 GC를, 최근에 총을 쏘거나 맞거나 조준하지 않은 '조용한 순간'까지 미룹니다. " +
                 "인벤토리를 열고 있으면 항상 조용한 순간으로 봅니다. 수동 버튼은 미루지 않습니다.",
                 null, 10);
 
@@ -758,8 +657,7 @@ namespace Tushonka.Cleaner.Client
                 new AcceptableValueRange<int>(5, 120), 9);
 
             _gcMaxDeferSec = Bind(TimingSection, TimingCategory, "GC max wait (s)", "GC 최대 대기 (초, 0=무제한)", 180,
-                "전투가 계속돼도 GC는 이 시간이 지나면 그냥 실행합니다(메모리가 끝없이 늘지 않게). 에셋 정리는 끝까지 기다립니다. " +
-                "워킹셋 정리는 RAM 부족 비상용이라 최대 60초만 기다립니다.",
+                "전투가 계속돼도 GC는 이 시간이 지나면 그냥 실행합니다(메모리가 끝없이 늘지 않게). ",
                 new AcceptableValueRange<int>(0, 900), 8);
 
             _runOnInventory = Bind(TimingSection, TimingCategory, "Run on inventory", "인벤토리 열면 밀린 정리 실행", true,
@@ -770,9 +668,8 @@ namespace Tushonka.Cleaner.Client
         private void BindGeneralSettings()
         {
             _postRaidCleanup = Bind(GeneralSection, GeneralCategory, "After raid cleanup", "레이드 끝난 뒤 메뉴에서 정리", true,
-                "레이드가 끝나고 메뉴로 돌아오면 GC → 안 쓰는 에셋 정리 → 워킹셋 정리를 한 번 합니다(메뉴라 끊겨도 상관없음). " +
-                "레이드 동안 커진 게임 메모리가 윈도우에 바로 돌아가서 '시스템 여유'가 금방 회복됩니다. " +
-                "대신 다음 레이드 로딩 때 일부를 다시 읽어 오느라 로딩이 아주 약간 길어질 수 있습니다.",
+                "레이드가 끝나고 메뉴로 돌아오면 GC를 한 번 합니다. 실측: 관리 메모리 약 5GB가 3GB로 줄고, 작업은 약 0.3초를 여러 프레임에 나눠 합니다. " +
+                "레이드에서 쌓인 메모리를 어느 모드가 붙잡고 있는지 알려 주는 검사에도 이 값을 씁니다.",
                 null, 11);
 
             _postRaidDelaySec = Bind(GeneralSection, GeneralCategory, "After raid delay (s)", "레이드 끝난 뒤 정리까지 대기 (초)", 20,
@@ -798,8 +695,8 @@ namespace Tushonka.Cleaner.Client
                 null, 10);
 
             Bind(GeneralSection, GeneralCategory, "Manual actions", "수동 실행", string.Empty,
-                "GC 정리: 위 설정대로 나눠서 정리합니다. 워킹셋 정리: 별도 스레드에서 실행, 직후 잠깐 끊길 수 있습니다. " +
-                "에셋 정리: ('정리 전에 GC 먼저'가 켜져 있으면 GC 후) 안 쓰는 텍스처·모델을 내립니다. 1~3초 멈출 수 있습니다.",
+                "GC 정리: 위 설정대로 나눠서 정리합니다. " +
+                "에셋 정리: ('정리 전에 GC 먼저'가 켜져 있으면 GC 후) 안 쓰는 텍스처·모델을 내립니다. 약 4초 멈추고, 실측에서는 거의 줄지 않았습니다.",
                 null, 9, ManualButtonsDrawer);
 
             Bind(GeneralSection, GeneralCategory, "Status", "현재 상태", string.Empty,

@@ -92,8 +92,6 @@ public sealed class WebPageController : ControllerBase
             lang = DefaultLanguage(),
             processMb = ServerStats.Mb(stats.WorkingSetBytes),
             committedMb = ServerStats.Mb(stats.CommittedBytes),
-            lastCleanupKo = PostRaidCleanup.LastResult,
-            lastCleanupEn = PostRaidCleanup.LastResultEn,
             debugLog = DebugLog.Enabled ? DebugLog.FilePath : null,
             settings = SettingsCatalog.All.Select(s => new
             {

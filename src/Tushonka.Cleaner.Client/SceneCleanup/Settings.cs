@@ -8,7 +8,7 @@ namespace Tushonka.Cleaner.SceneCleanup
         internal readonly ConfigEntry<SceneCleanupLevel> Level;
         internal readonly ConfigEntry<float> Delay, Budget, Distance;
         internal readonly ConfigEntry<bool>[] Categories = new ConfigEntry<bool>[7];
-        internal readonly ConfigEntry<bool> Particles, SoftParticles, SoftVegetation, Reflections, Shadows, Lights, Lod, ShellCap, MuzzleShadows;
+        internal readonly ConfigEntry<bool> Particles, SoftParticles, SoftVegetation, Reflections, Shadows, Lights, Lod, Grass, ShellCap, MuzzleShadows;
         internal readonly ConfigEntry<int> ChangesPerFrame;
         internal CleanupSettings(ConfigFile config)
         {
@@ -27,6 +27,7 @@ namespace Tushonka.Cleaner.SceneCleanup
             Shadows=Flag(config,"Shadows","그림자 품질 줄이기","Reduce shadow quality");
             Lights=Flag(config,"PixelLights","픽셀 조명 수 줄이기","Reduce pixel light count");
             Lod=Flag(config,"Lod","먼 모델 단순화(많이 가림에서만 1.5배 빠르게)","Simplify distant models (Max only, 1.5x sooner)");
+            Grass=config.Bind("Graphics.Tuning","Grass",true,"풀 끄기. 많이 가림에서만 적용합니다. 봇의 시야는 바뀌지 않습니다. / Turn off grass. Max only. Bot vision does not change.");
             ShellCap=config.Bind("Graphics.Tuning","ShellCap",true,"버려진 탄피 수 상한. 끔을 뺀 모든 단계에서 적용하며 끄면 게임 원래 동작을 사용합니다. / Limit ejected used shell count. Applies at every level except Off; disable to use original behaviour.");
             MuzzleShadows=Flag(config,"OtherMuzzleShadows","다른 사람의 총구 화염 그림자 끄기","Disable other players' muzzle light shadows");
         }

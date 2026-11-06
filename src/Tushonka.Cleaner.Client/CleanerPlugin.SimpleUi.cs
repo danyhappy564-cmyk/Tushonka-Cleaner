@@ -15,15 +15,15 @@ namespace Tushonka.Cleaner.Client
     public partial class CleanerPlugin
     {
         private const string LanguageAuto = "자동 · Auto";
-        private static readonly string[] ServerLabels = { "권장 · Recommended", "균형 · Balanced", "끄기 · Off", "직접 설정 · Custom" };
-        private static readonly string[] ServerIds = { "recommended", "balanced", "off", "custom" };
+        private static readonly string[] ServerLabels = { "권장 · Recommended", "끄기 · Off", "직접 설정 · Custom" };
+        private static readonly string[] ServerIds = { "recommended", "off", "custom" };
         private ConfigEntry<bool> _onboardingDone;
         private ConfigEntry<string> _serverLevel;
         private ConfigEntry<SceneCleanupLevel> _graphicsLevel;
         private bool _syncingSimpleUi;
         private bool _showWelcome, _chooseFeatures, _chooseServer, _chooseGraphics;
         private string _lastGameLanguage;
-        private long _raidFreedGc, _raidFreedTrim, _raidFreedAssets;
+        private long _raidFreedGc, _raidFreedAssets;
         private int _raidGeneration;
         private GUIStyle _welcomeTitle, _welcomeText, _welcomeButton, _welcomeBox;
         private Rect _welcomeRect;
@@ -34,7 +34,7 @@ namespace Tushonka.Cleaner.Client
         {
             _onboardingDone = Config.Bind(InternalSection, "Onboarding completed", false,
                 new ConfigDescription("First setup completed.", null, new ConfigurationManagerAttributes { Browsable = false }));
-            _serverLevel = Bind(ModeSection, ModeCategory, "Server level", "서버 단계", ServerLabels[2],
+            _serverLevel = Bind(ModeSection, ModeCategory, "Server level", "서버 단계", ServerLabels[1],
                 "서버 최적화 단계를 고릅니다. / Choose the server optimization level.", new AcceptableValueList<string>(ServerLabels), 96);
             Bind(ModeSection, ModeCategory, "Quick setup", "빠른 설정", "",
                 "권장을 고르거나 기능마다 단계를 고릅니다. / Pick Recommended or set each feature.", null, 98, DrawQuickSetup);
@@ -51,7 +51,7 @@ namespace Tushonka.Cleaner.Client
                 if (!_syncingSimpleUi)
                 {
                     int i = Array.IndexOf(ServerLabels, _serverLevel.Value);
-                    if (i >= 0 && i < 3) SetServerLevel(ServerIds[i]);
+                    if (i >= 0 && i < 2) SetServerLevel(ServerIds[i]);
                 }
             };
 
@@ -79,7 +79,7 @@ namespace Tushonka.Cleaner.Client
             void Flag(string section, string key) => Config.Bind(section, key, true,
                 new ConfigDescription("그래픽 세부 설정 / Graphics details", null, new ConfigurationManagerAttributes { Browsable = false }));
             foreach (var key in new[] { "Litter", "Rubble", "Casings", "Food", "Puddles", "Glass", "Decals" }) Flag("Graphics.Categories", key);
-            foreach (var key in new[] { "ReduceParticles", "SoftParticles", "SoftVegetation", "RealtimeReflections", "Shadows", "PixelLights", "Lod", "ShellCap", "OtherMuzzleShadows" }) Flag("Graphics.Tuning", key);
+            foreach (var key in new[] { "ReduceParticles", "SoftParticles", "SoftVegetation", "RealtimeReflections", "Shadows", "PixelLights", "Lod", "Grass", "ShellCap", "OtherMuzzleShadows" }) Flag("Graphics.Tuning", key);
             Config.Bind("Graphics.Advanced", "StartDelaySeconds", 10f, new ConfigDescription("검사 대기 시간(초) / Start delay (s)", new AcceptableValueRange<float>(0, 120), new ConfigurationManagerAttributes { Browsable = false }));
             Config.Bind("Graphics.Advanced", "FrameBudgetMs", 2f, new ConfigDescription("프레임당 작업 시간(ms) / Work per frame (ms)", new AcceptableValueRange<float>(.1f, 4), new ConfigurationManagerAttributes { Browsable = false }));
             Config.Bind("Graphics.Advanced", "HideDistanceMeters", 80f, new ConfigDescription("가리는 거리(m) / Hide distance (m)", new AcceptableValueRange<float>(20, 300), new ConfigurationManagerAttributes { Browsable = false }));
@@ -107,7 +107,7 @@ namespace Tushonka.Cleaner.Client
         {
             _preset.Value = on ? PresetAuto : PresetOff;
             ApplyPreset(_preset.Value);
-            if (on) { _trimEnabled.Value = true; _gcGrowthGb.Value = 1.5f; _gcSliceMs.Value = 2f; }
+            if (on) { _gcGrowthGb.Value = 1.5f; _gcSliceMs.Value = 2f; }
             SetServerLevel(on ? "recommended" : "off");
             _graphicsLevel.Value = on && !_conflicts.Graphics ? SceneCleanupLevel.Balanced : SceneCleanupLevel.Off;
         }

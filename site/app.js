@@ -101,18 +101,6 @@
     });
     if (reducedMotion.addEventListener) reducedMotion.addEventListener('change', refreshMotion);
     else reducedMotion.addListener(refreshMotion);
-
-    const sceneControls = document.getElementById('scene-controls');
-    const sceneButtons = document.querySelectorAll('[data-scene]');
-    function selectScene(scene) {
-      sceneButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.scene === scene)));
-      document.querySelectorAll('[data-scene-panel]').forEach(panel => {
-        panel.hidden = panel.dataset.scenePanel !== scene;
-      });
-    }
-    sceneButtons.forEach(button => button.addEventListener('click', () => selectScene(button.dataset.scene)));
-    sceneControls.hidden = false;
-    selectScene('street');
     setLanguage(language);
   }
 

@@ -10,22 +10,11 @@ public class ConfigTests
     {
         var c = new CleanerConfig();
 
-        Assert.True(c.Server.RagfairCalmUpdates.Enabled);
         Assert.True(c.Server.FastCompression.Enabled);
-        Assert.Equal("Fastest", c.Server.FastCompression.Level);
-        Assert.False(c.Server.SaveDirtyTracking.Enabled); // opt-in since 2.0 — worst risk, least reward
+        Assert.Equal("Optimal", c.Server.FastCompression.Level);
         Assert.True(c.Server.IsolatedBotRandomisation.Enabled);
-        Assert.True(c.Server.CalmNotifier.Enabled);
-        Assert.True(c.Server.RaidStartGc.Enabled);
-        Assert.Equal("Background", c.Server.RaidStartGc.Mode);
 
-        // Must stay above SPT's 60s save tick or the dirty-skip never actually fires.
-        Assert.True(c.Server.SaveDirtyTracking.ForceSaveIntervalSeconds > 60);
-
-        // 2.1: post-raid cleanup on (never costs more than vanilla's raid-start collect),
-        // debug log opt-in.
-        Assert.True(c.Server.PostRaidCleanup.Enabled);
-        Assert.True(c.Server.PostRaidCleanup.QuietSeconds > 0);
+        // Debug log opt-in.
         Assert.False(c.Debug.Enabled);
         Assert.True(c.Debug.SlowRequestMs > 0);
 
@@ -42,7 +31,6 @@ public class ConfigTests
             Server = new ServerToggles
             {
                 FastCompression = new FastCompressionOptions { Enabled = false, Level = "Optimal" },
-                SaveDirtyTracking = new SaveDirtyTrackingOptions { Enabled = false, ForceSaveIntervalSeconds = 900 },
             },
             Client = new ClientToggles
             {
@@ -55,8 +43,6 @@ public class ConfigTests
 
         Assert.False(roundTripped.Server.FastCompression.Enabled);
         Assert.Equal("Optimal", roundTripped.Server.FastCompression.Level);
-        Assert.False(roundTripped.Server.SaveDirtyTracking.Enabled);
-        Assert.Equal(900, roundTripped.Server.SaveDirtyTracking.ForceSaveIntervalSeconds);
         Assert.False(roundTripped.Client.FrameStats.Enabled);
         Assert.Equal(35, roundTripped.Client.FrameStats.WarmupSkipSeconds);
     }
@@ -102,10 +88,6 @@ public class ConfigTests
         // rejected, killing every feature at boot (2026-06-13).
         var parsed = JsonSerializer.Deserialize<CleanerConfig>(raw);
         Assert.NotNull(parsed);
-        Assert.True(parsed!.Server.RagfairCalmUpdates.Enabled);
-        Assert.False(parsed.Server.SaveDirtyTracking.Enabled);
-        Assert.True(parsed.Server.RaidStartGc.Enabled);
-        Assert.True(parsed.Server.CalmNotifier.Enabled);
         Assert.True(parsed.Client.FrameStats.Enabled);
     }
 }

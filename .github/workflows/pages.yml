@@ -31,6 +31,7 @@ jobs:
           cp -r site/. _site/
           mkdir -p _site/img
           cp release-notes/images/graphics-levels.gif release-notes/images/graphics-roof.jpg release-notes/images/graphics-street.jpg _site/img/
+          cp -r release-notes/images/1.1.0 _site/img/
           ls -la _site _site/img
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

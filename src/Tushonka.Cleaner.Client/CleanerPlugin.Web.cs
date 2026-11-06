@@ -32,7 +32,6 @@ namespace Tushonka.Cleaner.Client
         {
             _web = new WebServer(Logger, HandleWeb);
             _launcherPageUrl = LauncherPageUrl;
-            ExportSettingsCatalog();
             EventHandler restart = (_, __) => _webRestartAt = Time.realtimeSinceStartup + 0.5f; // after the reply has gone out
             _webEnabled.SettingChanged += restart;
             _webPort.SettingChanged += restart;
@@ -135,28 +134,18 @@ namespace Tushonka.Cleaner.Client
         }
 
         /// <summary>
-        /// Writes BepInEx\RamCleaner\settings-catalog.json: every F12 entry with its names and descriptions in both
-        /// languages, type, range and default (no values). The optional SPT server part reads it to show and edit the
-        /// settings straight in the .cfg file while the game is closed, so its launcher page works without the game.
+        /// Writes BepInEx\RamCleaner\settings-catalog.json: every web setting with its names and descriptions in both
+        /// languages, type, range and default (no values). While the game is closed the server answers the same page's
+        /// api/settings from this list, so SIC looks the same with the game on or off. The build carries a copy for a
+        /// fresh install (src\Tushonka.Cleaner.Server\MemoryWeb\settings-catalog.json).
         /// </summary>
         private void ExportSettingsCatalog()
         {
             try
             {
-                var json = new StringBuilder(96 * 1024);
-                json.Append("{\"version\":").Append(WebServer.Str(typeof(CleanerPlugin).Assembly.GetName().Version.ToString(3)))
-                    .Append(",\"configFile\":").Append(WebServer.Str(System.IO.Path.GetFileName(Config.ConfigFilePath))).Append(",\"entries\":[");
-                bool first = true;
-                foreach (LocalizedEntry e in _localized)
+                var rows = new List<string>();
+                string Row(ConfigEntryBase entry, string sortKey, string catKo, string catEn, string nameKo, string nameEn, string descKo, string descEn, int order)
                 {
-                    if (e.Entry == null || e.Attributes.CustomDrawer != null)
-                    {
-                        continue;
-                    }
-
-                    ConfigEntryBase entry = e.Entry;
-                    Loc.Settings.TryGetValue(e.Key, out string[] english);
-                    string categoryEn = Loc.Categories.TryGetValue(e.CategoryKo, out string c) ? c : e.CategoryKo;
                     Type type = entry.SettingType;
                     string kind = type == typeof(bool) ? "bool" : type == typeof(int) ? "int" : type == typeof(float) ? "float" : "text";
                     string extra = string.Empty;
@@ -170,24 +159,44 @@ namespace Tushonka.Cleaner.Client
                             break;
                         case AcceptableValueList<string> list:
                             kind = "list";
-                            extra = ",\"options\":[" + string.Join(",", list.AcceptableValues.Select(WebServer.Str)) + "]";
+                            extra = ",\"opts\":[" + string.Join(",", list.AcceptableValues.Select(WebServer.Str)) + "]";
                             break;
                     }
 
-                    json.Append(first ? string.Empty : ",").Append("{\"section\":").Append(WebServer.Str(entry.Definition.Section))
-                        .Append(",\"key\":").Append(WebServer.Str(entry.Definition.Key))
-                        .Append(",\"catKo\":").Append(WebServer.Str(e.CategoryKo)).Append(",\"catEn\":").Append(WebServer.Str(categoryEn))
-                        .Append(",\"nameKo\":").Append(WebServer.Str(e.NameKo)).Append(",\"nameEn\":").Append(WebServer.Str(english?[0] ?? e.NameKo))
-                        .Append(",\"descKo\":").Append(WebServer.Str(e.DescriptionKo)).Append(",\"descEn\":").Append(WebServer.Str(english?[1] ?? e.DescriptionKo))
-                        .Append(",\"order\":").Append(e.Attributes.Order ?? 0)
-                        .Append(",\"kind\":\"").Append(kind).Append('"')
-                        .Append(",\"def\":").Append(WebServer.Str(TomlTypeConverter.ConvertToString(entry.DefaultValue, type))).Append(extra).Append('}');
-                    first = false;
+                    return "{\"key\":" + WebServer.Str(entry.Definition.Section + "|" + entry.Definition.Key) + ",\"sortKey\":" + WebServer.Str(sortKey) +
+                           ",\"catKo\":" + WebServer.Str(CleanUiText(catKo)) + ",\"catEn\":" + WebServer.Str(CleanUiText(catEn)) +
+                           ",\"nameKo\":" + WebServer.Str(CleanUiText(nameKo)) + ",\"nameEn\":" + WebServer.Str(CleanUiText(nameEn)) +
+                           ",\"descKo\":" + WebServer.Str(CleanUiText(descKo)) + ",\"descEn\":" + WebServer.Str(CleanUiText(descEn)) +
+                           ",\"order\":" + order + ",\"type\":\"" + kind + "\",\"def\":" + WebServer.Str(TomlTypeConverter.ConvertToString(entry.DefaultValue, type)) + extra + "}";
                 }
 
+                foreach (LocalizedEntry e in _localized)
+                {
+                    if (e.Entry == null || e.Attributes.CustomDrawer != null) continue;
+                    Loc.Settings.TryGetValue(e.Key, out string[] english);
+                    rows.Add(Row(e.Entry, e.CategoryKo, e.CategoryKo, Loc.Categories.TryGetValue(e.CategoryKo, out string c) ? c : e.CategoryKo,
+                        e.NameKo, english?[0] ?? e.NameKo, e.DescriptionKo, english?[1] ?? e.DescriptionKo, e.Attributes.Order ?? 0));
+                }
+
+                if (Performance.ServerSettingsMenu.Instance != null)
+                {
+                    foreach (var c in Performance.ServerSettingsMenu.Instance.ClientEntries)
+                    {
+                        rows.Add(Row(c.Entry, c.CategoryKo.Length >= 3 ? c.CategoryKo.Substring(0, 3) : c.CategoryKo, c.CategoryKo, c.CategoryEn, c.NameKo, c.NameEn, c.DescKo, c.DescEn, c.Order));
+                    }
+                }
+
+                foreach (ConfigDefinition d in Config.Keys.Where(k => k.Section.StartsWith("Graphics", StringComparison.Ordinal)).ToList())
+                {
+                    ConfigEntryBase e = Config[d];
+                    rows.Add(Row(e, d.Section, "그래픽", "Graphics", d.Key, d.Key, e.Description.Description ?? string.Empty, e.Description.Description ?? string.Empty, 0));
+                }
+
+                string json = "{\"version\":" + WebServer.Str(typeof(CleanerPlugin).Assembly.GetName().Version.ToString(3)) +
+                              ",\"configFile\":" + WebServer.Str(System.IO.Path.GetFileName(Config.ConfigFilePath)) + ",\"entries\":[" + string.Join(",\n", rows) + "]}";
                 string directory = System.IO.Path.Combine(BepInEx.Paths.BepInExRootPath, "RamCleaner");
                 Directory.CreateDirectory(directory);
-                File.WriteAllText(System.IO.Path.Combine(directory, "settings-catalog.json"), json.Append("]}").ToString(), new UTF8Encoding(false));
+                File.WriteAllText(System.IO.Path.Combine(directory, "settings-catalog.json"), json, new UTF8Encoding(false));
             }
             catch (Exception ex)
             {
@@ -588,7 +597,7 @@ namespace Tushonka.Cleaner.Client
             json.Append("{\"sub\":").Append(WebServer.Str(Loc.L($"{DateTime.Now:HH:mm:ss} 갱신 · {where} · 모드: {PresetShortName()}",
                 $"updated {DateTime.Now:HH:mm:ss} · {where} · mode: {PresetShortName()}")));
             json.Append(",\"state\":").Append(BuildUiState());
-            json.Append(",\"raidFreedGb\":").Append(WebServer.Num((_raidFreedGc + _raidFreedTrim + _raidFreedAssets) / MemoryStats.BytesPerGb));
+            json.Append(",\"raidFreedGb\":").Append(WebServer.Num((_raidFreedGc + _raidFreedAssets) / MemoryStats.BytesPerGb));
             json.Append(",\"inRaid\":").Append(WebServer.Bool(inRaid));
             json.Append(",\"tiles\":[").Append(string.Join(",", tiles)).Append(']');
             json.Append(",\"alerts\":[").Append(string.Join(",", alerts.Select(WebServer.Str))).Append(']');
@@ -691,10 +700,6 @@ namespace Tushonka.Cleaner.Client
                         : _gc.Start("manual", true, false) ? Loc.L("GC 정리를 시작했습니다. 결과는 아래 '자세한 상태'의 '마지막 GC 정리'에 나옵니다.", "GC started. The result shows under 'last GC' in the full status.")
                         : Loc.L("GC 정리를 시작하지 못했습니다.", "GC could not start.");
                     break;
-                case "trim":
-                    message = StartTrim("manual") ? Loc.L("워킹셋 정리를 시작했습니다 (별도 스레드).", "Working set trim started (on its own thread).")
-                        : Loc.L("이미 워킹셋 정리 중입니다.", "A working set trim is already running.");
-                    break;
                 case "assets":
                     if (_assetPhase != AssetPhase.Idle)
                     {
@@ -702,7 +707,7 @@ namespace Tushonka.Cleaner.Client
                         break;
                     }
 
-                    StartAssetUnload("manual", _unloadGcFirst.Value, false);
+                    StartAssetUnload("manual", _unloadGcFirst.Value);
                     message = Loc.L("에셋 정리를 시작했습니다 (게임이 1~3초 멈출 수 있음).", "Asset unload started (the game may pause for 1-3 s).");
                     break;
                 case "leak":

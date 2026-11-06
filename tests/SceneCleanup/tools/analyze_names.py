@@ -10,6 +10,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 # 이 패턴은 이번 CSV를 직접 읽은 결과에서 선정했습니다. 부분 문자열 glass/food/debris는 쓰지 않습니다.
+# 맵 데칼은 렌더러가 없어 CSV에 없습니다. 11개 맵의 실제 재질을 모아 얼룩, 먼지, 핏자국처럼 정보가 없는 것만 골랐습니다.
+# 같은 이름 아래에 길안내와 경고문도 섞여 있어 이름으로는 고를 수 없습니다.
+DECAL_MATERIALS = ["Graffiti6_dirt", "Graffiti6_dirt_atlas", "Graffiti6_dirt_dark", "Graffiti6_dirt_drip*", "Graffiti6_dirttracks*", "Graffiti6_dust", "Graffiti6_sand", "Graffiti6_rust", "Graffiti6_wettest_rust", "Graffiti6_Leaks_*", "Graffiti6_green_leaks*", "Graffiti6_drips_*", "Graffiti6_footsteps*", "Graffiti6_cracks", "Graffiti6_scratches", "Graffiti6_burnt*", "Graffiti6_scorched_walls", "Graffiti6_explosion", "Graffiti6_matches*", "Graffiti6_sigs*", "Graffiti6_leafs*", "Graffiti6_flinders", "Graffiti6_metalholes", "Graffiti7_dust*", "Graffiti7_Dirt_white", "Graffiti7_Blood*", "Graffiti7_Sand_dust", "Graffiti7_tire_marks*", "City_leakage_*", "City_mold_*", "City_stains_*", "City_moss_*", "City_projection_Dirt_*", "City_Thic_Dust_*", "City_bird_shit_*", "City_footsteps_sand_*", "City_Graffiti7_Blood_*", "City_plaster_debris_*", "Lighthouse_dust_*", "Lighthouse_leakage_*", "Lighthouse_bird_shit_*", "Lighthouse_Graffiti7_Blood_*", "Lighthouse_decal_blood_*", "Lighthouse_Graffity_Water_Dirt", "Lighthouse_Moss_*", "Reserve_track_Decal_Dirt_*", "Reserve_Explosion_Decal_*", "Sandbox_track_Decal_Dirt_*", "lab_defered_decal_blood", "Airpit_Graffiti6_explosion"]
+DECAL_NEVER = ["*carshadow*", "*shadow*", "*address*", "*SNIPER*", "HOBO*", "*TERRAGROUP*", "*manhole*"]
 FAMILIES = [
     ("Litter", 2.5, ["garbage_bag*", "TrashBag_*", "Package_garbage_set_*", "sack_construction_garbage_*", "trash_pile_1x1_*", "trash_pile_05x1*", "goshan_garbage*"]),
     ("Rubble", 3.0, ["plaster_debris_*", "debris_concrete_*", "debris_rubble_pile_*"]),
@@ -48,7 +52,7 @@ def main():
             # 관측된 이름만 허용합니다. 넓은 접두사 패턴 자체는 런타임 데이터로 내보내지 않습니다.
             rules.append({"category": category, "pattern": name, "renderer": "MeshRenderer", "maxSize": limit})
             selected.add(name.lower())
-    doc = {"version": 1, "rules": rules}
+    doc = {"version": 1, "rules": rules, "decalMaterials": DECAL_MATERIALS, "decalNeverNames": DECAL_NEVER}
     (ROOT / "data").mkdir(exist_ok=True)
     (ROOT / "data/scene-rules.json").write_text(json.dumps(doc, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
     byname = {r["pattern"].lower(): r for r in rules}

@@ -9,10 +9,13 @@ namespace Tushonka.Cleaner.Client
     public partial class CleanerPlugin
     {
         private bool _cpLanguagePending = true;
+        private bool _catalogExported;
         private static bool CompoundingPerfReady => PerformanceModule.Instance?.Ready ?? false;
 
         private void SyncCompoundingPerfLanguage(float now)
         {
+            // 모든 모듈이 설정을 등록한 뒤에 한 번 저장합니다.
+            if (!_catalogExported) { _catalogExported = true; ExportSettingsCatalog(); }
             if (!_cpLanguagePending || !CompoundingPerfReady) return;
             _cpLanguagePending = false;
             PerformanceModule.Instance.SetLanguage(Loc.En ? LanguageEnglish : LanguageKorean);

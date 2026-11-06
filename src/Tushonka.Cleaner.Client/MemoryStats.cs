@@ -82,9 +82,6 @@ namespace Tushonka.Cleaner.Client
         [DllImport("psapi.dll", SetLastError = true)]
         private static extern bool GetProcessMemoryInfo(IntPtr process, ref ProcessMemoryCountersEx counters, uint size);
 
-        [DllImport("psapi.dll", EntryPoint = "EmptyWorkingSet", SetLastError = true)]
-        private static extern bool EmptyWorkingSetNative(IntPtr process);
-
         public static long MonoUsed()
         {
             try
@@ -195,23 +192,6 @@ namespace Tushonka.Cleaner.Client
             catch (Exception)
             {
                 return -1;
-            }
-        }
-
-        /// <summary>
-        /// Pushes every page of the game out of RAM. Frees nothing - the pages go to the standby list /
-        /// page file and are faulted back in when touched, which is exactly the stutter people notice
-        /// after the original mod fired. Only worth it when the system itself is short on RAM.
-        /// </summary>
-        public static bool EmptyWorkingSet()
-        {
-            try
-            {
-                return EmptyWorkingSetNative(GetCurrentProcess());
-            }
-            catch (Exception)
-            {
-                return false;
             }
         }
 

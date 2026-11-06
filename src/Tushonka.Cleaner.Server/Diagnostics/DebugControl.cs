@@ -77,14 +77,8 @@ internal static class DebugControl
 
         var s = config.Server;
         DebugLog.Write("selfcheck", "patch = did the code hook land in SPT 4.1.5 | config = is the feature switched on");
-        DebugLog.Write("selfcheck", $"S8  calm ragfair GC     patch {CalmRagfair.Status} | config {On(s.RagfairCalmUpdates.Enabled)}");
         DebugLog.Write("selfcheck", $"S9  fast compression    patch {FastCompression.Status} | config {On(s.FastCompression.Enabled)} level {FastCompression.Level}");
-        DebugLog.Write("selfcheck", $"S11 save dirty-tracking patch {SaveDirtyTracking.Status} | config {On(s.SaveDirtyTracking.Enabled)}");
         DebugLog.Write("selfcheck", $"S12 isolated bot random patch {IsolatedBotRandomisation.Status} | config {On(s.IsolatedBotRandomisation.Enabled)}");
-        DebugLog.Write("selfcheck", $"S13 calm notifier       patch {CalmNotifier.Status} | config {On(s.CalmNotifier.Enabled)}");
-        DebugLog.Write("selfcheck", $"S15 raid-start GC       patch {CalmRaidStart.Status} | config {On(s.RaidStartGc.Enabled)} mode {CalmRaidStart.Mode}");
-        DebugLog.Write("selfcheck", $"S16 post-raid cleanup   raid hooks {RaidWatcher.Status}, request hook {RequestTracker.Status} | config {On(s.PostRaidCleanup.Enabled)}" +
-                                    $" (delay {s.PostRaidCleanup.DelaySeconds}s, quiet {s.PostRaidCleanup.QuietSeconds}s, max wait {s.PostRaidCleanup.MaxWaitSeconds}s, min {s.PostRaidCleanup.MinCommittedMb} MB)");
         DebugLog.Write("selfcheck", $"F12     settings route {LiveConfig.RouteStatus}");
         DebugLog.Write("selfcheck", BotModsLine());
         DebugLog.Write("selfcheck", $"debug   bot generation timing {BotGenerationTracker.Status}, slow request ≥ {RequestTracker.SlowRequestMs} ms, summary every {config.Debug.SummaryIntervalMinutes} min");

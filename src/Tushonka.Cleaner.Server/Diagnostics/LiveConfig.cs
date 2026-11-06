@@ -92,13 +92,8 @@ internal static class LiveConfig
 
     private static void Push(ServerToggles s, DebugOptions debug, CleanerConfig whole, ISptLogger<CleanerServerMod>? logger)
     {
-        CalmRagfair.Configure(s.RagfairCalmUpdates, logger);
         FastCompression.Configure(s.FastCompression, logger);
-        SaveDirtyTracking.Configure(s.SaveDirtyTracking, logger);
         IsolatedBotRandomisation.Configure(s.IsolatedBotRandomisation, logger);
-        CalmNotifier.Configure(s.CalmNotifier, logger);
-        CalmRaidStart.Configure(s.RaidStartGc, logger);
-        PostRaidCleanup.Configure(s.PostRaidCleanup, logger);
         DebugControl.Apply(debug, whole);
     }
 
@@ -107,23 +102,8 @@ internal static class LiveConfig
     /// config.json at startup too.</summary>
     internal static ServerToggles Sanitize(ServerToggles s) => s with
     {
-        RagfairCalmUpdates = s.RagfairCalmUpdates ?? new(),
         FastCompression = (s.FastCompression ?? new()) with { Level = FastCompression.ParseLevel(s.FastCompression?.Level).ToString() },
-        SaveDirtyTracking = (s.SaveDirtyTracking ?? new()) with
-        {
-            // Must stay above SPT's 60 s save tick or the skip never fires.
-            ForceSaveIntervalSeconds = Math.Clamp(s.SaveDirtyTracking?.ForceSaveIntervalSeconds ?? 300, 90, 1800),
-        },
         IsolatedBotRandomisation = s.IsolatedBotRandomisation ?? new(),
-        CalmNotifier = s.CalmNotifier ?? new(),
-        RaidStartGc = (s.RaidStartGc ?? new()) with { Mode = CalmRaidStart.ParseMode(s.RaidStartGc?.Mode).ToString() },
-        PostRaidCleanup = (s.PostRaidCleanup ?? new()) with
-        {
-            DelaySeconds = Math.Clamp(s.PostRaidCleanup?.DelaySeconds ?? 30, 0, 600),
-            QuietSeconds = Math.Clamp(s.PostRaidCleanup?.QuietSeconds ?? 3, 0, 60),
-            MaxWaitSeconds = Math.Clamp(s.PostRaidCleanup?.MaxWaitSeconds ?? 120, 0, 1800),
-            MinCommittedMb = Math.Clamp(s.PostRaidCleanup?.MinCommittedMb ?? 512, 0, 16384),
-        },
     };
 
     internal static DebugOptions Sanitize(DebugOptions d) => d with

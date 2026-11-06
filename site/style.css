@@ -332,3 +332,38 @@ details p { padding-top: 12px; font-size: 13px; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* 1.1.0: 맵별 비교와 기능 검증 */
+.table-scroll { overflow-x: auto; }
+.summary-table .values { font-family: var(--mono); font-size: 13px; }
+.summary-table td:last-child, .graphics-table.level-table td:last-child { width: auto; color: inherit; font-size: inherit; }
+.graphics-table.level-table { margin: 24px 0; }
+.map-list { margin-top: 14px; }
+.map-detail { margin-top: 0; padding: 13px 0; }
+.map-detail summary { font-size: 15px; }
+.map-gif { display: block; width: 100%; max-width: 720px; height: auto; margin: 14px 0; border: 1px solid var(--line); }
+.map-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.map-table th, .map-table td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+.map-table small { display: block; color: var(--muted); font-size: 12px; }
+.map-compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
+.map-compare img { display: block; width: 100%; height: auto; border: 1px solid var(--line); }
+.verify-table { margin-bottom: 26px; min-width: 760px; width: 100%; table-layout: fixed; }
+.verify-table th:nth-child(1) { width: 19%; }
+.verify-table th:nth-child(2) { width: 31%; }
+.verify-table th:nth-child(3) { width: 38%; }
+.verify-table th:nth-child(4) { width: 12%; }
+.verify-table tbody td { font-family: var(--sans); font-size: 14px; line-height: 1.55; text-align: left; font-variant-numeric: normal; white-space: normal; display: table-cell; }
+.verify-table tbody th { display: table-cell; }
+.verify-table tr { display: table-row; }
+.verify-table tbody td::before { content: none; }
+.verdict { display: inline-block; padding: 2px 8px; font-size: 12px; font-weight: 750; white-space: nowrap; border: 1px solid var(--line); }
+.v-keep .verdict { background: var(--olive-bg); color: var(--olive); border-color: var(--olive); }
+.v-cut .verdict { background: var(--warning-bg); color: var(--warning); border-color: var(--warning); }
+.mode-shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 22px; }
+.mode-shots img { display: block; width: 100%; height: auto; border: 1px solid var(--line); }
+.mode-shots figcaption { color: var(--muted); font-size: 13px; padding-top: 6px; }
+.mode-keys { margin-top: 28px; }
+.mode-keys h3 { font-size: 18px; margin-bottom: 8px; }
+.mode-keys p { font-size: 14px; }
+.address + .address { margin-top: 6px; }
+.verify-table tbody td:nth-child(2) { font-weight: 400; }

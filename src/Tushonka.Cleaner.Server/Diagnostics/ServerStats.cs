@@ -15,14 +15,8 @@ internal sealed class ServerStats
     /// <summary>Counter keys the features increment, with the short label used in the log.</summary>
     private static readonly (string Key, string Label)[] FeatureCounters =
     [
-        ("s8.ragfair.collects_skipped", "S8 ragfair GC skipped"),
         ("s9.compression.responses", "S9 fast-compressed"),
-        ("s11.saves.skipped", "S11 saves skipped"),
         ("s12.randomisation.clones", "S12 clones"),
-        ("s13.notifier.polls", "S13 polls"),
-        ("s15.raidstart.collects_backgrounded", "S15 backgrounded"),
-        ("s15.raidstart.collects_skipped", "S15 skipped"),
-        ("s16.postraid.cleanups", "S16 cleanups"),
     ];
 
     private DateTime _at;

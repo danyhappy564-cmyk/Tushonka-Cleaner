@@ -10,7 +10,7 @@ namespace Tushonka.Cleaner.Server.Diagnostics;
 
 /// <summary>
 /// Raid boundaries as the server sees them: <c>LocationLifecycleService.StartLocalRaidAsync</c>
-/// and <c>EndLocalRaidAsync</c>. Always installed — the post-raid cleanup (S16) is driven
+/// and <c>EndLocalRaidAsync</c> for the debug log.
 /// from the end hook and cancelled by the start hook. With the debug log on it also writes
 /// how long the raid-start response took (the number S15 exists to shrink) and a per-raid
 /// summary: memory before/after, GC work, the slowest endpoints and bot generation.
@@ -95,7 +95,7 @@ internal static class RaidWatcher
         __result.ContinueWith(task =>
         {
             var ms = RequestTracker.ToMs(Stopwatch.GetTimestamp() - __state);
-            DebugLog.Write("raid", $"raid-start response built in {ms:0} ms (SPT's own part: loot generation + S15 collect mode {CalmRaidStart.Mode}; other mods' hooks on /client/match/local/start are in the [requests] table)" +
+            DebugLog.Write("raid", $"raid-start response built in {ms:0} ms (SPT's own part: loot generation and its forced GC; other mods' hooks on /client/match/local/start are in the [requests] table)" +
                                    (task.IsFaulted ? $" — FAILED: {task.Exception?.GetBaseException().Message}" : string.Empty));
         }, TaskContinuationOptions.ExecuteSynchronously);
     }
@@ -120,10 +120,8 @@ internal static class RaidWatcher
 
     private static void EndPostfix(long __state, Task __result)
     {
-        var sequence = RaidSequence;
         if (__result is null)
         {
-            PostRaidCleanup.OnRaidEnded(sequence);
             return;
         }
 
@@ -140,8 +138,6 @@ internal static class RaidWatcher
             {
                 DebugLog.Write("raid", $"raid summary failed: {ex.Message}");
             }
-
-            PostRaidCleanup.OnRaidEnded(sequence);
         }, TaskContinuationOptions.ExecuteSynchronously);
     }
 

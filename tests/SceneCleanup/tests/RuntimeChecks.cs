@@ -102,6 +102,10 @@ internal static class RuntimeChecks
         GraphicsFlags(root);
         MuzzleLevels(root);
         ShellCaps(root);
+        GrassLevels(root);
+        ShellHoles(root);
+        GameSettingChange(root);
+        OffDoesNotScan(root);
         ConfigKeys(root);
         SourceAudit(root);
         var weak=LeakProbe(root);
@@ -217,7 +221,7 @@ internal static class RuntimeChecks
         culled.enabled=false;
         var gameOff=Mesh(scene,"garbage_bag_LOD0",Lod(scene,"bag c",props));
         var state=Start(root,out var config,out var world);
-        RunTicks(state,30);
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.LightTouch);RunTicks(state,30);SceneCleanupModule.SetLevel(SceneCleanupLevel.Off);RunTicks(state,30);
         Check(state.Status.Candidates==3,"culled renderer found regardless of spawn");
         gameOff.gameObject.activeSelf=false;
         SceneCleanupModule.SetLevel(SceneCleanupLevel.Balanced);RunTicks(state);
@@ -255,16 +259,25 @@ internal static class RuntimeChecks
         SceneCleanupModule.SetLevel(SceneCleanupLevel.Balanced);
         // 맵 폴더에 수백 개가 나란히 있고 이름 자료가 없습니다. 한 프레임에 모두 판정합니다.
         var decals=new StaticDeferredDecal[300];
-        for(int i=0;i<decals.Length;i++) decals[i]=Node(scene,"stain_wall_"+i,folder).Add<StaticDeferredDecal>();
+        for(int i=0;i<decals.Length;i++) decals[i]=Node(scene,"DecalGraffiti wall "+i,folder).Add<StaticDeferredDecal>();
         Time.frameCount++;
         int skipped=0;
         foreach(var decal in decals) if(state.SkipDecal(decal)) ++skipped;
         Check(skipped==300 && state.Status.DecalsSkipped==300,"whole loading frame skipped under map containers");
-        var big=Node(scene,"huge_road_mark",folder);big.transform.lossyScale=new Vector3(30,1,30);var bigDecal=big.Add<StaticDeferredDecal>();
+        var big=Node(scene,"DecalGraffiti huge",folder);big.transform.lossyScale=new Vector3(30,1,30);var bigDecal=big.Add<StaticDeferredDecal>();
         Check(!state.SkipDecal(bigDecal),"large decal kept");
+        foreach(var keep in new[]{"Sandbox_navigation_atlas_projection","Graffiti6_carshadow","Graffiti6_numbers","decals_writings_04","Graffiti6_portwarnings","City_Graffiti_road_overlay","Graffiti6_villageaddress"})
+        {
+            var info=Node(scene,"DecalGraffiti",folder).Add<StaticDeferredDecal>();info.DecalMaterial=new Material{name=keep};
+            Check(!state.SkipDecal(info),"information decal kept: "+keep);
+        }
+        foreach(var keep in new[]{"decal_carshadow","decal_address (2)","SNIPER","HOBO safe camp"})
+            Check(!state.SkipDecal(Node(scene,keep,folder).Add<StaticDeferredDecal>()),"protected name kept: "+keep);
+        var noMaterial=Node(scene,"DecalGraffiti",folder).Add<StaticDeferredDecal>();noMaterial.DecalMaterial=null;
+        Check(!state.SkipDecal(noMaterial),"decal without material kept");
         var doorObject=Node(scene,"door_room",props);doorObject.Add<EFT.Interactive.Door>();
-        Check(!state.SkipDecal(Node(scene,"door_stain",doorObject).Add<StaticDeferredDecal>()),"decal on interactive object kept");
-        var solid=Node(scene,"stain_solid",folder);solid.Add<Collider>();
+        Check(!state.SkipDecal(Node(scene,"DecalGraffiti door",doorObject).Add<StaticDeferredDecal>()),"decal on interactive object kept");
+        var solid=Node(scene,"DecalGraffiti solid",folder);solid.Add<Collider>();
         Check(!state.SkipDecal(solid.Add<StaticDeferredDecal>()),"decal with collider kept");
         var persistent=new Scene{Data=new SceneData{Name="DontDestroyOnLoad"}};
         Check(!state.SkipDecal(new GameObject("persistent"){scene=persistent}.Add<StaticDeferredDecal>()),"persistent decal kept");
@@ -275,14 +288,14 @@ internal static class RuntimeChecks
         Check(state.Status.DecalsSkipped==300 && state.SkipDecal(decals[0]),"hideout dispose keeps loading decisions");
         var world=new object();state.BeginRaid(world);
         Check(state.Status.RaidActive && state.Status.DecalsSkipped==300 && state.SkipDecal(decals[1]),"raid keeps loading skips");
-        var late=Node(scene,"late_stain",folder).Add<StaticDeferredDecal>();
+        var late=Node(scene,"DecalGraffiti late",folder).Add<StaticDeferredDecal>();
         Check(!state.SkipDecal(late),"new registration in raid untouched");
         state.EndRaid(world);
         SceneCleanupModule.SetLevel(SceneCleanupLevel.LightTouch);Time.frameCount++;
-        Check(!state.SkipDecal(Node(scene,"light_stain",folder).Add<StaticDeferredDecal>()),"LightTouch keeps decals");
+        Check(!state.SkipDecal(Node(scene,"DecalGraffiti light",folder).Add<StaticDeferredDecal>()),"LightTouch keeps decals");
         SceneCleanupModule.SetLevel(SceneCleanupLevel.Balanced);
         config.Bind("Graphics.Categories","Decals",true,"").Value=false;Time.frameCount++;
-        Check(!state.SkipDecal(Node(scene,"category_stain",folder).Add<StaticDeferredDecal>()),"category off keeps decals");
+        Check(!state.SkipDecal(Node(scene,"DecalGraffiti category",folder).Add<StaticDeferredDecal>()),"category off keeps decals");
         SceneCleanupModule.Shutdown();SceneManager.Scenes.Clear();
     }
     // 후보가 수만 개일 때의 상한을 봅니다. 시간 측정이 아니라 호출 횟수와 할당으로 판정합니다.
@@ -295,7 +308,7 @@ internal static class RuntimeChecks
         for(int i=0;i<groups;i++) meshes[i]=Mesh(scene,"shards_glass",Lod(scene,"glass",props));
         var noise=Node(scene,"noise",props);
         for(int i=0;i<60000;i++) Node(scene,"wall_LOD0",noise);
-        var state=Start(root,out var config,out var world);
+        var state=Start(root,out var config,out var world); SceneCleanupModule.SetLevel(SceneCleanupLevel.LightTouch);
         int ticks=0;
         while(state.Status.Scanning && ticks<2000) {Time.frameCount++;state.Tick();++ticks;}
         Check(!state.Status.Scanning && ticks<1000,"scan is bound by time budget, not a low step cap");
@@ -348,7 +361,7 @@ internal static class RuntimeChecks
     {
         var scene=CreateScene();
         for(int i=0;i<200;i++) AddRenderer(scene,"garbage_bag_LOD");
-        var state=Start(root,out var config,out var world);
+        var state=Start(root,out var config,out var world); SceneCleanupModule.SetLevel(SceneCleanupLevel.LightTouch);
         RunTicks(state,100);
         Check(state.Status.Candidates==200,"large scene discovered");
         config.Bind("Graphics.Advanced","MaxVisibilityChangesPerFrame",24,"").Value=7;
@@ -383,7 +396,7 @@ internal static class RuntimeChecks
         state.OnMuzzle(muzzle);RunTicks(state);
         Check(light.shadows==LightShadows.None,"leak probe tracks modified light first");
         var queued=new GameObject("queued"){scene=scene}.Add<MuzzleLight>();queued.Lights=new Light[0];state.OnMuzzle(queued);
-        var shell=new GameObject("shell"){scene=scene}.Add<EFT.AssetsManager.AmmoPoolObject>();state.OnShell(shell,true);
+        var shell=new GameObject("shell"){scene=scene}.Add<EFT.AssetsManager.AmmoPoolObject>();state.OnShell(shell);
         var weak=new[]{new WeakReference(renderer),new WeakReference(world),new WeakReference(light),new WeakReference(queued),new WeakReference(shell),new WeakReference(renderer.transform)};
         state.EndRaid(world);
         Check(light.shadows==LightShadows.Soft,"end raid restores reusable muzzle light");
@@ -526,11 +539,80 @@ internal static class RuntimeChecks
     private static EFT.AssetsManager.AmmoPoolObject[] Fire(RuntimeState state,Scene scene,int count)
     {
         var shells=new EFT.AssetsManager.AmmoPoolObject[count];
-        for(int i=0;i<count;i++) { shells[i]=new GameObject("used shell"){scene=scene}.Add<EFT.AssetsManager.AmmoPoolObject>(); state.OnShell(shells[i],true); }
+        for(int i=0;i<count;i++) { shells[i]=new GameObject("used shell"){scene=scene}.Add<EFT.AssetsManager.AmmoPoolObject>(); state.OnShell(shells[i]); }
         return shells;
     }
     private static int Flagged(EFT.AssetsManager.AmmoPoolObject[] shells)
     { int n=0; foreach(var s in shells) if(s.ShouldBeDestroyed) ++n; return n; }
+    // 일찍 돌아간 탄피가 빈칸을 남겨도 살아 있는 탄피를 놓치지 않아야 합니다.
+    private static void ShellHoles(string root)
+    {
+        var scene=CreateScene();
+        var state=Start(root,out var config,out var world);
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.Max);
+        var old=Fire(state,scene,1)[0];
+        for(int i=0;i<2000;i++) { var s=Fire(state,scene,1)[0]; state.ForgetShell(s); }
+        Check(!old.ShouldBeDestroyed,"short lived shells do not retire an old one");
+        var more=Fire(state,scene,29);
+        Check(!old.ShouldBeDestroyed && Flagged(more)==0,"cap counts the old shell and 29 new ones");
+        Fire(state,scene,1);
+        Check(old.ShouldBeDestroyed && Flagged(more)==0,"old shell is still tracked and goes first");
+        SceneCleanupModule.Shutdown();SceneManager.Scenes.Clear();
+    }
+    // 레이드 중 게임 설정을 바꾸면 끝날 때 옛 값으로 되돌리지 않습니다.
+    private static void GameSettingChange(string root)
+    {
+        Originals();
+        var state=Start(root,out var config,out var world);
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.Max);RunTicks(state);
+        Check(QualitySettings.pixelLightCount==2,"Max halves lights");
+        QualitySettings.pixelLightCount=8;
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.Balanced);RunTicks(state);
+        Check(QualitySettings.pixelLightCount==8,"game change becomes the new original");
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.Max);RunTicks(state);
+        Check(QualitySettings.pixelLightCount==4,"new original is halved");
+        QualitySettings.softParticles=true;
+        state.EndRaid(world);
+        Check(QualitySettings.pixelLightCount==8 && QualitySettings.softParticles,"raid end keeps game changes");
+        ExpectLod("lod returns to captured value",2f);
+        Originals();
+        SceneCleanupModule.Shutdown();SceneManager.Scenes.Clear();
+    }
+    private static void GrassLevels(string root)
+    {
+        var scene=CreateScene();
+        var state=Start(root,out var config,out var world);
+        foreach(var level in new[]{SceneCleanupLevel.Off,SceneCleanupLevel.LightTouch,SceneCleanupLevel.Balanced})
+        {
+            SceneCleanupModule.SetLevel(level);
+            Check(!state.GrassHidden,level+" keeps grass");
+        }
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.Max);
+        Check(state.GrassHidden && state.Status.GrassHidden,"Max hides grass in raid");
+        config.Bind("Graphics.Tuning","Grass",true,"").Value=false;
+        Check(!state.GrassHidden,"grass flag off keeps grass at Max");
+        config.Bind("Graphics.Tuning","Grass",true,"").Value=true;
+        Check(state.GrassHidden,"grass flag on hides again");
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.Balanced);
+        Check(!state.GrassHidden,"lowering the level brings grass back at once");
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.Max);
+        state.EndRaid(world);
+        Check(!state.GrassHidden,"grass is not hidden outside a raid");
+        SceneCleanupModule.Shutdown();SceneManager.Scenes.Clear();
+    }
+    private static void OffDoesNotScan(string root)
+    {
+        var scene=CreateScene();
+        AddRenderer(scene,"garbage_bag_LOD");
+        var state=Start(root,out var config,out var world);
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.Off);
+        RunTicks(state);
+        Check(state.Status.Candidates==0 && state.Status.ScannedNodes==0 && !state.Status.Scanning,"Off does not scan the map");
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.Balanced);
+        RunTicks(state);
+        Check(state.Status.Candidates==1 && !state.Status.Scanning,"raising the level starts the scan");
+        SceneCleanupModule.Shutdown();SceneManager.Scenes.Clear();
+    }
     private static void ShellCaps(string root)
     {
         var scene=CreateScene();
@@ -553,16 +635,9 @@ internal static class RuntimeChecks
         config.Bind("Graphics.Tuning","ShellCap",true,"").Value=false;
         Check(Flagged(Fire(state,scene,300))==0,"ShellCap off keeps every shell");
         config.Bind("Graphics.Tuning","ShellCap",true,"").Value=true;
-        // 대상 조건은 그대로입니다.
-        var live=new GameObject("live ammo"){scene=scene}.Add<EFT.AssetsManager.AmmoPoolObject>();
-        var held=new GameObject("held"){scene=scene}.Add<EFT.AssetsManager.AmmoPoolObject>();new GameObject("magazine"){scene=scene}.transform.Add(held.transform);
-        var disabledShell=new GameObject("disabled"){scene=scene}.Add<EFT.AssetsManager.AmmoPoolObject>();disabledShell.enabled=false;
-        var inactive=new GameObject("inactive"){scene=scene}.Add<EFT.AssetsManager.AmmoPoolObject>();inactive.gameObject.activeSelf=false;
-        state.OnShell(live,false);state.OnShell(held,true);state.OnShell(disabledShell,true);state.OnShell(inactive,true);
         var counted=Fire(state,scene,100);
-        Check(Flagged(counted)==0 && !live.ShouldBeDestroyed && !held.ShouldBeDestroyed && !disabledShell.ShouldBeDestroyed && !inactive.ShouldBeDestroyed,"ineligible shells are not counted");
         // 같은 탄피를 다시 알려도 한 개이고, 게임이 돌려받은 탄피는 자리를 비웁니다.
-        state.OnShell(counted[0],true);Check(Flagged(counted)==0,"repeat report counts once");
+        state.OnShell(counted[0]);Check(Flagged(counted)==0,"repeat report counts once");
         state.ForgetShell(counted[0]);
         var after=Fire(state,scene,1);Check(Flagged(counted)==0 && Flagged(after)==0,"returned shell frees its place");
         Fire(state,scene,1);Check(counted[1].ShouldBeDestroyed && !counted[2].ShouldBeDestroyed && !counted[0].ShouldBeDestroyed,"oldest live shell retires next");
@@ -583,7 +658,7 @@ internal static class RuntimeChecks
     {
         var config=new ConfigFile();
         SceneCleanupModule.Init(config,new ManualLogSource(),Path.Combine(root,"data"));
-        foreach(var key in new[]{"ReduceParticles","SoftParticles","SoftVegetation","RealtimeReflections","Shadows","PixelLights","Lod","ShellCap","OtherMuzzleShadows"})
+        foreach(var key in new[]{"ReduceParticles","SoftParticles","SoftVegetation","RealtimeReflections","Shadows","PixelLights","Lod","Grass","ShellCap","OtherMuzzleShadows"})
             Check(config.Has("Graphics.Tuning",key),"setting kept: "+key);
         foreach(var key in new[]{"ImpactCap","ShellLimit","ImpactLimit"})
             Check(!config.Has("Graphics.Tuning",key),"setting removed: "+key);
@@ -603,7 +678,7 @@ internal static class RuntimeChecks
             Check(!match.Success,Path.GetFileName(file)+" still has "+match.Value);
         }
         string hooks=File.ReadAllText(Path.Combine(client,"SceneCleanup","GameHooks.cs"));
-        Check(hooks.Contains("\"RegisterDecal\"") && hooks.Contains("\"SetUsed\"") && hooks.Contains("\"ReturnToPool\"") && hooks.Contains("\"SetIntensity\""),"other game patches kept");
+        Check(hooks.Contains("\"RegisterDecal\"") && hooks.Contains("\"SpawnShellInTheWorld\"") && hooks.Contains("\"ReturnToPool\"") && hooks.Contains("\"OnShot\"") && hooks.Contains("\"get_isCulled\""),"other game patches kept");
         Check(new Regex(@"harmony\.Patch\(").Matches(hooks).Count==1,"only the shared patch helper calls Harmony");
         string advanced=File.ReadAllText(Path.Combine(client,"Web","advanced.js"));
         string settings=File.ReadAllText(Path.Combine(client,"Web","settings.js"));

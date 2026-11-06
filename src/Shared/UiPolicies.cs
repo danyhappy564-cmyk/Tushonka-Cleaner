@@ -7,25 +7,18 @@ namespace Tushonka.Cleaner;
 /// <summary>화면과 F12에서 함께 사용하는 서버 단계 표입니다.</summary>
 public sealed record ServerStage
 {
-    public bool S8 { get; init; }
     public bool S9 { get; init; }
-    public bool S11 { get; init; }
     public bool S12 { get; init; }
-    public bool S13 { get; init; }
-    public bool S15 { get; init; }
-    public bool S16 { get; init; }
     public bool C1 { get; init; }
     public bool C2 { get; init; }
-    public string Compression { get; init; } = "Fastest";
-    public string StartGcMode { get; init; } = "Background";
+    public string Compression { get; init; } = "Optimal";
 }
 
 public static class ServerLevelPolicy
 {
     private static readonly IReadOnlyDictionary<string, ServerStage> Stages = new Dictionary<string, ServerStage>
     {
-        ["recommended"] = new ServerStage { S8 = true, S9 = true, S12 = true, S13 = true, S15 = true, S16 = true, C1 = true, C2 = true },
-        ["balanced"] = new ServerStage { S8 = true, S9 = true, S12 = true, S13 = true, C1 = true, C2 = true, Compression = "Optimal" },
+        ["recommended"] = new ServerStage { S9 = true, S12 = true, C1 = true, C2 = true },
         ["off"] = new ServerStage(),
     };
 
@@ -37,10 +30,9 @@ public static class ServerLevelPolicy
         foreach (var pair in Stages)
         {
             var s = pair.Value;
-            if (s.S8 == value.S8 && s.S9 == value.S9 && s.S11 == value.S11 && s.S12 == value.S12 &&
-                s.S13 == value.S13 && s.S15 == value.S15 && s.S16 == value.S16 && s.C1 == value.C1 && s.C2 == value.C2 &&
-                (!s.S9 || string.Equals(s.Compression, value.Compression, StringComparison.OrdinalIgnoreCase)) &&
-                (!s.S15 || string.Equals(s.StartGcMode, value.StartGcMode, StringComparison.OrdinalIgnoreCase))) return pair.Key;
+            if (s.S9 == value.S9 && s.S12 == value.S12 && s.C1 == value.C1 && s.C2 == value.C2 &&
+                (!s.S9 || string.Equals(s.Compression, value.Compression, StringComparison.OrdinalIgnoreCase) ||
+                 string.Equals(value.Compression, "Fastest", StringComparison.OrdinalIgnoreCase))) return pair.Key;
         }
         return "custom";
     }

@@ -35,10 +35,8 @@ internal sealed class ServerSettingsMenu
     private const float MissingModRetrySeconds = 300f;
 
     // Stored in the .cfg, so one value carries both languages.
-    private static readonly string[] LevelLabels = ["빠름 · Fastest (추천)", "균형 · Optimal", "최소 크기 · SmallestSize (바닐라)", "압축 안 함 · NoCompression"];
+    private static readonly string[] LevelLabels = ["빠름 · Fastest", "균형 · Optimal (추천)", "최소 크기 · SmallestSize (바닐라)", "압축 안 함 · NoCompression"];
     private static readonly string[] LevelValues = ["Fastest", "Optimal", "SmallestSize", "NoCompression"];
-    private static readonly string[] ModeLabels = ["백그라운드 · Background (추천)", "건너뛰기 · Skip", "바닐라 · Vanilla"];
-    private static readonly string[] ModeValues = ["Background", "Skip", "Vanilla"];
 
     internal const string LanguageKorean = "한국어";
     internal const string LanguageEnglish = "English";
@@ -71,20 +69,9 @@ internal sealed class ServerSettingsMenu
     }
 
     private readonly ConfigEntry<string> _language;
-    private readonly ConfigEntry<bool> _s16Enabled;
-    private readonly ConfigEntry<int> _s16Delay;
-    private readonly ConfigEntry<int> _s16Quiet;
-    private readonly ConfigEntry<int> _s16MaxWait;
-    private readonly ConfigEntry<int> _s16MinMb;
-    private readonly ConfigEntry<bool> _s15Enabled;
-    private readonly ConfigEntry<string> _s15Mode;
-    private readonly ConfigEntry<bool> _s8Enabled;
     private readonly ConfigEntry<bool> _s9Enabled;
     private readonly ConfigEntry<string> _s9Level;
     private readonly ConfigEntry<bool> _s12Enabled;
-    private readonly ConfigEntry<bool> _s13Enabled;
-    private readonly ConfigEntry<bool> _s11Enabled;
-    private readonly ConfigEntry<int> _s11Interval;
     private readonly ConfigEntry<bool> _debugEnabled;
     private readonly ConfigEntry<int> _debugSummary;
     private readonly ConfigEntry<int> _debugSlowMs;
@@ -97,20 +84,27 @@ internal sealed class ServerSettingsMenu
 
     internal string CurrentStage => ServerLevelPolicy.Detect(new ServerStage
     {
-        S8 = _s8Enabled.Value, S9 = _s9Enabled.Value, S11 = _s11Enabled.Value,
-        S12 = _s12Enabled.Value, S13 = _s13Enabled.Value, S15 = _s15Enabled.Value, S16 = _s16Enabled.Value,
+        S9 = _s9Enabled.Value, S12 = _s12Enabled.Value,
         C1 = ClientFixes.MenuVideo.Value, C2 = ClientFixes.AirdropPhysics.Value,
-        Compression = ToValue(_s9Level.Value, LevelLabels, LevelValues), StartGcMode = ToValue(_s15Mode.Value, ModeLabels, ModeValues),
+        Compression = ToValue(_s9Level.Value, LevelLabels, LevelValues),
     });
 
     internal void ApplyStage(ServerStage s)
     {
-        Set(_s8Enabled, s.S8); Set(_s9Enabled, s.S9); Set(_s11Enabled, s.S11);
-        Set(_s12Enabled, s.S12); Set(_s13Enabled, s.S13); Set(_s15Enabled, s.S15); Set(_s16Enabled, s.S16);
+        Set(_s9Enabled, s.S9); Set(_s12Enabled, s.S12);
         Set(_s9Level, ToLabel(s.Compression, LevelLabels, LevelValues));
-        Set(_s15Mode, ToLabel(s.StartGcMode, ModeLabels, ModeValues));
         Set(ClientFixes.MenuVideo, s.C1); Set(ClientFixes.AirdropPhysics, s.C2);
     }
+    internal sealed class ClientEntry
+    {
+        internal ConfigEntryBase Entry = null!;
+        internal string CategoryKo = "", CategoryEn = "", NameKo = "", NameEn = "", DescKo = "", DescEn = "";
+        internal int Order;
+    }
+
+    /// <summary>이 메뉴의 항목과 양쪽 언어 이름. 게임이 꺼졌을 때의 SIC 설정 목록에 들어갑니다.</summary>
+    internal readonly List<ClientEntry> ClientEntries = new();
+
     private bool _loaded;
     private bool _warned;
     private int _inFlight;
@@ -136,20 +130,9 @@ internal sealed class ServerSettingsMenu
             "With Tushonka Cleaner (zzap) installed, it follows Tushonka Cleaner's language.",
             new AcceptableValueList<string>(LanguageKorean, LanguageEnglish), sendsToServer: false);
 
-        _s16Enabled = Bind(config, "S16 PostRaidCleanup", "Enabled", true);
-        _s16Delay = Bind(config, "S16 PostRaidCleanup", "DelaySeconds", 30, new AcceptableValueRange<int>(0, 600));
-        _s16Quiet = Bind(config, "S16 PostRaidCleanup", "QuietSeconds", 3, new AcceptableValueRange<int>(0, 60));
-        _s16MaxWait = Bind(config, "S16 PostRaidCleanup", "MaxWaitSeconds", 120, new AcceptableValueRange<int>(0, 1800));
-        _s16MinMb = Bind(config, "S16 PostRaidCleanup", "MinCommittedMb", 512, new AcceptableValueRange<int>(0, 16384));
-        _s15Enabled = Bind(config, "S15 RaidStartGc", "Enabled", true);
-        _s15Mode = Bind(config, "S15 RaidStartGc", "Mode", ModeLabels[0], new AcceptableValueList<string>(ModeLabels));
-        _s8Enabled = Bind(config, "S8 RagfairCalmUpdates", "Enabled", true);
         _s9Enabled = Bind(config, "S9 FastCompression", "Enabled", true);
-        _s9Level = Bind(config, "S9 FastCompression", "Level", LevelLabels[0], new AcceptableValueList<string>(LevelLabels));
+        _s9Level = Bind(config, "S9 FastCompression", "Level", LevelLabels[1], new AcceptableValueList<string>(LevelLabels));
         _s12Enabled = Bind(config, "S12 IsolatedBotRandomisation", "Enabled", true);
-        _s13Enabled = Bind(config, "S13 CalmNotifier", "Enabled", true);
-        _s11Enabled = Bind(config, "S11 SaveDirtyTracking", "Enabled", false);
-        _s11Interval = Bind(config, "S11 SaveDirtyTracking", "ForceSaveIntervalSeconds", 300, new AcceptableValueRange<int>(90, 1800));
         _debugEnabled = Bind(config, "Debug", "Enabled", false);
         _debugSummary = Bind(config, "Debug", "SummaryIntervalMinutes", 5, new AcceptableValueRange<int>(0, 60));
         _debugSlowMs = Bind(config, "Debug", "SlowRequestMs", 250, new AcceptableValueRange<int>(50, 5000));
@@ -159,9 +142,9 @@ internal sealed class ServerSettingsMenu
         var c9 = new Cat("09. 게임 쪽 CPU 낭비 고치기 (C1·C2, 서버로 안 보냄)", "09. Game-side CPU waste fixes (C1·C2, not sent to the server)");
         ClientFixes.MenuVideo = Bind(config, "C1 MenuVideo", "Enabled", c9, true, 20,
             "C1 레이드 중 메뉴 배경 영상 멈추기", "C1 Pause the menu background video in raid",
-            "메인 메뉴 배경 중 하나는 영상 4개(2048x1024, 60fps)를 계속 돌립니다. 레이드에 들어가면 게임이 배경만 숨기고 영상은 그대로 둬서, 레이드 내내 보이지도 않는 영상을 디코딩합니다(CPU 코어를 잡아먹음). " +
+            "영상 메뉴 배경(언허드, 사이버, 콘텐츠 백포트 엔딩 배경)을 쓰면 레이드에 들어가도 게임이 배경만 숨기고 영상은 그대로 둬서, 보이지 않는 영상을 계속 디코딩합니다. 측정: 빈 삼림에서 백포트 배경 191.7 → 205.5fps, 언허드 162.7 → 168.2fps. 영상이 없는 기본 배경에서는 할 일이 없어 효과도 없습니다. " +
             "켜면 2초마다 확인해서 배경이 숨겨져 있는 동안 영상을 일시정지하고, 메뉴로 돌아오면 다시 재생합니다. 게임 함수를 고치지 않는 방식이고 보이는 차이는 없습니다.",
-            "One of the main menu backgrounds keeps four 2048x1024 60 fps videos running. Going into a raid the game hides only the background and leaves the videos on, so they decode for the whole raid without being seen (eating CPU cores). " +
+            "With a video menu background (Unheard, Cyber, the Content Backport ending backgrounds) the game hides only the background in a raid and leaves the videos on, so they keep decoding unseen. Measured on empty Woods: Backport background 191.7 to 205.5 fps, Unheard 162.7 to 168.2 fps. The default backgrounds have no video, so there is nothing to do and no gain. " +
             "With this on, a check every 2 s pauses them while the background is hidden and plays them again back in the menu. No game code is patched for this and nothing you can see changes.",
             sendsToServer: false);
         ClientFixes.AirdropPhysics = Bind(config, "C2 AirdropPhysics", "Enabled", c9, true, 10,
@@ -192,6 +175,11 @@ internal sealed class ServerSettingsMenu
         var attributes = new ConfigurationManagerAttributes { Category = category.Ko, DispName = nameKo, Description = descKo, Order = order };
         _texts.Add(new Texts { Attributes = attributes, Category = category, NameKo = nameKo, NameEn = nameEn, DescKo = descKo, DescEn = descEn });
         var entry = config.Bind(section, key, defaultValue, new ConfigDescription(descKo, range, attributes));
+        if (section != "Language")
+        {
+            ClientEntries.Add(new ClientEntry { Entry = entry, CategoryKo = category.Ko, CategoryEn = category.En, Order = order, NameKo = nameKo, NameEn = nameEn, DescKo = descKo, DescEn = descEn });
+        }
+
         if (sendsToServer)
         {
             entry.SettingChanged += (_, _) =>
@@ -208,8 +196,8 @@ internal sealed class ServerSettingsMenu
 
     private void Status(ConfigFile config, Cat category)
     {
-        const string ko = "서버와 연결됐는지, 서버 메모리, 마지막 레이드 후 정리 결과입니다. 이 페이지의 설정은 바꾸는 즉시(0.8초 뒤) 서버에 적용되고 서버의 config.json에도 저장됩니다.";
-        const string en = "Whether the server is connected, its memory and the last post-raid cleanup. Settings on this page apply on the server right away (0.8 s later) and are saved to its config.json.";
+        const string ko = "서버와 연결됐는지와 서버 메모리입니다. 이 페이지의 설정은 바꾸는 즉시(0.8초 뒤) 서버에 적용되고 서버의 config.json에도 저장됩니다.";
+        const string en = "Whether the server is connected and its memory. Settings on this page apply on the server right away (0.8 s later) and are saved to its config.json.";
         var attributes = new ConfigurationManagerAttributes
         {
             Category = category.Ko,
@@ -398,9 +386,6 @@ internal sealed class ServerSettingsMenu
                         "\n⚠ MasterEnabled is false in config.json — no patches are installed, so these settings do nothing (set it to true and restart the server)"));
         }
 
-        // Older server mods only send the Korean line.
-        var cleanup = En ? reply.LastCleanupEn ?? reply.LastCleanup : reply.LastCleanup;
-        sb.Append(L("\n마지막 레이드 후 정리: ", "\nlast post-raid cleanup: ")).Append(cleanup ?? L("아직 없음", "none yet"));
         if (reply.DebugLogPath is not null)
         {
             sb.Append(L("\n디버그 로그: ", "\ndebug log: ")).Append(reply.DebugLogPath);
@@ -413,20 +398,8 @@ internal sealed class ServerSettingsMenu
 
     private ServerToggles ToServer() => new()
     {
-        PostRaidCleanup = new PostRaidCleanupOptions
-        {
-            Enabled = _s16Enabled.Value,
-            DelaySeconds = _s16Delay.Value,
-            QuietSeconds = _s16Quiet.Value,
-            MaxWaitSeconds = _s16MaxWait.Value,
-            MinCommittedMb = _s16MinMb.Value,
-        },
-        RaidStartGc = new RaidStartGcOptions { Enabled = _s15Enabled.Value, Mode = ToValue(_s15Mode.Value, ModeLabels, ModeValues) },
-        RagfairCalmUpdates = new RagfairCalmUpdatesOptions { Enabled = _s8Enabled.Value },
         FastCompression = new FastCompressionOptions { Enabled = _s9Enabled.Value, Level = ToValue(_s9Level.Value, LevelLabels, LevelValues) },
         IsolatedBotRandomisation = new IsolatedBotRandomisationOptions { Enabled = _s12Enabled.Value },
-        CalmNotifier = new CalmNotifierOptions { Enabled = _s13Enabled.Value },
-        SaveDirtyTracking = new SaveDirtyTrackingOptions { Enabled = _s11Enabled.Value, ForceSaveIntervalSeconds = _s11Interval.Value },
     };
 
     private DebugOptions ToDebug() => new()
@@ -444,20 +417,9 @@ internal sealed class ServerSettingsMenu
         {
             if (reply.Server is { } s)
             {
-                Set(_s16Enabled, s.PostRaidCleanup.Enabled);
-                Set(_s16Delay, s.PostRaidCleanup.DelaySeconds);
-                Set(_s16Quiet, s.PostRaidCleanup.QuietSeconds);
-                Set(_s16MaxWait, s.PostRaidCleanup.MaxWaitSeconds);
-                Set(_s16MinMb, s.PostRaidCleanup.MinCommittedMb);
-                Set(_s15Enabled, s.RaidStartGc.Enabled);
-                Set(_s15Mode, ToLabel(s.RaidStartGc.Mode, ModeLabels, ModeValues));
-                Set(_s8Enabled, s.RagfairCalmUpdates.Enabled);
                 Set(_s9Enabled, s.FastCompression.Enabled);
                 Set(_s9Level, ToLabel(s.FastCompression.Level, LevelLabels, LevelValues));
                 Set(_s12Enabled, s.IsolatedBotRandomisation.Enabled);
-                Set(_s13Enabled, s.CalmNotifier.Enabled);
-                Set(_s11Enabled, s.SaveDirtyTracking.Enabled);
-                Set(_s11Interval, s.SaveDirtyTracking.ForceSaveIntervalSeconds);
             }
 
             if (reply.Debug is { } d)

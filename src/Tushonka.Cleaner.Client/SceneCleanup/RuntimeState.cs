@@ -35,6 +35,8 @@ namespace Tushonka.Cleaner.SceneCleanup
         private readonly MuzzleLight[] muzzleQueue=new MuzzleLight[256];
         private readonly Dictionary<int,byte> queuedMuzzles=new Dictionary<int,byte>(256);
         private readonly AmmoPoolObject[] shells=new AmmoPoolObject[256];
+        private readonly long[] shellOrder=new long[256];
+        private long shellSequence;
         private readonly List<GameObject> roots=new List<GameObject>(MaxSceneRoots);
         private readonly Transform[] stack=new Transform[MaxDepth];
         private readonly int[] childIndexes=new int[MaxDepth];
@@ -42,7 +44,7 @@ namespace Tushonka.Cleaner.SceneCleanup
         private object world;
         private bool raidActive,graphicsDirty,scanning,capacityReached;
         private float readyAt;
-        private int sceneIndex,rootIndex,depth=-1,applyIndex,auditIndex,scanned,graphicsSlot,lightIndex,shellCursor,decalsSkipped;
+        private int sceneIndex,rootIndex,depth=-1,applyIndex,auditIndex,scanned,graphicsSlot,lightIndex,lightAudit,decalsSkipped;
         private int muzzleRead,muzzleWrite,muzzleLightIndex;
         private float lastMs;
         internal RuntimeState(ConfigFile config,ManualLogSource log,CleanupSettings settings,RuleBook rules,ExclusionSet exclusions)
@@ -55,13 +57,15 @@ namespace Tushonka.Cleaner.SceneCleanup
             get { return new SceneCleanupStatus { Level=settings.Level.Value,Candidates=renderers.Count,ScannedNodes=scanned,
                 LitterHidden=hiddenCounts[0],RubbleHidden=hiddenCounts[1],CasingsHidden=hiddenCounts[2],FoodHidden=hiddenCounts[3],
                 PuddlesHidden=hiddenCounts[4],GlassHidden=hiddenCounts[5],DecalsSkipped=decalsSkipped,
-                LastApplyMilliseconds=lastMs,Scanning=scanning,RaidActive=raidActive,DecalsApplyNextRaid=true,CapacityReached=capacityReached }; }
+                LastApplyMilliseconds=lastMs,Scanning=scanning&&settings.Level.Value!=SceneCleanupLevel.Off,GrassHidden=GrassHidden,RaidActive=raidActive,DecalsApplyNextRaid=true,CapacityReached=capacityReached }; }
         }
+        // 레이드 안에서 많이 가림일 때만 풀을 그리지 않습니다. 값을 저장하지 않아 복원할 것이 없습니다.
+        internal bool GrassHidden { get { return raidActive && settings.Level.Value==SceneCleanupLevel.Max && settings.Grass.Value; } }
         internal void SetLevel(SceneCleanupLevel level) { settings.Level.Value=level; }
         private void SettingChanged(object sender,SettingChangedEventArgs args)
         {
             if(!args.ChangedSetting.Definition.Section.StartsWith("Graphics",StringComparison.Ordinal)) return;
-            graphicsDirty=true; graphicsSlot=0; applyIndex=0; lightIndex=0;
+            graphicsDirty=true; graphicsSlot=0; applyIndex=0; lightIndex=0; lightAudit=lights.Count;
         }
         // 은신처도 GameWorld 계열이므로 게임 타입으로 제외합니다.
         private static bool IsHideout(object instance)
@@ -111,8 +115,10 @@ namespace Tushonka.Cleaner.SceneCleanup
             if(!scene.IsValid()) return false;
             string sceneName=scene.name;
             if(sceneName=="DontDestroyOnLoad" || sceneName.IndexOf("hideout",StringComparison.OrdinalIgnoreCase)>=0) return false;
-            // 데칼은 렌더러가 없어 이름 CSV에 없습니다. 타입이 곧 분류이고, 크기 상한과 제외 파일만 적용합니다.
-            if(exclusions.Matches(decal.name)) return false;
+            // 얼룩, 먼지, 핏자국처럼 재질로 확인한 맵 데칼만 숨깁니다. 표지, 안내문, 차량 그림자는 그대로 남습니다.
+            Material material=decal.DecalMaterial;
+            string decalName=decal.name;
+            if(material==null || !rules.MatchesDecal(decalName,material.name) || exclusions.Matches(decalName)) return false;
             Vector3 s=decal.transform.lossyScale;
             float size=Mathf.Max(Mathf.Abs(s.x),Mathf.Max(Mathf.Abs(s.y),Mathf.Abs(s.z)));
             if(!(size>0) || size>rules.DecalSizeLimit) return false;
@@ -148,22 +154,24 @@ namespace Tushonka.Cleaner.SceneCleanup
                 if(opticManager.IsAnyOpticCameraRendering && optic!=null && optic.isActiveAndEnabled)
                     range=Mathf.Max(range,DistancePolicy.Range(settings.Distance.Value,60,optic.fieldOfView));
             }
-            int applied=0,lightsChecked=0,visitLimit=VisitLimit(settings.Level.Value),changeLimit=settings.ChangesPerFrame.Value;
+            // 총은 풀에서 재사용됩니다. 설정이 바뀌면 전부, 평소에는 프레임당 한 개씩만 소유자를 다시 확인합니다.
+            if(lightAudit==0 && lights.Count>0) lightAudit=1;
+            int applied=0,visitLimit=VisitLimit(settings.Level.Value),changeLimit=settings.ChangesPerFrame.Value;
             while(++steps<=MaxSteps && Stopwatch.GetTimestamp()<deadline)
             {
                 bool work=false;
                 if(muzzleRead!=muzzleWrite && steps%3==0) { ApplyMuzzleStep(); work=true; }
-                else if(lightsChecked<lights.Count && steps%3==1) { RestoreLightStep(); ++lightsChecked; work=true; }
+                else if(lightAudit>0 && steps%3==1) { RestoreLightStep(); --lightAudit; work=true; }
                 else if(applied<visitLimit && changes<changeLimit)
                 {
                     if(ApplyNext(position,range,valid,applied<AuditPerFrame)) ++changes;
                     ++applied;
                     work=true;
                 }
-                if(!work && muzzleRead==muzzleWrite && lightsChecked>=lights.Count) break;
+                if(!work && muzzleRead==muzzleWrite && lightAudit<=0) break;
             }
-            // 스캔은 변경 작업이 쓰고 남은 시간을 전부 씁니다.
-            if(scanning && Time.realtimeSinceStartup>=readyAt)
+            // 스캔은 변경 작업이 쓰고 남은 시간을 전부 씁니다. 끔에서는 돌지 않고, 단계를 올리는 순간 시작합니다.
+            if(scanning && settings.Level.Value!=SceneCleanupLevel.Off && Time.realtimeSinceStartup>=readyAt)
                 for(int i=0;i<MaxScanSteps && scanning && Stopwatch.GetTimestamp()<deadline;i++) ScanStep();
             lastMs=(float)((Stopwatch.GetTimestamp()-start)*1000.0/Stopwatch.Frequency);
             budget.Spend(Stopwatch.GetTimestamp()-start);
@@ -350,27 +358,30 @@ namespace Tushonka.Cleaner.SceneCleanup
                 default: return 0;
             }
         }
-        internal void OnShell(AmmoPoolObject shell,bool used)
+        internal void OnShell(AmmoPoolObject shell)
         {
-            if(!raidActive || !used || shell==null || !shell.enabled || !shell.gameObject.activeInHierarchy || shell.transform.parent!=null || !settings.ShellCap.Value) return;
+            if(!raidActive || shell==null || !settings.ShellCap.Value) return;
             int cap=ShellCapFor(settings.Level.Value);
             if(cap==0) return;
-            int live=0;
+            int live=0,free=-1;
             for(int i=0;i<shells.Length;i++)
             {
-                if(shells[i]==null) continue;
+                if(shells[i]==null) { if(free<0) free=i; continue; }
                 if(shells[i]==shell) return;
                 ++live;
             }
-            // 칸 수가 어떤 상한보다 커서 쓰기 위치는 늘 비어 있고, 그다음 칸부터가 오래된 순서입니다. 단계를 낮추면 여기서 한 번에 줄어듭니다.
-            for(int i=0;live>=cap && i<shells.Length;i++)
+            // 일찍 돌아간 탄피가 빈칸을 남기므로 칸 위치가 아니라 등록 순서로 가장 오래된 것을 고릅니다. 단계를 낮추면 여기서 한 번에 줄어듭니다.
+            while(live>=cap)
             {
-                int oldest=(shellCursor+i)%shells.Length;
-                if(shells[oldest]==null) continue;
+                int oldest=-1;
+                for(int i=0;i<shells.Length;i++) if(shells[i]!=null && (oldest<0 || shellOrder[i]<shellOrder[oldest])) oldest=i;
+                if(oldest<0) break;
                 shells[oldest].ShouldBeDestroyed=true; // 게임의 원래 반환 경로가 처리합니다.
                 shells[oldest]=null; --live;
+                if(free<0) free=oldest;
             }
-            shells[shellCursor]=shell; shellCursor=(shellCursor+1)%shells.Length;
+            if(free<0) return;
+            shells[free]=shell; shellOrder[free]=++shellSequence;
         }
         internal void ForgetShell(AmmoPoolObject shell)
         { for(int i=0;i<shells.Length;i++) if(shells[i]==shell) shells[i]=null; }
@@ -385,7 +396,7 @@ namespace Tushonka.Cleaner.SceneCleanup
             Array.Clear(parents,0,parents.Length); Array.Clear(rootsAtScan,0,rootsAtScan.Length); Array.Clear(hidden,0,hidden.Length);
             Array.Clear(sceneHandles,0,sceneHandles.Length);
             Array.Clear(stack,0,stack.Length); Array.Clear(childIndexes,0,childIndexes.Length); Array.Clear(shells,0,shells.Length); Array.Clear(hiddenCounts,0,hiddenCounts.Length);
-            depth=-1; applyIndex=0; auditIndex=0; lightIndex=0; scanned=0; scanning=false; capacityReached=false; shellCursor=0;
+            depth=-1; applyIndex=0; auditIndex=0; lightIndex=0; lightAudit=0; scanned=0; scanning=false; capacityReached=false; shellSequence=0;
         }
         internal void Shutdown()
         {

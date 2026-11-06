@@ -66,6 +66,6 @@ namespace Tushonka.Cleaner.SceneCleanup
         public SceneCleanupLevel Level;
         public int Candidates, ScannedNodes, LitterHidden, RubbleHidden, CasingsHidden, FoodHidden, PuddlesHidden, GlassHidden, DecalsSkipped;
         public float LastApplyMilliseconds;
-        public bool Scanning, RaidActive, DecalsApplyNextRaid, CapacityReached;
+        public bool Scanning, RaidActive, DecalsApplyNextRaid, CapacityReached, GrassHidden;
     }
 }

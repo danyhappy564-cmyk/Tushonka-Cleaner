@@ -86,10 +86,8 @@ input[type=range]{flex:1 1 140px;min-width:120px;accent-color:var(--accent)}
     var s = state;
     $('alerts').innerHTML = s.masterEnabled ? '' : '<div class="alert">' + esc(t('config.json의 MasterEnabled가 false입니다 — 패치가 설치되지 않아 아래 설정은 효과가 없습니다(true로 바꾸고 서버 재시작).',
       'MasterEnabled is false in config.json — no patches are installed, so these settings do nothing (set it to true and restart the server).')) + '</div>';
-    var last = lang === 'en' ? (s.lastCleanupEn || s.lastCleanupKo) : s.lastCleanupKo;
     $('tiles').innerHTML = [
       [t('서버 메모리', 'Server memory'), s.processMb.toLocaleString() + ' MB', t('GC 사용 ', 'GC ') + s.committedMb.toLocaleString() + ' MB'],
-      [t('마지막 레이드 후 정리', 'Last post-raid cleanup'), last ? last.split(' ')[0] : '-', last ? last.substring(last.indexOf(' ') + 1) : t('아직 없음', 'none yet')],
       [t('서버 모드 버전', 'Server mod version'), s.version, t('원작 EchoStarz · SPT 4.1 비공식 포팅', 'original by EchoStarz · unofficial SPT 4.1 port')]
     ].map(function (x) { return '<div class="tile"><div class="lbl">' + esc(x[0]) + '</div><div class="val">' + esc(x[1]) + '</div><div class="note">' + esc(x[2]) + '</div></div>'; }).join('');
     $('debugLog').textContent = s.debugLog ? t('디버그 로그: ', 'Debug log: ') + s.debugLog : '';

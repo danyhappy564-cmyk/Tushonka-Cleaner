@@ -5,19 +5,19 @@
   const page = document.body.dataset.page;
   const keys = {
     waitCombat: '5. Timing|Wait for quiet', afterRaid: '3. General|After raid cleanup', growth: '1. Auto GC|Growth trigger (GB)', budget: '1. Auto GC|Work per frame (ms)',
-    workingSet: '2. Working set|Enabled', assets: '4. Assets|Auto in raid', raidStartAssets: '4. Assets|At raid start', decals: 'Graphics.Categories|Decals',
-    gcGap: '1. Auto GC|Minimum gap (s)', gcBlocking: '1. Auto GC|Allow blocking fallback', trimLow: '2. Working set|Only when RAM is low', trimPct: '2. Working set|Low RAM threshold (%)', trimGap: '2. Working set|Interval (s)', trimAfter: '2. Working set|After GC',
-    assetGrowth: '4. Assets|Native growth trigger (GB)', assetGap: '4. Assets|Minimum gap (min)', assetGc: '4. Assets|GC first', assetDelay: '4. Assets|Start delay (s)', quiet: '5. Timing|Quiet seconds', defer: '5. Timing|GC max wait (s)', inventory: '5. Timing|Run on inventory', afterDelay: '3. General|After raid delay (s)', onlyRaid: '3. General|Only in raid',
+    decals: 'Graphics.Categories|Decals',
+    gcGap: '1. Auto GC|Minimum gap (s)', gcBlocking: '1. Auto GC|Allow blocking fallback',
+    assetGc: '4. Assets|GC first', quiet: '5. Timing|Quiet seconds', defer: '5. Timing|GC max wait (s)', inventory: '5. Timing|Run on inventory', afterDelay: '3. General|After raid delay (s)', onlyRaid: '3. General|Only in raid',
     warnOn: '9. Warnings|Enabled', warnPct: '9. Warnings|Commit free below (%)', vramWarn: '9. Warnings|VRAM warning', vramPct: '9. Warnings|VRAM full at (%)', vramSec: '9. Warnings|VRAM full for (s)', vramSpill: '9. Warnings|VRAM spill at (GB)', warnGame: '9. Warnings|In-game notification',
     fcOn: '15. Forecast|Enabled', fcMin: '15. Forecast|Warn below (min)', fcRestart: '15. Forecast|Restart notification', fixSpawn: '19. Game memory fixes|Bot spawn data after raid', fixBrain: '19. Game memory fixes|Dead bot brains', fixCoroutine: '19. Game memory fixes|Per-bot coroutine garbage',
     overlayOn: '3. General|Show overlay', overlayFps: '3. General|Overlay FPS', overlayCount: '3. General|Overlay mod bar count', webOn: '18. Web page|Enabled', webPort: '18. Web page|Port', webLan: '18. Web page|Allow LAN',
-    s8: 'S8 RagfairCalmUpdates|Enabled', s9: 'S9 FastCompression|Enabled', s9Level: 'S9 FastCompression|Level', s12: 'S12 IsolatedBotRandomisation|Enabled', s13: 'S13 CalmNotifier|Enabled', s15: 'S15 RaidStartGc|Enabled', s15Mode: 'S15 RaidStartGc|Mode', s16: 'S16 PostRaidCleanup|Enabled', s16Delay: 'S16 PostRaidCleanup|DelaySeconds', s16Quiet: 'S16 PostRaidCleanup|QuietSeconds', s16Max: 'S16 PostRaidCleanup|MaxWaitSeconds', s16Min: 'S16 PostRaidCleanup|MinCommittedMb', s11: 'S11 SaveDirtyTracking|Enabled', s11Gap: 'S11 SaveDirtyTracking|ForceSaveIntervalSeconds',
+    s9: 'S9 FastCompression|Enabled', s9Level: 'S9 FastCompression|Level', s12: 'S12 IsolatedBotRandomisation|Enabled', 
     c1: 'C1 MenuVideo|Enabled', c2: 'C2 AirdropPhysics|Enabled', debug: 'Debug|Enabled', debugGap: 'Debug|SummaryIntervalMinutes', debugSlow: 'Debug|SlowRequestMs', debugKeep: 'Debug|KeepFiles',
-    gfxLitter: 'Graphics.Categories|Litter', gfxRubble: 'Graphics.Categories|Rubble', gfxCasings: 'Graphics.Categories|Casings', gfxFood: 'Graphics.Categories|Food', gfxPuddles: 'Graphics.Categories|Puddles', gfxGlass: 'Graphics.Categories|Glass', gfxParticles: 'Graphics.Tuning|ReduceParticles', gfxSoftParticles: 'Graphics.Tuning|SoftParticles', gfxSoftVeg: 'Graphics.Tuning|SoftVegetation', gfxReflect: 'Graphics.Tuning|RealtimeReflections', gfxShadows: 'Graphics.Tuning|Shadows', gfxLights: 'Graphics.Tuning|PixelLights', gfxLod: 'Graphics.Tuning|Lod', gfxMuzzle: 'Graphics.Tuning|OtherMuzzleShadows', gfxShellCap: 'Graphics.Tuning|ShellCap', gfxDelay: 'Graphics.Advanced|StartDelaySeconds', gfxBudget: 'Graphics.Advanced|FrameBudgetMs', gfxDistance: 'Graphics.Advanced|HideDistanceMeters', gfxChanges: 'Graphics.Advanced|MaxVisibilityChangesPerFrame'
+    gfxLitter: 'Graphics.Categories|Litter', gfxRubble: 'Graphics.Categories|Rubble', gfxCasings: 'Graphics.Categories|Casings', gfxFood: 'Graphics.Categories|Food', gfxPuddles: 'Graphics.Categories|Puddles', gfxGlass: 'Graphics.Categories|Glass', gfxParticles: 'Graphics.Tuning|ReduceParticles', gfxSoftParticles: 'Graphics.Tuning|SoftParticles', gfxSoftVeg: 'Graphics.Tuning|SoftVegetation', gfxReflect: 'Graphics.Tuning|RealtimeReflections', gfxShadows: 'Graphics.Tuning|Shadows', gfxLights: 'Graphics.Tuning|PixelLights', gfxLod: 'Graphics.Tuning|Lod', gfxGrass: 'Graphics.Tuning|Grass', gfxMuzzle: 'Graphics.Tuning|OtherMuzzleShadows', gfxShellCap: 'Graphics.Tuning|ShellCap', gfxDelay: 'Graphics.Advanced|StartDelaySeconds', gfxBudget: 'Graphics.Advanced|FrameBudgetMs', gfxDistance: 'Graphics.Advanced|HideDistanceMeters', gfxChanges: 'Graphics.Advanced|MaxVisibilityChangesPerFrame'
   };
   const shortcut = '3. General|Diagnostic mode key';
   const omit = new Set([...Object.values(keys), shortcut, '0. Mode|Language', '0. Mode|Preset', '0. Mode|Server level', 'Graphics|Level']);
-  const lists = { s9Level: ['fast', 'balanced', 'small', 'none'], s15Mode: ['background', 'skip', 'vanilla'] };
+  const lists = { s9Level: ['fast', 'balanced', 'small', 'none'] };
   let entries = new Map(), groups = [], state = window.TC_BOOT, saving = Promise.resolve();
   const message = text => { if ($('action-message')) $('action-message').textContent = text; };
   const read = key => entries.get(key)?.v;
@@ -35,7 +35,7 @@
       const next = new URL(location.href); next.port = String(value); setTimeout(() => location.assign(next.href), 1200); return;
     }
     if (key === keys.webOn && value === false) { message(I.language() === 'ko' ? '웹 페이지를 껐습니다. 게임을 끄고 설정 파일에서 다시 켤 수 있습니다.' : 'Web settings are off. Close the game and enable the web page in the settings file to turn it back on.'); return; }
-    await load(); message(I.language() === 'ko' ? '게임에 적용했습니다.' : 'Applied in the game.');
+    await load(); message(state.gameRunning === false ? (I.language() === 'ko' ? '저장했습니다. 게임을 켤 때 적용됩니다.' : 'Saved. It applies when the game starts.') : (I.language() === 'ko' ? '게임에 적용했습니다.' : 'Applied in the game.'));
   }
   async function ui(key, value) { await window.rcPost('api/ui', { key, value }); await load(); message(t('changed')); }
   function bindControls() {
@@ -60,7 +60,7 @@
   }
   function render() {
     const flags = { memory: state.memoryMode !== 'off', server: state.serverLevel !== 'off', graphics: state.graphicsLevel !== 'off' };
-    const recommended = state.memoryMode === 'game' && state.serverLevel === 'recommended' && state.graphicsLevel === 'more' && ['waitCombat','afterRaid','workingSet'].every(k => read(keys[k])?.toLowerCase() === 'true') && ['assets','raidStartAssets'].every(k => read(keys[k])?.toLowerCase() === 'false') && Number(read(keys.growth)) === 1.5 && Number(read(keys.budget)) === 2;
+    const recommended = state.memoryMode === 'game' && state.serverLevel === 'recommended' && state.graphicsLevel === 'more' && ['waitCombat','afterRaid'].every(k => read(keys[k])?.toLowerCase() === 'true') && Number(read(keys.growth)) === 1.5 && Number(read(keys.budget)) === 2;
     const setup = Object.values(flags).every(x => !x) ? 'off' : recommended ? 'recommended' : 'custom';
     document.querySelectorAll('[data-setting], [data-adv]').forEach(el => {
       const name = el.dataset.setting || el.dataset.adv;
@@ -79,12 +79,12 @@
     document.querySelectorAll('[data-current-features]').forEach(el => { const names = Object.keys(flags).filter(k => flags[k]).map(k => t({ memory:'memFeature', server:'serverFeature', graphics:'graphicsFeature' }[k])); el.textContent = names.length ? t('currentFeatures', { names:names.join(' · ') }) : t('noneSelected'); });
     if ($('leak-note')) $('leak-note').hidden = state.memoryMode !== 'leak'; if ($('analysis-note')) $('analysis-note').hidden = state.memoryMode !== 'analysis';
     document.querySelectorAll('[data-timing]').forEach(el => { el.textContent = t('gameTimingOn'); });
-    document.querySelectorAll('[data-server-summary]').forEach(el => { el.textContent = t({ recommended:'serverSummaryRecommended', balanced:'serverSummaryBalanced', off:'serverSummaryOff', custom:'serverSummaryCustom' }[state.serverLevel]); });
+    document.querySelectorAll('[data-server-summary]').forEach(el => { el.textContent = t({ recommended:'serverSummaryRecommended', off:'serverSummaryOff', custom:'serverSummaryCustom' }[state.serverLevel]); });
     if ($('server-connection')) $('server-connection').textContent = (state.serverStatus || '') + (state.serverResult ? '\n' + state.serverResult : '');
     document.querySelectorAll('[data-shortcut-value]').forEach(el => { el.textContent = read(shortcut) || t('noKey'); });
     document.querySelectorAll('[data-i18n="modeCost"]').forEach((el,i) => { el.dataset.measure = ['game','check','analysis','leak','off'][i]; });
     document.querySelectorAll('[data-i18n="gfxEffect"]').forEach((el,i) => { el.dataset.measure = ['light','more','most'][i]; });
-    I.apply(); renderComparison(); if ($('cleanup-button')) $('cleanup-button').disabled = !state.memoryAvailable;
+    I.apply(); renderComparison(); if ($('cleanup-button')) $('cleanup-button').disabled = !state.memoryAvailable || state.gameRunning === false;
   }
   function control(it) {
     const label = ' aria-label="' + esc(it.name) + '"';

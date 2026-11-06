@@ -32,7 +32,6 @@ namespace Tushonka.Cleaner.Client
 
         public int AssetUnloads { get; private set; }
 
-        public int Trims { get; private set; }
 
         public int Warnings { get; private set; }
 
@@ -66,7 +65,7 @@ namespace Tushonka.Cleaner.Client
             _nativeAtEnd = s.Native;
             _deadAtStart = Math.Max(0, dead);
             _deadAtEnd = _deadAtStart;
-            GcCount = AssetUnloads = Trims = Warnings = 0;
+            GcCount = AssetUnloads = Warnings = 0;
             GcReclaimed = 0;
             GcMaxSliceMs = 0;
         }
@@ -123,14 +122,6 @@ namespace Tushonka.Cleaner.Client
             }
         }
 
-        public void AddTrim()
-        {
-            if (Active)
-            {
-                Trims++;
-            }
-        }
-
         public void AddWarning()
         {
             if (Active)
@@ -156,7 +147,7 @@ namespace Tushonka.Cleaner.Client
                       $"peak private {MemoryStats.Gb(_peakPrivate)} GB, native {MemoryStats.Gb(_peakNative)} GB, " +
                       $"working set {MemoryStats.Gb(_peakWorkingSet)} GB, VRAM {MemoryStats.Gb(_peakVram)} GB, lowest free commit {commit} GB | " +
                       $"GC {GcCount}x reclaimed {MemoryStats.Gb(GcReclaimed)} GB (longest frame {GcMaxSliceMs:0}ms), " +
-                      $"asset unloads {AssetUnloads}, trims {Trims}, warnings {Warnings} | " +
+                      $"asset unloads {AssetUnloads}, warnings {Warnings} | " +
                       $"long frames {hitches.Count} (100ms+ {hitches.CountOver100}, by Tushonka Cleaner {hitches.Ours}, worst {hitches.MaxMs:0}ms: {hitches.MaxWhat}) | " +
                       $"fps avg {avgFps:0}, 1% low {lowFps:0}" + (suspect != null ? $" | suspect mod: {suspect}" : string.Empty);
 

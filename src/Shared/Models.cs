@@ -20,13 +20,8 @@ public record CleanerConfig
 
 public record ServerToggles
 {
-    public RagfairCalmUpdatesOptions        RagfairCalmUpdates       { get; set; } = new();
     public FastCompressionOptions           FastCompression          { get; set; } = new();
-    public SaveDirtyTrackingOptions         SaveDirtyTracking        { get; set; } = new();
     public IsolatedBotRandomisationOptions  IsolatedBotRandomisation { get; set; } = new();
-    public CalmNotifierOptions              CalmNotifier             { get; set; } = new();
-    public RaidStartGcOptions               RaidStartGc              { get; set; } = new();
-    public PostRaidCleanupOptions           PostRaidCleanup          { get; set; } = new();
 
     // Retired in 2.0 because SPT 4.1 does the job itself, verified against the 4.1.5
     // server assembly rather than assumed:
@@ -43,19 +38,17 @@ public record ServerToggles
     //   ThreadSafeCaches (S10)    - ItemBaseClassService now guards its cache with a Lock,
     //                               HandbookHelper's lazy init is benign, and nothing inside
     //                               SPT calls ItemFilterService's blacklist mutators at all.
+    // Retired in Tushonka Cleaner 1.1.0 after measuring them on 4.1.6 (numbers on the site and in docs/):
+    //   RagfairCalmUpdates (S8)  - the forced flea GC is GCCollectionMode.Optimized; the runtime skipped it
+    //                              every time (0 ms, no gen2), so removing it changed nothing.
+    //   SaveDirtyTracking (S11)  - could drop a real save after a failed one; risk with no measured gain.
+    //   CalmNotifier (S13)       - the client uses the websocket; the long-poll was never called.
+    //   RaidStartGc (S15)        - 0.3 s off a 170 s raid load for 1.2 GB more server memory in raid.
+    //   PostRaidCleanup (S16)    - added a second forced GC that ignored other FIKA players.
     // S14 (FastRouteDispatch) was REMOVED before release: memoizing url→router
     // resolution changed the /launcher/server/connect response under FIKA (raw
     // 0.0.0.0 backendUrl → game cannot connect). Root cause not fully explained,
     // which by itself disqualifies a behavior-neutrality-critical feature.
-}
-
-public record CalmNotifierOptions
-{
-    // S13: the /notify long-poll releases its thread between checks instead of pinning
-    // one thread-pool thread per connected client for its full 15s budget. The websocket
-    // half of S13 retired in 2.0 - 4.1 serializes once per message and gates each socket
-    // individually on its own.
-    public bool Enabled { get; set; } = true;
 }
 
 public record IsolatedBotRandomisationOptions
@@ -67,80 +60,6 @@ public record IsolatedBotRandomisationOptions
     public bool Enabled { get; set; } = true;
 }
 
-
-public record SaveDirtyTrackingOptions
-{
-    // S11: skips the periodic profile save entirely when the session is provably clean.
-    // Vanilla serializes + MD5-hashes the FULL profile every tick just to discover
-    // nothing changed; with this on, an idle session costs nothing. Any request that
-    // isn't in a small known-pure whitelist marks the session dirty, so player-driven
-    // changes can never be skipped.
-    //
-    // OFF BY DEFAULT since 2.0. It is the only feature in the mod that suppresses a
-    // vanilla call rather than changing a value, so it is the only one whose failure mode
-    // is "a profile change was not written" instead of "an optimization did nothing".
-    // The payoff is also the smallest of the five: it only helps a session sitting idle in
-    // the menu, because anything happening in a raid marks the session dirty anyway.
-    // Worst risk, least reward - opt in deliberately if you want it.
-    public bool Enabled { get; set; } = false;
-
-    /// <summary>A clean session still gets a real save this often, to persist
-    /// server-internal changes that bypass HTTP (hideout production progress).
-    /// This is the worst-case persistence window for purely passive changes.</summary>
-    public int ForceSaveIntervalSeconds { get; set; } = 300;
-}
-
-
-public record RagfairCalmUpdatesOptions
-{
-    // S8: vanilla's flea-offer expiry pass ends with a forced, blocking, compacting
-    // full GC — a recurring multi-hundred-ms stall on large heaps. The forced collect
-    // is the only thing removed; the runtime's server GC reclaims the memory on its
-    // own schedule.
-    public bool Enabled { get; set; } = true;
-}
-
-public record RaidStartGcOptions
-{
-    // S15: StartLocalRaidAsync ends with
-    //   GC.Collect(MaxGeneration, Aggressive, blocking: true, compacting: true)
-    // - the most expensive collection .NET offers - and it runs inside the request path,
-    // so the player waits on the loading screen while the server compacts its whole heap.
-    // Present in 4.0 too; the original mod covered the ragfair collect and missed this one.
-    public bool Enabled { get; set; } = true;
-
-    /// <summary>One of: Background, Skip, Vanilla. Unrecognized values fall back to
-    /// Background — still a gen-2 collection, but non-blocking and non-compacting, so the
-    /// raid-start response is not held up by it. Skip drops the collect entirely; Vanilla
-    /// forwards it untouched (same as Enabled: false).</summary>
-    public string Mode { get; set; } = "Background";
-}
-
-public record PostRaidCleanupOptions
-{
-    // S16 (new in 2.1): vanilla's raid-start collect (see S15) is Aggressive, which also
-    // decommits free heap back to the OS. Making it background (S15's default) keeps the
-    // loading screen fast but means the server no longer hands memory back between raids.
-    // This puts that one aggressive collect back at a moment nobody is waiting on: after a
-    // raid ends, once the server has gone quiet (the player is reading the post-raid
-    // screens), and only when the heap is big enough to be worth it.
-    public bool Enabled { get; set; } = true;
-
-    /// <summary>Seconds after the raid-end request before the cleanup is considered.</summary>
-    public int DelaySeconds { get; set; } = 30;
-
-    /// <summary>The server must have had no player requests (pings and notifier polls do not
-    /// count) for this long before the collect runs, so it does not stall a menu action.</summary>
-    public int QuietSeconds { get; set; } = 3;
-
-    /// <summary>Give up waiting for a quiet moment after this long and run anyway — vanilla
-    /// paid the same collect with the player on a loading screen, so this is never worse.</summary>
-    public int MaxWaitSeconds { get; set; } = 120;
-
-    /// <summary>Skip the collect when the server has committed less than this; a small
-    /// heap has nothing worth returning.</summary>
-    public int MinCommittedMb { get; set; } = 512;
-}
 
 public record DebugOptions
 {
@@ -166,13 +85,14 @@ public record DebugOptions
 public record FastCompressionOptions
 {
     // S9: vanilla compresses every JSON response at CompressionLevel.SmallestSize —
-    // zlib's slowest setting — over what is almost always a localhost connection.
-    // Fastest cuts response-compression CPU several-fold for a few percent more bytes.
+    // zlib's slowest setting. Measured on 4.1.6 over nine main endpoints: SmallestSize 636 ms / 4.9 MB,
+    // Optimal 440 ms / 4.9 MB, Fastest 351 ms / 7.8 MB. Optimal is the default: same size, so a remote
+    // FIKA client loses nothing; Fastest stays available for a server on the same PC.
     public bool Enabled { get; set; } = true;
 
     /// <summary>One of: Fastest, Optimal, SmallestSize, NoCompression. Unrecognized
-    /// values fall back to Fastest.</summary>
-    public string Level { get; set; } = "Fastest";
+    /// values fall back to Optimal.</summary>
+    public string Level { get; set; } = "Optimal";
 }
 
 public record ClientToggles
@@ -246,7 +166,5 @@ public record ServerSettingsResponse
     public long HeapMb { get; set; }
     public long CommittedMb { get; set; }
     public long ProcessMb { get; set; }
-    public string? LastCleanup { get; set; }
-    public string? LastCleanupEn { get; set; }
     public string? DebugLogPath { get; set; }
 }

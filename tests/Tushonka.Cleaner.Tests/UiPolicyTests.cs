@@ -6,34 +6,27 @@ namespace Tushonka.Cleaner.Tests;
 public class UiPolicyTests
 {
     [Theory]
-    [InlineData("recommended", true, true, "Fastest")]
-    [InlineData("balanced", true, false, "Optimal")]
-    [InlineData("off", false, false, "Fastest")]
-    public void ServerStagesRoundTrip(string level, bool common, bool raid, string compression)
+    [InlineData("recommended", true)]
+    [InlineData("off", false)]
+    public void ServerStagesRoundTrip(string level, bool on)
     {
         var stage = ServerLevelPolicy.Get(level);
-        Assert.Equal(common, stage.S8);
-        Assert.Equal(common, stage.S9);
-        Assert.Equal(common, stage.S12);
-        Assert.Equal(common, stage.S13);
-        Assert.Equal(common, stage.C1);
-        Assert.Equal(common, stage.C2);
-        Assert.Equal(raid, stage.S15);
-        Assert.Equal(raid, stage.S16);
-        Assert.False(stage.S11);
-        Assert.Equal(compression, stage.Compression);
-        Assert.Equal("Background", stage.StartGcMode);
+        Assert.Equal(on, stage.S9);
+        Assert.Equal(on, stage.S12);
+        Assert.Equal(on, stage.C1);
+        Assert.Equal(on, stage.C2);
+        Assert.Equal("Optimal", stage.Compression);
         Assert.Equal(level, ServerLevelPolicy.Detect(stage));
     }
 
     [Fact]
     public void ServerDetectsCustomAndIgnoresInactiveParameters()
     {
-        Assert.Equal("custom", ServerLevelPolicy.Detect(ServerLevelPolicy.Get("recommended") with { S11 = true }));
         Assert.Equal("custom", ServerLevelPolicy.Detect(ServerLevelPolicy.Get("recommended") with { C2 = false }));
-        Assert.Equal("custom", ServerLevelPolicy.Detect(ServerLevelPolicy.Get("recommended") with { Compression = "Optimal" }));
-        Assert.Equal("custom", ServerLevelPolicy.Detect(ServerLevelPolicy.Get("recommended") with { StartGcMode = "Skip" }));
-        Assert.Equal("off", ServerLevelPolicy.Detect(ServerLevelPolicy.Get("off") with { Compression = "SmallestSize", StartGcMode = "Vanilla" }));
+        Assert.Equal("custom", ServerLevelPolicy.Detect(ServerLevelPolicy.Get("recommended") with { Compression = "SmallestSize" }));
+        // 예전 기본값 Fastest를 쓰는 사람도 권장으로 봅니다.
+        Assert.Equal("recommended", ServerLevelPolicy.Detect(ServerLevelPolicy.Get("recommended") with { Compression = "Fastest" }));
+        Assert.Equal("off", ServerLevelPolicy.Detect(ServerLevelPolicy.Get("off") with { Compression = "SmallestSize" }));
         Assert.Throws<ArgumentException>(() => ServerLevelPolicy.Get("unknown"));
     }
 

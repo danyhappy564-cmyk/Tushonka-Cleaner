@@ -18,7 +18,6 @@ namespace Tushonka.Cleaner.Client
         {
             ["00. 모드 · 언어"] = "00. Mode · language",
             ["01. 자동 메모리 정리 (GC) — 추천"] = "01. Automatic memory cleanup (GC) — recommended",
-            ["02. 워킹셋 정리 (원본 Tushonka Cleaner 방식)"] = "02. Working set trim (original Tushonka Cleaner method)",
             ["03. 에셋·VRAM 정리 "] = "03. Asset · VRAM cleanup ()",
             ["04. 전투 중에는 미루기"] = "04. Wait while fighting",
             ["05. 공통 · 수동 실행 · 상태"] = "05. General · manual actions · status",
@@ -64,35 +63,24 @@ namespace Tushonka.Cleaner.Client
             ["1. Auto GC|Minimum gap (s)"] = new[] { "Minimum gap between cleanups (s)", "How long to wait after a cleanup before the next automatic one." },
             ["1. Auto GC|Allow blocking fallback"] = new[] { "Full GC if no incremental GC", "Only matters if the game doesn't support incremental (split) GC. Then a full GC runs in one go and may freeze for a second or more depending on memory. If the BepInEx log says 'incremental GC supported=True' you can ignore this." },
 
-            // 02. Working set
-            ["2. Working set|Enabled"] = new[] { "Enable working set trim", "Forces the game's memory out of RAM (to standby memory / the page file). It moves memory rather than freeing it, so the game may stutter right after while it reads it back. Runs on its own thread, so the trim itself doesn't freeze the game." },
-            ["2. Working set|Only when RAM is low"] = new[] { "Only when system RAM is low", "On: trim only when Windows' free RAM is below the threshold below (recommended). Off: trim on a fixed interval no matter what, like the original mod." },
-            ["2. Working set|Low RAM threshold (%)"] = new[] { "Low RAM threshold (%)", "Free system RAM below this % of total counts as 'low'. 10% of 64 GB is about 6.4 GB." },
-            ["2. Working set|Interval (s)"] = new[] { "Interval (s)", "With 'Only when RAM is low' off, trim this often. With it on, this is the minimum gap between trims." },
-            ["2. Working set|After GC"] = new[] { "Also right after GC", "Trim the working set after every automatic/manual GC too. Task Manager numbers drop a lot, but there may be a stutter right after." },
 
             // 03. Assets
-            ["4. Assets|At raid start"] = new[] { "Once at raid start", "When the countdown ends, unload textures/models left over from the menu and loading. A SPTVRAMCleaner (matsix) feature. Measured 2026-09-29: the game froze 5.6 s and VRAM dropped only 0.07 GB, so it's off by default." },
-            ["4. Assets|Start delay (s)"] = new[] { "Delay after start (s)", "How many seconds after the raid starts to run it." },
-            ["4. Assets|Auto in raid"] = new[] { "Automatically in raid", "When 'native memory' the GC doesn't manage (textures, models, sounds, physics, objects mods created, …) grows a lot, unload unused assets at a quiet moment. Stops by itself until the game closes if two runs in a row free almost nothing. Measured in 5 SAIN sim logs: freed ~0 GB each time and stuttered 0.5–1.5 s, so it's off by default. Most in-raid growth is dead bots' gear, which asset cleanup can't free." },
-            ["4. Assets|Native growth trigger (GB)"] = new[] { "Start after native growth of (GB)", "Clean up when native memory has grown this much since the last asset cleanup (or raid start)." },
-            ["4. Assets|Minimum gap (min)"] = new[] { "Minimum gap (min)", "Minimum time between asset cleanups. They are heavier than GC and may stutter 1–3 s." },
             ["4. Assets|GC first"] = new[] { "GC first", "In raid the GC is off, so objects already thrown away may still hold assets. On: finish a GC before unloading assets, which frees more. (The original SPTVRAMCleaner's GC.Collect() was ignored in raid while the GC is off, so it did nothing there.)" },
 
             // 04. Timing
-            ["5. Timing|Wait for quiet"] = new[] { "Wait while fighting", "Delay automatic GC / asset / working set cleanup until a 'quiet moment' with no recent shooting, getting hit or aiming. An open inventory always counts as quiet. Manual buttons never wait." },
+            ["5. Timing|Wait for quiet"] = new[] { "Wait while fighting", "Delay automatic GC until a 'quiet moment' with no recent shooting, getting hit or aiming. An open inventory always counts as quiet. Manual buttons never wait." },
             ["5. Timing|Quiet seconds"] = new[] { "Quiet after (s)", "This long after your last shot, hit or aim counts as a quiet moment." },
-            ["5. Timing|GC max wait (s)"] = new[] { "GC maximum wait (s, 0 = no limit)", "Even if fighting goes on, GC runs after this long (so memory can't grow forever). Asset cleanup waits until the end. Working set trim is an emergency for low RAM and waits 60 s at most." },
+            ["5. Timing|GC max wait (s)"] = new[] { "GC maximum wait (s, 0 = no limit)", "Even if fighting goes on, GC runs after this long (so memory can't grow forever)." },
             ["5. Timing|Run on inventory"] = new[] { "Clean up when inventory opens", "If cleanup is waiting, opening the inventory (Tab) runs it right away — you're sorting your bag, so you barely notice a stutter." },
 
             // 05. General
-            ["3. General|After raid cleanup"] = new[] { "Clean up in the menu after a raid", "Back in the menu after a raid, run GC → unused assets → working set once (stutters don't matter in the menu). The memory the game grew in raid goes straight back to Windows, so 'system free' recovers fast. The next raid's loading may take slightly longer while some of it is read back." },
+            ["3. General|After raid cleanup"] = new[] { "Clean up in the menu after a raid", "Back in the menu after a raid, run one GC. Measured: about 5 GB of managed memory down to 3 GB, about 0.3 s of work split over frames. The check that names mods holding on to raid memory uses this number too." },
             ["3. General|After raid delay (s)"] = new[] { "Wait after the raid (s)", "Time to let the game finish its own cleanup after returning to the menu. If you also use CompoundingPerf, keep its post-raid delay at least 10 s longer than this." },
             ["3. General|Diagnostic mode"] = new[] { "Diagnostic mode (one switch)", "On: overlay + per-mod measurement all the time + stutter cause tracking, regardless of the individual settings. Off: back to the individual settings, and a summary (suspect mods, stutter causes, memory) is saved to the dedicated log (BepInEx\\RamCleaner folder). Picking the 'Deep analysis' mode turns it on too." },
             ["3. General|Diagnostic mode key"] = new[] { "Mode hotkey", "Each press in game moves the 'Mode' at the top on: auto cleanup → quick view → deep analysis → leak hunt → off → auto cleanup … (an in-game notification confirms it). From 'custom' it starts at auto cleanup." },
             ["3. General|Diagnostic includes heavy"] = new[] { "Diagnostic incl. heavy tracking", "On: diagnostic mode also turns on '06. Leak tracker' and '11. Per-mod object growth'. Each may stutter 0.2–1 s every few minutes." },
             ["3. General|Only in raid"] = new[] { "Automatic cleanup only in raid", "On: no automatic cleanup in the hideout or menus. The manual buttons below always work." },
-            ["3. General|Manual actions"] = new[] { "Manual actions", "GC: cleans up in slices as set above. Working set: runs on its own thread, may stutter briefly right after. Assets: (after a GC if 'GC first' is on) unloads unused textures/models; may freeze 1–3 s. Session report: opens the chart page in your browser." },
+            ["3. General|Manual actions"] = new[] { "Manual actions", "GC: cleans up in slices as set above. Assets: (after a GC if 'GC first' is on) unloads unused textures/models; freezes about 4 s and freed almost nothing when measured. Session report: opens the chart page in your browser." },
             ["3. General|Status"] = new[] { "Current status", "Memory status, refreshed every second." },
             ["3. General|Show overlay"] = new[] { "Show the overlay (top left)", "Shows memory use in the top-left corner. The 'FPS line' and 'mod bars' below need this on." },
             ["3. General|Overlay FPS"] = new[] { "Overlay: FPS line", "Under the memory line: current FPS · raid average · 1% low (FPS of the slowest 1% of frames = how stutter feels) · stutter count." },
@@ -107,7 +95,7 @@ namespace Tushonka.Cleaner.Client
             ["6. Leak tracker|Interval (min)"] = new[] { "Interval (min)", "The baseline is taken 1 minute into the raid, then a record every this many minutes." },
 
             // 07. Hitch
-            ["7. Hitch detector|Enabled"] = new[] { "Enable hitch detector", "In raid, a frame that takes longer than the threshold is logged ([hitch] lines) together with whether this mod was doing a GC / asset cleanup / leak count / working set trim at that moment — to tell 'is this stutter the Tushonka Cleaner?'. Recording only; it doesn't change the game." },
+            ["7. Hitch detector|Enabled"] = new[] { "Enable hitch detector", "In raid, a frame that takes longer than the threshold is logged ([hitch] lines) together with whether this mod was doing a GC / asset cleanup / leak count at that moment — to tell 'is this stutter the Tushonka Cleaner?'. Recording only; it doesn't change the game." },
             ["7. Hitch detector|Threshold (ms)"] = new[] { "Stutter threshold (ms)", "Only frames longer than this are recorded. For reference: one frame at 60 fps is about 16 ms; 50 ms is a noticeable stutter." },
             ["7. Hitch detector|Track mod causes"] = new[] { "Track stutter-causing mods", "Measures per-mod time for the whole raid and records, for each long frame, the mod that took longest in it. The cause is a mod / the Tushonka Cleaner / waiting on the SPT server / a bot spawn / the game itself (rendering, physics, loading — outside mod code). Needs '10. Per-mod frame cost' on and makes it measure all the time (usually +0.1–0.5 ms per frame). Best left off and turned on with diagnostic mode (hotkey) when needed." },
             ["7. Hitch detector|Suspect notification"] = new[] { "Stutter suspect notification", "If one cause is behind 30%+ of this raid's stutters (3 or more), show one in-game notification per raid." },

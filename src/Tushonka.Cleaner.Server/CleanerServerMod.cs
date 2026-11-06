@@ -22,7 +22,7 @@ public record ModMetadata : IModMetadata, SPTarkov.Server.Web.IModBlazorMetadata
     public string ModGuid { get; init; } = CleanerServerMod.ModGuid;
     public string Name { get; init; } = "Tushonka Cleaner";
     public string Author { get; init; } = "R_F";
-    public SemanticVersioning.Version Version { get; init; } = new("1.0.1");
+    public SemanticVersioning.Version Version { get; init; } = new("1.1.0");
     public SemanticVersioning.Range SptVersion { get; init; } = new("~4.1.5");
     public string License { get; init; } = "GPL-3.0";
     public bool HasPrepatcher { get; init; } = false;
@@ -61,11 +61,17 @@ public record ModMetadata : IModMetadata, SPTarkov.Server.Web.IModBlazorMetadata
 public class CleanerServerMod(
     ISptLogger<CleanerServerMod> logger,
     ModHelper modHelper,
-    ICloner cloner,
-    NotifierHelper notifierHelper,
-    NotificationService notificationService) : IOnLoad
+    ICloner cloner) : IOnLoad
 {
     public const string ModGuid = "com.zzap.tushonka.cleaner";
+
+    // zip에는 기본값(config.default.json)만 있습니다. 덮어쓰기 설치가 config.json을 건드리지 않아 서버 설정이 유지됩니다.
+    private static void EnsureConfigFile(string modPath)
+    {
+        var target = Path.Combine(modPath, "config.json");
+        var defaults = Path.Combine(modPath, "config.default.json");
+        if (!File.Exists(target) && File.Exists(defaults)) File.Copy(defaults, target);
+    }
 
     public Task OnLoadAsync(CancellationToken cancellationToken = default)
     {
@@ -73,6 +79,7 @@ public class CleanerServerMod(
         {
             var modPath = modHelper.GetAbsolutePathToModFolder(Assembly.GetExecutingAssembly());
             var conflicts = LegacyServerGuard.Scan(modPath, message => logger.Warning(message));
+            EnsureConfigFile(modPath);
             var config = modHelper.GetJsonDataFromFile<CleanerConfig>(modPath, "config.json");
             if (conflicts.Performance) config = config with { MasterEnabled = false };
 
@@ -120,14 +127,10 @@ public class CleanerServerMod(
 
             var harmony = new Harmony(ModGuid);
 
-            CalmRagfair.Apply(harmony, logger);                                            // S8
             FastCompression.Apply(harmony, logger);                                        // S9
-            SaveDirtyTracking.Apply(harmony, logger);                                      // S11
             IsolatedBotRandomisation.Apply(harmony, cloner, logger);                       // S12
-            CalmNotifier.Apply(harmony, notifierHelper, notificationService, logger);      // S13
-            CalmRaidStart.Apply(harmony, logger);                                          // S15
-            RequestTracker.Apply(harmony, logger);                                         // S16 quiet detection + debug timing
-            RaidWatcher.Apply(harmony, logger);                                            // S16 trigger + debug raid summaries
+            RequestTracker.Apply(harmony, logger);                                         // debug timing
+            RaidWatcher.Apply(harmony, logger);                                            // debug raid summaries
             BotGenerationTracker.Apply(harmony);                                           // debug only (gated at runtime)
 
             // Every switch is read at call time, so the F12 menu can flip any of them later.

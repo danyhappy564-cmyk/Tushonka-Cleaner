@@ -142,7 +142,8 @@ namespace UnityEngine.SceneManagement
         public static void Unload(Scene scene) {Scenes.Remove(scene);sceneUnloaded?.Invoke(scene);}
     }
 }
-public class StaticDeferredDecal:UnityEngine.MonoBehaviour {}
+namespace UnityEngine {public class Material {public string name;}}
+public class StaticDeferredDecal:UnityEngine.MonoBehaviour {public UnityEngine.Material DecalMaterial=new UnityEngine.Material{name="Graffiti7_dust_1"};}
 public class GuidComponent:UnityEngine.MonoBehaviour {}
 public class LocationScene:UnityEngine.MonoBehaviour {}
 public class UnreviewedComponent:UnityEngine.MonoBehaviour {}

@@ -67,6 +67,8 @@ namespace Tushonka.Cleaner.SceneCleanup
     {
         [DataMember(Name="version")] public int Version;
         [DataMember(Name="rules")] public RuleEntry[] Rules;
+        [DataMember(Name="decalMaterials")] public string[] DecalMaterials;
+        [DataMember(Name="decalNeverNames")] public string[] DecalNeverNames;
     }
     [DataContract] internal sealed class RuleEntry
     {
@@ -79,11 +81,12 @@ namespace Tushonka.Cleaner.SceneCleanup
     internal sealed class RuleBook
     {
         private readonly RuleEntry[] entries;
+        private readonly string[] decalMaterials,decalNeverNames;
         // 데칼 상자 한 변의 상한(m)입니다. 등록 훅의 데칼은 이름 자료가 없어 타입과 이 값으로 판정합니다.
         public float DecalSizeLimit { get; private set; }
-        private RuleBook(RuleEntry[] entries)
+        private RuleBook(RuleEntry[] entries,string[] decalMaterials,string[] decalNeverNames)
         {
-            this.entries=entries;
+            this.entries=entries; this.decalMaterials=decalMaterials??new string[0]; this.decalNeverNames=decalNeverNames??new string[0];
             for(int i=0;i<entries.Length;i++) if(entries[i].Kind==CleanupCategory.Decals && entries[i].MaxSize>DecalSizeLimit) DecalSizeLimit=entries[i].MaxSize;
         }
         public static RuleBook Load(string json)
@@ -99,7 +102,16 @@ namespace Tushonka.Cleaner.SceneCleanup
                     throw new InvalidDataException("Invalid scene rule entry");
                 r.Kind=category;
             }
-            return new RuleBook(doc.Rules);
+            return new RuleBook(doc.Rules,doc.DecalMaterials,doc.DecalNeverNames);
+        }
+        // 재질이 목록에 있을 때만 숨깁니다. 같은 이름 아래에 길안내와 경고문도 섞여 있어 이름으로는 고를 수 없습니다.
+        // 목록이 없으면 데칼을 하나도 숨기지 않습니다.
+        public bool MatchesDecal(string name,string material)
+        {
+            if(name==null || material==null) return false;
+            for(int i=0;i<decalNeverNames.Length;i++) if(Glob.Match(decalNeverNames[i],name)) return false;
+            for(int i=0;i<decalMaterials.Length;i++) if(Glob.Match(decalMaterials[i],material)) return true;
+            return false;
         }
         // 크기를 읽기 전에 이름만 봅니다. 맵의 렌더러 대부분은 여기서 끝나 네이티브 크기 조회를 하지 않습니다.
         public bool MatchesName(string name)

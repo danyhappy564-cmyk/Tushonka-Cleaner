@@ -26,13 +26,6 @@ public sealed class PageProxyController : ControllerBase
 {
     private const string ChangeHeader = "X-RamCleaner";
 
-    private static readonly Lazy<string> OfflineHtml = new(() =>
-    {
-        using var stream = typeof(PageProxyController).Assembly.GetManifestResourceStream("Tushonka.Cleaner.Server.offline.html")
-                           ?? throw new InvalidOperationException("offline.html is not embedded");
-        return new StreamReader(stream).ReadToEnd();
-    });
-
     // The game answers within its own 5 s main-thread timeout; keep a little more than that.
     private static readonly HttpClient Client = new(new SocketsHttpHandler
     {
@@ -58,67 +51,9 @@ public sealed class PageProxyController : ControllerBase
 
     // ---------------------------------------------------------------- game closed: this server's own page
 
-    /// <summary>Settings (catalog + .cfg values), reports and why the game's page is not answering.</summary>
-    [HttpGet("offline/api/state")]
-    public async Task<IActionResult> OfflineState()
-    {
-        var files = PluginFiles.Read();
-        var (online, reason) = await Probe(files);
-        var catalog = files.Catalog();
-        var entries = catalog?.GetProperty("entries").EnumerateArray().Select(e =>
-        {
-            var id = e.GetProperty("section").GetString() + "|" + e.GetProperty("key").GetString();
-            return new { id, entry = e, v = files.Values.GetValueOrDefault(id) };
-        }).Where(x => x.v is not null).ToList();
-
-        return Json(new
-        {
-            online,
-            reason,
-            lang = files.English ? "en" : "ko",
-            port = files.Port,
-            webEnabled = files.Enabled,
-            configPath = files.ConfigPath,
-            catalogVersion = catalog?.GetProperty("version").GetString(),
-            settings = entries?.Select(x => new { x.id, x.v, meta = x.entry }),
-            reports = files.Reports(15).Select(f => new { name = f.Name, time = f.LastWriteTime.ToString("yyyy-MM-dd HH:mm"), kb = f.Length / 1024 }),
-        });
-    }
-
-    [HttpPost("offline/api/set")]
-    [Authorize(Policy = "Administrator")]
-    public async Task<IActionResult> OfflineSet()
-    {
-        if (Request.Headers[ChangeHeader] != "1")
-        {
-            return StatusCode(403, "Changes are only accepted from the RAM cleaner page.");
-        }
-
-        var form = await Request.ReadFormAsync();
-        string id = form["id"].ToString(), value = form["value"].ToString();
-        var files = PluginFiles.Read();
-        if ((await Probe(files)).online)
-        {
-            // The running game holds these values in memory and would write over the file: use the live page.
-            return Json(new { ok = false, online = true, error = files.English ? "the game is running — reload for the live page" : "게임이 켜져 있습니다 — 새로 고침하면 실시간 화면으로 바뀝니다" });
-        }
-
-        var entry = files.Catalog()?.GetProperty("entries").EnumerateArray()
-            .FirstOrDefault(e => e.GetProperty("section").GetString() + "|" + e.GetProperty("key").GetString() == id);
-        if (entry is null || entry.Value.ValueKind == JsonValueKind.Undefined)
-        {
-            return Json(new { ok = false, error = "unknown setting" });
-        }
-
-        try
-        {
-            return Json(new { ok = true, v = files.Write(entry.Value, value) });
-        }
-        catch (Exception ex) when (ex is FormatException or IOException or UnauthorizedAccessException)
-        {
-            return Json(new { ok = false, error = ex.Message, v = files.Values.GetValueOrDefault(id) });
-        }
-    }
+    /// <summary>게임이 꺼진 화면이 게임이 켜졌는지 확인하는 주소.</summary>
+    [HttpGet("offline/api/online")]
+    public async Task<IActionResult> OfflineOnline() => Json(new { online = (await Probe(PluginFiles.Read())).online });
 
     /// <summary>Past session reports (BepInEx\RamCleaner\RamCleaner-report-*.html) — readable without the game.</summary>
     [HttpGet("reports/{name}")]
@@ -144,7 +79,7 @@ public sealed class PageProxyController : ControllerBase
         bool api = path.StartsWith("api/", StringComparison.Ordinal);
         if (!files.Enabled)
         {
-            return Offline(api, files.English ? "the game's web page is turned off (F12 → RAM Cleaner → 18)" : "게임 쪽 웹 페이지가 꺼져 있음(F12 → RAM 클리너 → 18번)");
+            return await Offline(path, files, null);
         }
 
         using var request = new HttpRequestMessage(new HttpMethod(Request.Method), $"http://127.0.0.1:{files.Port}/{path}{Request.QueryString}");
@@ -183,14 +118,62 @@ public sealed class PageProxyController : ControllerBase
         }
         catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException)
         {
-            return Offline(api, Reason(ex, files));
+            return await Offline(path, files, Reason(ex, files));
         }
     }
 
-    /// <summary>The game pages' scripts get JSON they show as an error; a page load gets this server's own page.</summary>
-    private IActionResult Offline(bool api, string reason) => api
-        ? new ContentResult { StatusCode = 503, ContentType = "application/json; charset=utf-8", Content = JsonSerializer.Serialize(new { error = reason }) }
-        : new ContentResult { StatusCode = 200, ContentType = "text/html; charset=utf-8", Content = OfflineHtml.Value };
+    /// <summary>
+    /// 게임이 응답하지 않을 때. 같은 화면 파일을 서버가 내보내고, 그 화면이 부르는 주소에 게임 대신 답합니다.
+    /// 게임이 로딩 중이면 게임이 곧 설정 파일을 덮어쓰므로 바꾸지 않습니다.
+    /// </summary>
+    private async Task<IActionResult> Offline(string path, PluginFiles files, string? reason)
+    {
+        var site = new OfflineSite(files);
+        bool post = HttpMethods.IsPost(Request.Method);
+        bool busy = System.Diagnostics.Process.GetProcessesByName("EscapeFromTarkov").Length > 0;
+        if (path.StartsWith("api/", StringComparison.Ordinal))
+        {
+            ContentResult Reply(string json, int status = 200) => new() { StatusCode = status, ContentType = "application/json; charset=utf-8", Content = json };
+            string Message(string ko, string en) => JsonSerializer.Serialize(new { error = files.English ? en : ko });
+            if (post && busy)
+            {
+                return Reply(Message("게임이 로딩 중입니다. 잠시 뒤 다시 해 주세요.", "The game is loading. Please try again in a moment."), 503);
+            }
+
+            var form = post ? await Request.ReadFormAsync(HttpContext.RequestAborted) : null;
+            try
+            {
+                switch (path)
+                {
+                    case "api/settings":
+                        return Reply(post ? site.Set(form!["key"].ToString(), form["value"].ToString()) : site.SettingsJson());
+                    case "api/ui" when post:
+                        return Reply(site.ApplyUi(form!["key"].ToString(), form["value"].ToString()));
+                    case "api/action" when post:
+                        return Reply(Message("게임이 켜져 있을 때만 할 수 있습니다.", "This needs the game to be running."), 503);
+                    default:
+                        return Reply(JsonSerializer.Serialize(new { error = reason ?? "the game is not running" }), 503);
+                }
+            }
+            catch (Exception ex) when (ex is FormatException or ArgumentException or InvalidOperationException or IOException or UnauthorizedAccessException)
+            {
+                return Reply(JsonSerializer.Serialize(new { error = ex.Message }), 503);
+            }
+        }
+
+        if (path is "settings" or "server")
+        {
+            return Redirect("./");
+        }
+
+        if (path == "favicon.ico")
+        {
+            return StatusCode(204);
+        }
+
+        var html = site.Page(path);
+        return html is null ? NotFound() : new ContentResult { StatusCode = 200, ContentType = "text/html; charset=utf-8", Content = html };
+    }
 
     private static async Task<(bool online, string reason)> Probe(PluginFiles files)
     {

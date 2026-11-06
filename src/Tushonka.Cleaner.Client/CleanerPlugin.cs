@@ -22,15 +22,12 @@ namespace Tushonka.Cleaner.Client
     [BepInDependency("com.echostarz.compoundingperf.client", BepInDependency.DependencyFlags.SoftDependency)]
     public partial class CleanerPlugin : BaseUnityPlugin
     {
-        private const float TrimMaxDeferSeconds = 60f;
         private const float RaidStartFallbackSeconds = 120f;
         private const float UnloadMeasureDelaySeconds = 6f;
-        private const double WeakUnloadGb = 0.5;
         private const float LeakFirstSnapshotDelay = 60f;
         private const float LeakMaxDeferSeconds = 60f;
 
         // Survives raids (not the game): once auto unload proved useless, don't hitch every raid to re-learn it.
-        private static bool s_autoUnloadUselessThisSession;
 
         private enum AssetPhase
         {
@@ -86,21 +83,18 @@ namespace Tushonka.Cleaner.Client
         private float _diagStartedAt = -1f;
         private int _gcRunningFrame = -1;
 
-        // After-raid cleanup in the menu: GC -> asset unload -> working set trim, so Windows gets the memory back now.
+        // After-raid GC in the menu. Measured: 4.6-5.3 GB -> 3 GB managed, about 0.3 s of work split over frames. It also gives the leak check its number.
         private enum PostRaidPhase
         {
             None,
             Waiting,
             Gc,
-            Assets,
-            Trim,
         }
 
         private PostRaidPhase _postRaid = PostRaidPhase.None;
         private float _postRaidAt = -1f;
         private float _postRaidLogUntil = -1f;
         private float _postRaidNextLog = -1f;
-        private long _postRaidFreeBefore;
         private readonly WaitForEndOfFrame _endOfFrame = new WaitForEndOfFrame();
         private readonly HashSet<string> _memNotifiedThisRaid = new HashSet<string>();
         private readonly HashSet<string> _memLoggedThisRaid = new HashSet<string>();
@@ -124,16 +118,9 @@ namespace Tushonka.Cleaner.Client
         private float _gcPendingSince = -1f;
         private bool _warnedNoIncremental;
 
-        // Working set trim (runs on a thread-pool thread)
-        private int _trimRunning;
-        private float _lastTrim;
-        private float _trimPendingSince = -1f;
-        private string _trimPendingReason;
-
         // Asset unload
         private AssetPhase _assetPhase = AssetPhase.Idle;
         private string _assetReason;
-        private bool _assetAuto;
         private AsyncOperation _assetOperation;
         private MemorySnapshot _assetBefore;
         private long _assetVramBefore;
@@ -159,14 +146,9 @@ namespace Tushonka.Cleaner.Client
         private readonly HashSet<Player> _aliveScratch = new HashSet<Player>();
         private int _deadWorldId;
         private long _nativeAtStart = -1;
-        private bool _startUnloadDone;
         private long _nativeBaseline = -1;
         private float _lastUnload = float.NegativeInfinity;
-        private float _unloadPendingSince = -1f;
-        private int _weakUnloads;
-        private bool _autoUnloadStopped;
 
-        private string _lastTrimResult;
         private string _lastAssetResult;
 
         private static string NoneYet => Loc.L("아직 없음", "none yet");
@@ -214,11 +196,9 @@ namespace Tushonka.Cleaner.Client
             {
                 _diagStartedAt = 0f;
             }
-            _unloadAuto.SettingChanged += (_, __) => s_autoUnloadUselessThisSession = false;
 
             GarbageCollector.GCModeChanged += OnGcModeChanged;
 
-            _lastTrim = Time.realtimeSinceStartup;
             Logger.LogInfo($"Loaded. incremental GC supported={GarbageCollector.isIncremental}, " +
                            $"slice default {GarbageCollector.incrementalTimeSliceNanoseconds / 1000000f:0.0}ms, " +
                            $"system RAM {SystemInfo.systemMemorySize} MB, VRAM {SystemInfo.graphicsMemorySize} MB, GC mode {GarbageCollector.GCMode}");
@@ -347,8 +327,6 @@ namespace Tushonka.Cleaner.Client
             if (autoActive)
             {
                 EvaluateGc(now);
-                EvaluateAssets(now);
-                EvaluateTrim(now);
                 EvaluateLeak(now);
                 EvaluateLog(now);
             }
@@ -381,15 +359,12 @@ namespace Tushonka.Cleaner.Client
                 return;
             }
 
-            // By now the game has finished its own return-to-menu cleanup. In the menu a hitch costs nothing,
-            // so do the full sequence: GC (incl. the blocking fallback), unused assets, then the working set.
-            _postRaidFreeBefore = _snapshot.SystemAvailable;
-            Logger.LogInfo($"After-raid cleanup start: system free {MemoryStats.Gb(_snapshot.SystemAvailable)} GB, " +
-                           $"game working set {MemoryStats.Gb(_snapshot.WorkingSet)} GB");
+            // By now the game has finished its own return-to-menu cleanup. In the menu a hitch costs nothing.
+            Logger.LogInfo($"After-raid GC start: system free {MemoryStats.Gb(_snapshot.SystemAvailable)} GB");
             _postRaid = PostRaidPhase.Gc;
             if (!_gc.Start("after raid", true, false))
             {
-                PostRaidAssets();
+                _postRaid = PostRaidPhase.None;
             }
         }
 
@@ -468,39 +443,14 @@ namespace Tushonka.Cleaner.Client
             }
         }
 
-        private void PostRaidAssets()
-        {
-            _postRaid = PostRaidPhase.Assets;
-            StartAssetUnload("after raid", false, false);
-            if (_assetPhase == AssetPhase.Idle)
-            {
-                PostRaidTrim(); // an unload was already running: skip this step rather than stall
-            }
-        }
-
-        private void PostRaidTrim()
-        {
-            _postRaid = PostRaidPhase.Trim;
-            if (!StartTrim("after raid"))
-            {
-                _postRaid = PostRaidPhase.None;
-            }
-        }
-
         private void OnRaidStateChanged(float now)
         {
             _gcBaseline = -1;
             _gcPendingSince = -1f;
-            _lastTrim = now;
-            _trimPendingSince = -1f;
             _nextLog = now;
             _raidStartedAt = -1f;
             _inGameSince = now;
-            _startUnloadDone = false;
             _nativeBaseline = -1;
-            _unloadPendingSince = -1f;
-            _weakUnloads = 0;
-            _autoUnloadStopped = false;
             _leak.Reset();
             _leakNext = -1f;
             _leakPendingSince = -1f;
@@ -569,7 +519,7 @@ namespace Tushonka.Cleaner.Client
 
             _raidStartedAt = now;
             _raidGeneration++;
-            _raidFreedGc = _raidFreedTrim = _raidFreedAssets = 0;
+            _raidFreedGc = _raidFreedAssets = 0;
             _nativeBaseline = _snapshot.Native;
             _nativeAtStart = _snapshot.Native;
             _deadAtStart = Math.Max(0, _dead);
@@ -603,11 +553,6 @@ namespace Tushonka.Cleaner.Client
             _reportSecondsAt = 0;
             _leakNext = now + LeakFirstSnapshotDelay;
             Logger.LogInfo($"Raid started{(started ? string.Empty : " (status timeout)")}: {DescribeForLog(_snapshot)}");
-            if (_unloadAuto.Value && s_autoUnloadUselessThisSession)
-            {
-                Logger.LogInfo("Auto asset unload stays off: it freed nothing in an earlier raid this session " +
-                               "(toggle '레이드 중 자동 정리' in F12 to try again)");
-            }
         }
 
         private bool IsQuietNow(float pendingSince, float maxDefer, float now)
@@ -636,6 +581,14 @@ namespace Tushonka.Cleaner.Client
             }
 
             long used = _snapshot.MonoUsed;
+            if (GarbageCollector.GCMode == GarbageCollector.Mode.Enabled)
+            {
+                // SPT turns the GC back on when the inventory opens. Then the game collects by itself and a second pass adds nothing.
+                _gcBaseline = used;
+                _gcPendingSince = -1f;
+                return;
+            }
+
             if (_gcBaseline < 0 || used < _gcBaseline)
             {
                 // First sample of the raid, or memory went down on its own (the game collected): new floor.
@@ -685,7 +638,7 @@ namespace Tushonka.Cleaner.Client
             if (_postRaid == PostRaidPhase.Gc)
             {
                 ReportKeptAfterRaid();
-                PostRaidAssets();
+                _postRaid = PostRaidPhase.None;
             }
 
             _gcBaseline = _gc.LastUsedAfter;
@@ -702,11 +655,6 @@ namespace Tushonka.Cleaner.Client
             {
                 BeginUnload();
             }
-
-            if (_trimAfterGc.Value)
-            {
-                StartTrim("after GC");
-            }
         }
 
         private string QuietTag()
@@ -721,61 +669,7 @@ namespace Tushonka.Cleaner.Client
 
         // ---------------------------------------------------------------- Asset unload
 
-        private void EvaluateAssets(float now)
-        {
-            if (_assetPhase != AssetPhase.Idle)
-            {
-                return;
-            }
-
-            if (_inGame && _unloadAtStart.Value && !_startUnloadDone && _raidStartedAt >= 0f &&
-                now - _raidStartedAt >= _unloadStartDelaySec.Value)
-            {
-                _startUnloadDone = true;
-                // The game ran a full GC while loading, so no GC pass is needed first here.
-                StartAssetUnload("raid start", false, false);
-                return;
-            }
-
-            long native = _snapshot.Native;
-            if (!_inGame || !_unloadAuto.Value || _autoUnloadStopped || s_autoUnloadUselessThisSession ||
-                _raidStartedAt < 0f || native < 0)
-            {
-                _unloadPendingSince = -1f;
-                return;
-            }
-
-            if (_nativeBaseline < 0 || native < _nativeBaseline)
-            {
-                _nativeBaseline = native;
-                return;
-            }
-
-            long growth = native - _nativeBaseline;
-            if (growth < (long)(_unloadNativeGrowthGb.Value * MemoryStats.BytesPerGb) ||
-                now - _lastUnload < _unloadCooldownMin.Value * 60f)
-            {
-                _unloadPendingSince = -1f;
-                return;
-            }
-
-            if (_unloadPendingSince < 0f)
-            {
-                _unloadPendingSince = now;
-            }
-
-            // Asset unload can hitch for seconds, so unlike GC it has no "max wait": quiet moment only.
-            if (!IsQuietNow(_unloadPendingSince, 0f, now))
-            {
-                return;
-            }
-
-            string waited = now - _unloadPendingSince >= 1f ? $", waited {now - _unloadPendingSince:0}s" : string.Empty;
-            _unloadPendingSince = -1f;
-            StartAssetUnload($"auto, native +{MemoryStats.Gb(growth)} GB{waited}{QuietTag()}", _unloadGcFirst.Value, true);
-        }
-
-        private void StartAssetUnload(string reason, bool gcFirst, bool isAuto)
+        private void StartAssetUnload(string reason, bool gcFirst)
         {
             if (_assetPhase != AssetPhase.Idle)
             {
@@ -783,7 +677,6 @@ namespace Tushonka.Cleaner.Client
             }
 
             _assetReason = reason;
-            _assetAuto = isAuto;
             _assetBefore = MemoryStats.Sample();
             _assetVramBefore = _vram.Dedicated;
             _assetStart = Time.realtimeSinceStartup;
@@ -843,11 +736,6 @@ namespace Tushonka.Cleaner.Client
 
         private void FinishAssetUnload(float now)
         {
-            if (_postRaid == PostRaidPhase.Assets)
-            {
-                PostRaidTrim();
-            }
-
             _assetPhase = AssetPhase.Idle;
             _report.AddAssetUnload();
             _lastUnload = now;
@@ -865,7 +753,7 @@ namespace Tushonka.Cleaner.Client
             }
 
             string vramText = vramAfter >= 0 ? $", VRAM {MemoryStats.Gb(_assetVramBefore)} → {MemoryStats.Gb(vramAfter)} GB" : string.Empty;
-            string kind = _assetAuto ? Loc.L("자동", "auto") : _assetReason == "raid start" ? Loc.L("레이드 시작", "raid start") : Loc.L("수동", "manual");
+            string kind = Loc.L("수동", "manual");
             _lastAssetResult = $"{DateTime.Now:HH:mm:ss} ({kind}) " +
                                Loc.L($"네이티브 {MemoryStats.Gb(_assetBefore.Native)} → {MemoryStats.Gb(after.Native)} GB{vramText}, ", $"native {MemoryStats.Gb(_assetBefore.Native)} → {MemoryStats.Gb(after.Native)} GB{vramText}, ") +
                                Loc.L($"가장 긴 프레임 {_assetLongestFrame * 1000f:0}ms", $"longest frame {_assetLongestFrame * 1000f:0} ms");
@@ -874,115 +762,6 @@ namespace Tushonka.Cleaner.Client
                            $"{MemoryStats.Gb(after.Native)} GB (freed {MemoryStats.Gb(nativeFreed)}), VRAM {MemoryStats.Gb(_assetVramBefore)} -> " +
                            $"{MemoryStats.Gb(vramAfter)} GB (freed {MemoryStats.Gb(vramFreed)}), working set {MemoryStats.Gb(_assetBefore.WorkingSet)} -> " +
                            $"{MemoryStats.Gb(after.WorkingSet)} GB, longest frame {_assetLongestFrame * 1000f:0}ms");
-
-            if (!_assetAuto)
-            {
-                return;
-            }
-
-            // Adaptive stop: if unloading assets gives almost nothing back, the native growth is a leak
-            // in some mod's native/Unity objects that are still referenced - hitching for it is pointless.
-            if (nativeFreed < (long)(WeakUnloadGb * MemoryStats.BytesPerGb))
-            {
-                _weakUnloads++;
-                if (_weakUnloads >= 2)
-                {
-                    _autoUnloadStopped = true;
-                    s_autoUnloadUselessThisSession = true;
-                    Logger.LogWarning("Auto asset unload stopped until the game restarts: two unloads in a row freed < 0.5 GB. " +
-                                      "The native growth is not unused assets (likely something still referenced by a mod). " +
-                                      "Turn on the leak tracker (F12 '누수 추적 켜기') to see what grows.");
-                }
-            }
-            else
-            {
-                _weakUnloads = 0;
-            }
-        }
-
-        // ---------------------------------------------------------------- Working set trim
-
-        private void EvaluateTrim(float now)
-        {
-            if (!_trimEnabled.Value || now - _lastTrim < _trimIntervalSec.Value)
-            {
-                _trimPendingSince = -1f;
-                return;
-            }
-
-            string reason;
-            if (!_trimOnlyLowRam.Value)
-            {
-                reason = "interval";
-            }
-            else if (_snapshot.SystemTotal > 0 && _snapshot.SystemAvailablePercent < _trimLowRamPercent.Value)
-            {
-                reason = $"low RAM {_snapshot.SystemAvailablePercent:0}%";
-            }
-            else
-            {
-                _trimPendingSince = -1f;
-                return;
-            }
-
-            if (_trimPendingSince < 0f)
-            {
-                _trimPendingSince = now;
-                _trimPendingReason = reason;
-            }
-
-            if (!IsQuietNow(_trimPendingSince, TrimMaxDeferSeconds, now))
-            {
-                return;
-            }
-
-            _trimPendingSince = -1f;
-            StartTrim(_trimPendingReason + QuietTag());
-        }
-
-        /// <summary>
-        /// EmptyWorkingSet on a 40 GB working set took 3.5 s in a real log (2026-09-29) and froze the game
-        /// for all of it because v2.0.0 called it from Update. The call does not need the main thread.
-        /// </summary>
-        private bool StartTrim(string reason)
-        {
-            if (Interlocked.CompareExchange(ref _trimRunning, 1, 0) != 0)
-            {
-                return false;
-            }
-
-            _lastTrim = Time.realtimeSinceStartup;
-            _lastTrimResult = Loc.L($"{DateTime.Now:HH:mm:ss} 진행 중... ({reason})", $"{DateTime.Now:HH:mm:ss} running... ({reason})");
-
-            int trimRaid = _inGame && _raidStartedAt >= 0f ? _raidGeneration : -1;
-            ThreadPool.QueueUserWorkItem(_ =>
-            {
-                long before = MemoryStats.ReadWorkingSet();
-                var watch = Stopwatch.StartNew();
-                bool ok = MemoryStats.EmptyWorkingSet();
-                watch.Stop();
-                long after = MemoryStats.ReadWorkingSet();
-
-                _mainThread.Enqueue(() =>
-                {
-                    Interlocked.Exchange(ref _trimRunning, 0);
-                    if (ok && trimRaid == _raidGeneration && _inGame && _raidStartedAt >= 0f) _raidFreedTrim += Math.Max(0, before - after);
-                    _report.AddTrim();
-                    if (_postRaid == PostRaidPhase.Trim && reason == "after raid")
-                    {
-                        _postRaid = PostRaidPhase.None;
-                        MemorySnapshot now = MemoryStats.Sample();
-                        Logger.LogInfo($"After-raid cleanup done: system free {MemoryStats.Gb(_postRaidFreeBefore)} -> {MemoryStats.Gb(now.SystemAvailable)} GB, " +
-                                       $"game working set {MemoryStats.Gb(now.WorkingSet)} GB, private {MemoryStats.Gb(now.PrivateBytes)} GB");
-                    }
-                    _lastTrimResult = ok
-                        ? Loc.L($"{DateTime.Now:HH:mm:ss} 워킹셋 {MemoryStats.Gb(before)} → {MemoryStats.Gb(after)} GB ({reason})", $"{DateTime.Now:HH:mm:ss} working set {MemoryStats.Gb(before)} → {MemoryStats.Gb(after)} GB ({reason})")
-                        : Loc.L($"{DateTime.Now:HH:mm:ss} 실패 (윈도우 API 호출 불가)", $"{DateTime.Now:HH:mm:ss} failed (Windows API not available)");
-                    Logger.LogInfo($"Working set trim ({reason}): ok={ok}, {MemoryStats.Gb(before)} -> {MemoryStats.Gb(after)} GB, " +
-                                   $"background call {watch.Elapsed.TotalMilliseconds:0}ms");
-                });
-            });
-            return true;
         }
 
         // ---------------------------------------------------------------- Hitch detector / raid report / warnings
@@ -1174,10 +953,6 @@ namespace Tushonka.Cleaner.Client
                 _hitch.NoteAssetUnload();
             }
 
-            if (_trimRunning != 0)
-            {
-                _hitch.NoteTrimRunning();
-            }
 
             double serverWait = _server.WaitInFrame(previousFrame, out string serverPath);
             if (serverWait > 0)
@@ -1962,13 +1737,7 @@ namespace Tushonka.Cleaner.Client
                   .Append(MemoryStats.Gb(_gcBaseline + (long)(_gcGrowthGb.Value * MemoryStats.BytesPerGb))).Append(Loc.L(" GB 도달 시\n", " GB used\n"));
             }
 
-            if (_autoUnloadStopped || s_autoUnloadUselessThisSession)
-            {
-                sb.Append(Loc.L("레이드 중 자동 에셋 정리: 게임 끌 때까지 중단됨 (정리해도 거의 안 줄어서 — 모드 누수 의심, '누수 추적'을 켜 보세요)\n", "automatic asset cleanup in raid: paused until the game closes (it freed almost nothing — possible mod leak, try the 'leak tracker')\n"));
-            }
-
             sb.Append(Loc.L("마지막 GC 정리: ", "last GC: ")).Append(_gc.LastResult).Append('\n');
-            sb.Append(Loc.L("마지막 워킹셋 정리: ", "last working set trim: ")).Append(_lastTrimResult ?? NoneYet).Append('\n');
             sb.Append(Loc.L("마지막 에셋 정리: ", "last asset cleanup: ")).Append(_lastAssetResult ?? NoneYet).Append('\n');
             sb.Append(Loc.L("FPS: 지금 ", "FPS: now ")).Append(_frames.CurrentFps.ToString("0"));
             if (_frames.Frames > 0)
@@ -2113,16 +1882,6 @@ namespace Tushonka.Cleaner.Client
             if (_gcPendingSince >= 0f)
             {
                 sb.Append(Loc.L("대기 중: GC (전투가 끝나길 기다리는 중, ", "waiting: GC (until the fighting stops, ")).Append((now - _gcPendingSince).ToString("0")).Append(Loc.L("초)\n", " s)\n"));
-            }
-
-            if (_unloadPendingSince >= 0f)
-            {
-                sb.Append(Loc.L("대기 중: 에셋 정리 (조용한 순간 또는 인벤토리 열 때, ", "waiting: asset cleanup (quiet moment or inventory, ")).Append((now - _unloadPendingSince).ToString("0")).Append(Loc.L("초)\n", " s)\n"));
-            }
-
-            if (_trimPendingSince >= 0f)
-            {
-                sb.Append(Loc.L("대기 중: 워킹셋 정리 (", "waiting: working set trim (")).Append((now - _trimPendingSince).ToString("0")).Append(Loc.L("초)\n", " s)\n"));
             }
         }
 
@@ -2362,14 +2121,9 @@ namespace Tushonka.Cleaner.Client
                 }
             }
 
-            if (GUILayout.Button(_trimRunning != 0 ? Loc.L("워킹셋 정리 중...", "Trimming working set...") : Loc.L("워킹셋 정리", "Trim working set"), GUILayout.ExpandWidth(true)))
-            {
-                StartTrim("manual");
-            }
-
             if (GUILayout.Button(_assetPhase != AssetPhase.Idle ? Loc.L("에셋 정리 중...", "Unloading assets...") : Loc.L("에셋 정리", "Unload assets"), GUILayout.ExpandWidth(true)))
             {
-                StartAssetUnload("manual", _unloadGcFirst.Value, false);
+                StartAssetUnload("manual", _unloadGcFirst.Value);
             }
 
             if (GUILayout.Button(Loc.L("누수 추적 기록", "Take a leak snapshot"), GUILayout.ExpandWidth(true)))

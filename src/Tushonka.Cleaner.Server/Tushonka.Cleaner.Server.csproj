@@ -19,7 +19,8 @@
     <PackageReference Include="SPTushonka.Server.Web" Version="4.1.5" PrivateAssets="all" ExcludeAssets="runtime" />
     <PackageReference Include="Lib.Harmony" Version="2.4.2" PrivateAssets="all" ExcludeAssets="runtime" />
     <EmbeddedResource Include="Web\page.html" LogicalName="Tushonka.Cleaner.Server.Web.page.html" />
-    <EmbeddedResource Include="MemoryWeb\offline.html" LogicalName="Tushonka.Cleaner.Server.offline.html" />
+    <EmbeddedResource Include="MemoryWeb\settings-catalog.json" LogicalName="Tushonka.Cleaner.Server.settings-catalog.json" />
+    <EmbeddedResource Include="..\Tushonka.Cleaner.Client\Web\*.css;..\Tushonka.Cleaner.Client\Web\*.js;..\Tushonka.Cleaner.Client\Web\*.html" LogicalName="web.%(Filename)%(Extension)" />
     <None Update="config.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <Target Name="PackageRelease" AfterTargets="Build"
@@ -35,7 +36,9 @@
     <Error Condition="!Exists('$(PackageClientDll)')" Text="클라이언트 DLL이 없습니다. 솔루션 전체를 빌드하십시오." />
     <RemoveDir Directories="$(PackageStageDir)" />
     <Copy SourceFiles="$(PackageClientDll);$(MSBuildProjectDirectory)\..\Tushonka.Cleaner.Client\SceneCleanupData\scene-rules.json;$(MSBuildProjectDirectory)\..\Tushonka.Cleaner.Client\SceneCleanupData\tushonka-exclude.example.txt" DestinationFolder="$(PackageClientDir)" />
-    <Copy SourceFiles="$(TargetPath);$(MSBuildProjectDirectory)\config.json" DestinationFolder="$(PackageServerDir)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(PackageServerDir)" />
+    <!-- 덮어쓰기 업데이트가 사용자 서버 설정을 지우지 않도록 기본값만 다른 이름으로 넣습니다. config.json은 첫 시작 때 만듭니다. -->
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\config.json" DestinationFiles="$(PackageServerDir)config.default.json" />
     <Copy SourceFiles="$(PackageRoot)LICENSE;$(PackageRoot)NOTICE.md" DestinationFolder="$(PackageStageDir)" />
     <MakeDir Directories="$(PackageRoot)release" />
     <ZipDirectory SourceDirectory="$(PackageStageDir)" DestinationFile="$(PackageZipPath)" Overwrite="true" />

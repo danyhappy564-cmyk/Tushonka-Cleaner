@@ -25,7 +25,6 @@ namespace Tushonka.Cleaner.Client
         private double _prevGcMs;
         private double _prevLeakMs;
         private bool _prevAssetUnload;
-        private bool _prevTrimRunning;
         private double _prevServerMs;
         private string _prevServerPath;
 
@@ -109,11 +108,6 @@ namespace Tushonka.Cleaner.Client
             _prevAssetUnload = true;
         }
 
-        public void NoteTrimRunning()
-        {
-            _prevTrimRunning = true;
-        }
-
         /// <summary>The main thread sat in a synchronous SPT server request for <paramref name="ms"/> in the previous frame.</summary>
         public void NoteServerWait(double ms, string path)
         {
@@ -139,7 +133,7 @@ namespace Tushonka.Cleaner.Client
         {
             _prevGcMs = _prevLeakMs = _prevServerMs = 0;
             _prevServerPath = null;
-            _prevAssetUnload = _prevTrimRunning = false;
+            _prevAssetUnload = false;
         }
 
         private void Judge(float frameMs, float thresholdMs, System.Func<string> context, ModCostProfiler profiler, bool spawnRecent, bool gcInProgress)
@@ -291,11 +285,6 @@ namespace Tushonka.Cleaner.Client
                 sb.Append(Loc.L("에셋 정리 중 ", "asset cleanup running "));
             }
 
-            if (_prevTrimRunning)
-            {
-                sb.Append(Loc.L("워킹셋 정리 중(별도 스레드) ", "working set trim running (own thread) "));
-            }
-
             isOurs = sb.Length > 0;
             return sb.ToString().TrimEnd();
         }
@@ -316,11 +305,6 @@ namespace Tushonka.Cleaner.Client
             if (_prevAssetUnload)
             {
                 sb.Append("asset unload running, ");
-            }
-
-            if (_prevTrimRunning)
-            {
-                sb.Append("working set trim running (background), ");
             }
 
             return sb.ToString().TrimEnd(',', ' ');
