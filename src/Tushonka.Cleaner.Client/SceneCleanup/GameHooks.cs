@@ -4,7 +4,6 @@ using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
 using EFT.AssetsManager;
-using DeferredDecals;
 
 namespace Tushonka.Cleaner.SceneCleanup
 {
@@ -20,15 +19,6 @@ namespace Tushonka.Cleaner.SceneCleanup
             Patch(typeof(MuzzleLight),"SetIntensity",nameof(MuzzleIntensity),null);
             Patch(typeof(AmmoPoolObject),"SetUsed",null,nameof(ShellUsed));
             Patch(typeof(AmmoPoolObject),"ReturnToPool",nameof(ShellReturned),null);
-            // 게임의 물리·풀 반환은 그대로 두고 새 장식 자국 등록만 제한합니다.
-            var draw=typeof(DeferredDecalRenderer).GetMethod("DrawDecal",new[]{typeof(Vector3),typeof(Vector3),typeof(EFT.Ballistics.BallisticCollider),typeof(bool)});
-            if(draw==null) throw new MissingMethodException("DeferredDecalRenderer.DrawDecal");
-            harmony.Patch(draw,prefix:new HarmonyMethod(typeof(GameHooks),nameof(ImpactDecal)));
-            var add=typeof(DecalSystem).GetMethod("Add",new[]{typeof(Vector3),typeof(Vector3)});
-            if(add==null) throw new MissingMethodException("DecalSystem.Add");
-            harmony.Patch(add,prefix:new HarmonyMethod(typeof(GameHooks),nameof(ImpactDecal)));
-            var tiled=typeof(DecalSystem).GetMethod("Add",new[]{typeof(Vector3),typeof(Vector3),typeof(int)});
-            if(tiled!=null) harmony.Patch(tiled,prefix:new HarmonyMethod(typeof(GameHooks),nameof(ImpactDecal)));
         }
         private void Patch(Type type,string name,string prefix,string postfix)
         {
@@ -43,6 +33,5 @@ namespace Tushonka.Cleaner.SceneCleanup
         private static void MuzzleIntensity(MuzzleLight __instance) { SceneCleanupModule.State?.OnMuzzle(__instance); }
         private static void ShellUsed(AmmoPoolObject __instance,bool isUsed) { SceneCleanupModule.State?.OnShell(__instance,isUsed); }
         private static void ShellReturned(AmmoPoolObject __instance) { SceneCleanupModule.State?.ForgetShell(__instance); }
-        private static bool ImpactDecal() { return SceneCleanupModule.State==null || SceneCleanupModule.State.AllowImpact(); }
     }
 }

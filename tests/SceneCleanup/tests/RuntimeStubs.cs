@@ -27,6 +27,7 @@ namespace BepInEx.Configuration
             entry.Value=value; entries[id]=entry; return entry;
         }
         public void Change(ConfigEntryBase entry) { SettingChanged?.Invoke(this,new SettingChangedEventArgs{ChangedSetting=entry}); }
+        public bool Has(string section,string key) { return entries.ContainsKey(section+"/"+key); }
     }
 }
 namespace BepInEx.Logging { public sealed class ManualLogSource { public void LogInfo(object x) {} public void LogWarning(object x) {} } }
@@ -105,9 +106,17 @@ namespace UnityEngine
     {
         public static int particleRaycastBudget=256,pixelLightCount=4,shadowCascades=4;
         public static bool softParticles=true,softVegetation=true,realtimeReflectionProbes=true;
-        public static ShadowQuality shadows=ShadowQuality.All;
-        public static ShadowResolution shadowResolution=ShadowResolution.High;
-        public static float lodBias=2,shadowDistance=150;
+        // 건드리면 안 되는 항목은 읽기까지 셉니다. 값 검사만으로는 저장해 두었다가 같은 값을 쓰는 코드를 못 잡습니다.
+        public static int LodBiasTouches,ShadowResolutionTouches,ShadowDistanceTouches,DisableWrites;
+        private static ShadowQuality shadowQuality=ShadowQuality.All;
+        private static ShadowResolution resolution=ShadowResolution.High;
+        private static float bias=2,distance=150;
+        public static ShadowQuality shadows { get { return shadowQuality; } set { if(value==ShadowQuality.Disable) ++DisableWrites; shadowQuality=value; } }
+        public static ShadowResolution shadowResolution { get { ++ShadowResolutionTouches; return resolution; } set { ++ShadowResolutionTouches; resolution=value; } }
+        public static float lodBias { get { ++LodBiasTouches; return bias; } set { ++LodBiasTouches; bias=value; } }
+        public static float shadowDistance { get { ++ShadowDistanceTouches; return distance; } set { ++ShadowDistanceTouches; distance=value; } }
+        // 시험이 게임 쪽 원래 값을 정할 때만 씁니다. 금지된 쓰기로 세지 않습니다.
+        public static void SetGameShadows(ShadowQuality value) { shadowQuality=value; }
     }
 }
 namespace UnityEngine.SceneManagement

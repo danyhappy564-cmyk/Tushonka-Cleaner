@@ -42,7 +42,7 @@ namespace Tushonka.Cleaner.SceneCleanup
         private object world;
         private bool raidActive,graphicsDirty,scanning,capacityReached;
         private float readyAt;
-        private int sceneIndex,rootIndex,depth=-1,applyIndex,auditIndex,scanned,graphicsSlot,lightIndex,shellCursor,impacts,decalsSkipped;
+        private int sceneIndex,rootIndex,depth=-1,applyIndex,auditIndex,scanned,graphicsSlot,lightIndex,shellCursor,decalsSkipped;
         private int muzzleRead,muzzleWrite,muzzleLightIndex;
         private float lastMs;
         internal RuntimeState(ConfigFile config,ManualLogSource log,CleanupSettings settings,RuleBook rules,ExclusionSet exclusions)
@@ -86,7 +86,7 @@ namespace Tushonka.Cleaner.SceneCleanup
             RestoreAllRenderers(); RestoreAllLights();
             graphics.Restore();
             ClearReferences();
-            world=null; raidActive=false; decalsSkipped=0; impacts=0;
+            world=null; raidActive=false; decalsSkipped=0;
         }
         // 맵 데칼 등록(StaticDeferredDecalRenderer.AddEarlyDecals)은 레이드 시작 전 한 프레임에 몰립니다.
         // 판정은 등록 때의 단계를 읽습니다. 메뉴에서 먼저 불린 등록이 단계를 고정하면 안 됩니다.
@@ -131,7 +131,7 @@ namespace Tushonka.Cleaner.SceneCleanup
             {
                 if(settings.Level.Value>=SceneCleanupLevel.Balanced) graphics.Capture();
                 graphics.Apply(graphicsSlot++,settings,settings.Level.Value);
-                if(graphicsSlot==10)
+                if(graphicsSlot==GraphicsState.SlotCount)
                 {
                     graphicsDirty=false; graphicsSlot=0;
                     if(settings.Level.Value<SceneCleanupLevel.Balanced) graphics.ForgetSnapshot();
@@ -340,23 +340,37 @@ namespace Tushonka.Cleaner.SceneCleanup
             EFT.Player owner=FindOwner(light.transform);
             if(settings.Level.Value<SceneCleanupLevel.Balanced || !settings.MuzzleShadows.Value || owner==null || owner.IsYourPlayer) light.shadows=lights.Original(i);
         }
-        internal bool AllowImpact()
+        private static int ShellCapFor(SceneCleanupLevel level)
         {
-            if(!raidActive) return true;
-            if(settings.Level.Value<SceneCleanupLevel.Balanced || !settings.ImpactCap.Value) return true;
-            int cap=settings.Level.Value==SceneCleanupLevel.Max?Math.Max(1,settings.ImpactLimit.Value/2):settings.ImpactLimit.Value;
-            if(impacts>=cap) return false;
-            ++impacts; return true;
+            switch(level)
+            {
+                case SceneCleanupLevel.LightTouch: return 100;
+                case SceneCleanupLevel.Balanced: return 60;
+                case SceneCleanupLevel.Max: return 30;
+                default: return 0;
+            }
         }
         internal void OnShell(AmmoPoolObject shell,bool used)
         {
-            if(!raidActive || !used || shell==null || !shell.enabled || !shell.gameObject.activeInHierarchy || shell.transform.parent!=null || settings.Level.Value<SceneCleanupLevel.Balanced || !settings.ShellCap.Value) return;
-            int cap=settings.Level.Value==SceneCleanupLevel.Max?Math.Max(1,settings.ShellLimit.Value/2):settings.ShellLimit.Value;
-            for(int i=0;i<shells.Length;i++) if(shells[i]==shell) return;
-            shellCursor%=cap;
-            AmmoPoolObject previous=shells[shellCursor];
-            if(previous!=null && previous!=shell) previous.ShouldBeDestroyed=true; // 게임의 원래 반환 경로가 처리합니다.
-            shells[shellCursor]=shell; shellCursor=(shellCursor+1)%cap;
+            if(!raidActive || !used || shell==null || !shell.enabled || !shell.gameObject.activeInHierarchy || shell.transform.parent!=null || !settings.ShellCap.Value) return;
+            int cap=ShellCapFor(settings.Level.Value);
+            if(cap==0) return;
+            int live=0;
+            for(int i=0;i<shells.Length;i++)
+            {
+                if(shells[i]==null) continue;
+                if(shells[i]==shell) return;
+                ++live;
+            }
+            // 칸 수가 어떤 상한보다 커서 쓰기 위치는 늘 비어 있고, 그다음 칸부터가 오래된 순서입니다. 단계를 낮추면 여기서 한 번에 줄어듭니다.
+            for(int i=0;live>=cap && i<shells.Length;i++)
+            {
+                int oldest=(shellCursor+i)%shells.Length;
+                if(shells[oldest]==null) continue;
+                shells[oldest].ShouldBeDestroyed=true; // 게임의 원래 반환 경로가 처리합니다.
+                shells[oldest]=null; --live;
+            }
+            shells[shellCursor]=shell; shellCursor=(shellCursor+1)%shells.Length;
         }
         internal void ForgetShell(AmmoPoolObject shell)
         { for(int i=0;i<shells.Length;i++) if(shells[i]==shell) shells[i]=null; }

@@ -8,8 +8,8 @@ namespace Tushonka.Cleaner.SceneCleanup
         internal readonly ConfigEntry<SceneCleanupLevel> Level;
         internal readonly ConfigEntry<float> Delay, Budget, Distance;
         internal readonly ConfigEntry<bool>[] Categories = new ConfigEntry<bool>[7];
-        internal readonly ConfigEntry<bool> Particles, SoftParticles, SoftVegetation, Reflections, Shadows, Lights, Lod, ShellCap, ImpactCap, MuzzleShadows;
-        internal readonly ConfigEntry<int> ShellLimit, ImpactLimit, ChangesPerFrame;
+        internal readonly ConfigEntry<bool> Particles, SoftParticles, SoftVegetation, Reflections, Shadows, Lights, ShellCap, MuzzleShadows;
+        internal readonly ConfigEntry<int> ChangesPerFrame;
         internal CleanupSettings(ConfigFile config)
         {
             Level=config.Bind("Graphics","Level",SceneCleanupLevel.Off,"그래픽 단계: 끔 / 간단하게만 가림 / 균형 / 최대. 데칼 변경은 다음 레이드부터 적용됩니다. / Graphics: Off / LightTouch / Balanced / Max. Decal changes apply next raid.");
@@ -26,12 +26,8 @@ namespace Tushonka.Cleaner.SceneCleanup
             Reflections=Flag(config,"RealtimeReflections","실시간 반사 끄기","Disable realtime reflections");
             Shadows=Flag(config,"Shadows","그림자 품질 줄이기","Reduce shadow quality");
             Lights=Flag(config,"PixelLights","픽셀 조명 수 줄이기","Reduce pixel light count");
-            Lod=Flag(config,"Lod","먼 모델 단순화","Reduce distant model detail");
-            ShellCap=Flag(config,"ShellCap","버려진 탄피 수 상한","Limit ejected used shell count");
-            ImpactCap=Flag(config,"ImpactCap","새 총알 자국 수 상한","Limit new impact mark count");
+            ShellCap=config.Bind("Graphics.Tuning","ShellCap",true,"버려진 탄피 수 상한. 끔을 뺀 모든 단계에서 적용하며 끄면 게임 원래 동작을 사용합니다. / Limit ejected used shell count. Applies at every level except Off; disable to use original behaviour.");
             MuzzleShadows=Flag(config,"OtherMuzzleShadows","다른 사람의 총구 화염 그림자 끄기","Disable other players' muzzle light shadows");
-            ShellLimit=config.Bind("Graphics.Tuning","ShellLimit",64,new ConfigDescription("동시에 남길 버려진 탄피 상한. / Maximum live ejected used shells.",new AcceptableValueRange<int>(1,256)));
-            ImpactLimit=config.Bind("Graphics.Tuning","ImpactLimit",128,new ConfigDescription("레이드 중 생성하는 총알 자국 상한. 이미 생긴 자국은 변경하지 않습니다. / Maximum new impact marks per raid. Existing marks remain intact.",new AcceptableValueRange<int>(1,1024)));
         }
         private static ConfigEntry<bool> Flag(ConfigFile c,string key,string ko,string en)
         { return c.Bind("Graphics.Tuning",key,true,ko+". 균형·최대에서만 적용하며 끄면 원래 설정을 사용합니다. / "+en+". Balanced/Max only; disable to use original settings."); }

@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using Tushonka.Cleaner.SceneCleanup;
@@ -55,9 +56,10 @@ internal static class RuntimeChecks
         Check(state.Status.LitterHidden==2,"hidden count");
         SceneCleanupModule.SetLevel(SceneCleanupLevel.Off);RunTicks(state);
         Check(normal.gameObject.activeSelf && normal.enabled && disabled.gameObject.activeSelf && !disabled.enabled,"Off restores exact state");
-        Check(QualitySettings.pixelLightCount==4 && QualitySettings.lodBias==2,"quality restored");
+        Check(QualitySettings.pixelLightCount==4 && QualitySettings.LodBiasTouches==0,"quality restored");
         QualitySettings.pixelLightCount=6;
         SceneCleanupModule.SetLevel(SceneCleanupLevel.Max);RunTicks(state);
+        Check(QualitySettings.pixelLightCount==3,"Max halves the fresh original");
         SceneCleanupModule.SetLevel(SceneCleanupLevel.Off);RunTicks(state);
         Check(QualitySettings.pixelLightCount==6,"reenable captures fresh original");
         var cameraObject=new GameObject("FPS Camera"){scene=scene};
@@ -95,10 +97,18 @@ internal static class RuntimeChecks
         LargeMap(root);
         VisibilityBudget(root);
         DelayedScan(root);
+        GraphicsTable(root);
+        GraphicsEdges(root);
+        GraphicsFlags(root);
+        MuzzleLevels(root);
+        ShellCaps(root);
+        ConfigKeys(root);
+        SourceAudit(root);
         var weak=LeakProbe(root);
         GC.Collect();GC.WaitForPendingFinalizers();GC.Collect();
         foreach(var reference in weak)Check(!reference.IsAlive,"actual runtime raid reference release");
         SceneCleanupModule.Shutdown();
+        ExpectUntouched("whole runtime suite");
         Console.WriteLine("PASS runtime "+count+" assertions (Unity/BepInEx model)");
         return count;
     }
@@ -333,18 +343,6 @@ internal static class RuntimeChecks
         state.OnMuzzle(remoteMuzzle);RunTicks(state);
         remoteObject.transform.GetComponent<EFT.Player>().IsYourPlayer=true;RunTicks(state);
         Check(remoteLight.shadows==LightShadows.Soft,"pooled light reowned by local player restores");
-        config.Bind("Graphics.Tuning","ImpactLimit",128,"").Value=3;
-        Check(state.AllowImpact() && state.AllowImpact() && state.AllowImpact() && !state.AllowImpact(),"impact cap");
-        SceneCleanupModule.SetLevel(SceneCleanupLevel.Off);Check(state.AllowImpact(),"Off permits original impacts");
-        SceneCleanupModule.SetLevel(SceneCleanupLevel.Balanced);
-        config.Bind("Graphics.Tuning","ShellLimit",64,"").Value=1;
-        var first=new GameObject("used shell"){scene=scene}.Add<EFT.AssetsManager.AmmoPoolObject>();
-        var second=new GameObject("used shell"){scene=scene}.Add<EFT.AssetsManager.AmmoPoolObject>();
-        var live=new GameObject("live ammo"){scene=scene}.Add<EFT.AssetsManager.AmmoPoolObject>();
-        state.OnShell(first,true);state.OnShell(live,false);
-        Check(!first.ShouldBeDestroyed && !live.ShouldBeDestroyed,"unspent ammunition ignored");
-        state.OnShell(second,true);Check(first.ShouldBeDestroyed && !second.ShouldBeDestroyed,"old shell uses game return path");
-        state.ForgetShell(second);
     }
     private static void VisibilityBudget(string root)
     {
@@ -392,5 +390,224 @@ internal static class RuntimeChecks
         Check(!state.Status.RaidActive && state.Status.Candidates==0,"end raid clears status");
         SceneManager.Scenes.Clear();
         return weak;
+    }
+    private static readonly SceneCleanupLevel[] Levels={SceneCleanupLevel.Off,SceneCleanupLevel.LightTouch,SceneCleanupLevel.Balanced,SceneCleanupLevel.Max};
+    private static void Originals(int budget=256,ShadowQuality shadows=ShadowQuality.All,int cascades=4,int lights=5)
+    {
+        QualitySettings.particleRaycastBudget=budget;QualitySettings.SetGameShadows(shadows);QualitySettings.shadowCascades=cascades;QualitySettings.pixelLightCount=lights;
+        QualitySettings.softParticles=true;QualitySettings.softVegetation=true;QualitySettings.realtimeReflectionProbes=true;
+    }
+    private static void ExpectQuality(string label,int budget,bool soft,ShadowQuality shadows,int cascades,int lights)
+    {
+        Check(QualitySettings.particleRaycastBudget==budget,label+": particle budget "+QualitySettings.particleRaycastBudget);
+        Check(QualitySettings.softParticles==soft && QualitySettings.softVegetation==soft && QualitySettings.realtimeReflectionProbes==soft,label+": soft and reflections");
+        Check(QualitySettings.shadows==shadows,label+": shadows "+QualitySettings.shadows);
+        Check(QualitySettings.shadowCascades==cascades,label+": cascades "+QualitySettings.shadowCascades);
+        Check(QualitySettings.pixelLightCount==lights,label+": pixel lights "+QualitySettings.pixelLightCount);
+    }
+    private static void ExpectUntouched(string label)
+    {
+        Check(QualitySettings.LodBiasTouches==0,label+": lodBias never read or written");
+        Check(QualitySettings.ShadowResolutionTouches==0 && QualitySettings.ShadowDistanceTouches==0,label+": shadow resolution and distance left to the game");
+        Check(QualitySettings.DisableWrites==0,label+": ShadowQuality.Disable never written");
+    }
+    private static void ExpectRow(SceneCleanupLevel level,string label)
+    {
+        // 지시서 표의 값을 그대로 적습니다. 원래 값은 256 / All / 4 / 5 입니다.
+        switch(level)
+        {
+            case SceneCleanupLevel.Max: ExpectQuality(label,64,false,ShadowQuality.HardOnly,2,2); break;
+            case SceneCleanupLevel.Balanced: ExpectQuality(label,128,false,ShadowQuality.All,4,5); break;
+            default: ExpectQuality(label,256,true,ShadowQuality.All,4,5); break;
+        }
+        ExpectUntouched(label);
+    }
+    private static void GraphicsTable(string root)
+    {
+        Originals();
+        var state=Start(root,out var config,out var world);
+        foreach(var from in Levels) foreach(var to in Levels)
+        {
+            string label=from+" to "+to;
+            SceneCleanupModule.SetLevel(from);RunTicks(state);ExpectRow(from,label+" (from)");
+            SceneCleanupModule.SetLevel(to);RunTicks(state);ExpectRow(to,label);
+        }
+        foreach(var level in Levels)
+        {
+            SceneCleanupModule.SetLevel(level);RunTicks(state);
+            state.EndRaid(world);ExpectRow(SceneCleanupLevel.Off,level+" raid end restores");
+            world=new object();state.BeginRaid(world);RunTicks(state);ExpectRow(level,level+" next raid applies");
+        }
+        // 적용이 나뉘어 도는 도중에 레이드가 끝나거나 단계가 바뀌어도 원래 값이 남습니다.
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.Off);RunTicks(state);
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.Max);RunTicks(state,3);
+        state.EndRaid(world);ExpectRow(SceneCleanupLevel.Off,"raid end during partial apply");
+        world=new object();state.BeginRaid(world);RunTicks(state);ExpectRow(SceneCleanupLevel.Max,"raid after partial apply");
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.LightTouch);RunTicks(state,2);
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.Max);RunTicks(state,2);
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.Off);RunTicks(state);ExpectRow(SceneCleanupLevel.Off,"Off after interrupted changes");
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.Max);RunTicks(state);
+        SceneCleanupModule.Shutdown();ExpectRow(SceneCleanupLevel.Off,"shutdown restores");
+        SceneManager.Scenes.Clear();
+    }
+    private static void GraphicsEdges(string root)
+    {
+        var cases=new[]{
+            new{Budget=6,Shadows=ShadowQuality.HardOnly,Cascades=2,Lights=1,Balanced=4,MaxBudget=4,MaxShadows=ShadowQuality.HardOnly,MaxCascades=2,MaxLights=0},
+            new{Budget=17,Shadows=ShadowQuality.All,Cascades=1,Lights=-3,Balanced=8,MaxBudget=4,MaxShadows=ShadowQuality.HardOnly,MaxCascades=1,MaxLights=0},
+            new{Budget=4096,Shadows=ShadowQuality.All,Cascades=0,Lights=0,Balanced=2048,MaxBudget=1024,MaxShadows=ShadowQuality.HardOnly,MaxCascades=0,MaxLights=0},
+            new{Budget=2,Shadows=ShadowQuality.Disable,Cascades=3,Lights=7,Balanced=4,MaxBudget=4,MaxShadows=ShadowQuality.Disable,MaxCascades=2,MaxLights=3},
+        };
+        foreach(var c in cases)
+        {
+            Originals(c.Budget,c.Shadows,c.Cascades,c.Lights);
+            var state=Start(root,out var config,out var world);
+            string label="original budget "+c.Budget+" shadows "+c.Shadows;
+            SceneCleanupModule.SetLevel(SceneCleanupLevel.LightTouch);RunTicks(state);ExpectQuality(label+" LightTouch",c.Budget,true,c.Shadows,c.Cascades,c.Lights);
+            SceneCleanupModule.SetLevel(SceneCleanupLevel.Balanced);RunTicks(state);ExpectQuality(label+" Balanced",c.Balanced,false,c.Shadows,c.Cascades,c.Lights);
+            SceneCleanupModule.SetLevel(SceneCleanupLevel.Max);RunTicks(state);ExpectQuality(label+" Max",c.MaxBudget,false,c.MaxShadows,c.MaxCascades,c.MaxLights);
+            SceneCleanupModule.SetLevel(SceneCleanupLevel.Off);RunTicks(state);ExpectQuality(label+" Off",c.Budget,true,c.Shadows,c.Cascades,c.Lights);
+            SceneCleanupModule.SetLevel(SceneCleanupLevel.Max);RunTicks(state);
+            state.EndRaid(world);ExpectQuality(label+" raid end",c.Budget,true,c.Shadows,c.Cascades,c.Lights);
+            // 게임 값이 Disable이어도 이 모드는 Disable을 쓰지 않습니다.
+            ExpectUntouched(label);
+            SceneCleanupModule.Shutdown();SceneManager.Scenes.Clear();
+        }
+        Originals();
+    }
+    private static void GraphicsFlags(string root)
+    {
+        Originals();
+        var state=Start(root,out var config,out var world);
+        ConfigEntry<bool> Flag(string key)=>config.Bind("Graphics.Tuning",key,true,"");
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.Max);RunTicks(state);
+        Flag("ReduceParticles").Value=false;RunTicks(state);
+        Check(QualitySettings.particleRaycastBudget==256 && !QualitySettings.softParticles,"particle flag restores only budget");
+        Flag("ReduceParticles").Value=true;RunTicks(state);Check(QualitySettings.particleRaycastBudget==64,"particle flag reapplies");
+        Flag("SoftParticles").Value=false;RunTicks(state);
+        Check(QualitySettings.softParticles && !QualitySettings.softVegetation,"soft particle flag restores only itself");
+        Flag("SoftParticles").Value=true;RunTicks(state);Check(!QualitySettings.softParticles,"soft particle flag reapplies");
+        Flag("SoftVegetation").Value=false;RunTicks(state);
+        Check(QualitySettings.softVegetation && !QualitySettings.realtimeReflectionProbes,"soft vegetation flag restores only itself");
+        Flag("SoftVegetation").Value=true;RunTicks(state);Check(!QualitySettings.softVegetation,"soft vegetation flag reapplies");
+        Flag("RealtimeReflections").Value=false;RunTicks(state);
+        Check(QualitySettings.realtimeReflectionProbes && !QualitySettings.softVegetation,"reflection flag restores only itself");
+        Flag("RealtimeReflections").Value=true;RunTicks(state);Check(!QualitySettings.realtimeReflectionProbes,"reflection flag reapplies");
+        Flag("Shadows").Value=false;RunTicks(state);
+        Check(QualitySettings.shadows==ShadowQuality.All && QualitySettings.shadowCascades==4 && QualitySettings.pixelLightCount==2,"shadow flag restores shadows and cascades only");
+        Flag("Shadows").Value=true;RunTicks(state);Check(QualitySettings.shadows==ShadowQuality.HardOnly && QualitySettings.shadowCascades==2,"shadow flag reapplies");
+        Flag("PixelLights").Value=false;RunTicks(state);
+        Check(QualitySettings.pixelLightCount==5 && QualitySettings.shadows==ShadowQuality.HardOnly,"light flag restores only itself");
+        Flag("PixelLights").Value=true;RunTicks(state);Check(QualitySettings.pixelLightCount==2,"light flag reapplies");
+        ExpectRow(SceneCleanupLevel.Max,"after every flag toggle");
+        SceneCleanupModule.Shutdown();SceneManager.Scenes.Clear();
+    }
+    private static void MuzzleLevels(string root)
+    {
+        var scene=CreateScene();
+        var state=Start(root,out var config,out var world);
+        var remote=new GameObject("remote"){scene=scene};remote.Add<EFT.Player>();
+        var muzzle=remote.Add<MuzzleLight>();var light=remote.Add<Light>();muzzle.Lights=new[]{light};
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.LightTouch);RunTicks(state);
+        state.OnMuzzle(muzzle);RunTicks(state);Check(light.shadows==LightShadows.Soft,"LightTouch keeps other muzzle shadows");
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.Balanced);RunTicks(state);
+        state.OnMuzzle(muzzle);RunTicks(state);Check(light.shadows==LightShadows.None,"Balanced removes other muzzle shadows");
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.LightTouch);RunTicks(state);Check(light.shadows==LightShadows.Soft,"lower level restores muzzle shadows");
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.Max);RunTicks(state);
+        state.OnMuzzle(muzzle);RunTicks(state);Check(light.shadows==LightShadows.None,"Max removes other muzzle shadows");
+        state.EndRaid(world);Check(light.shadows==LightShadows.Soft,"raid end restores muzzle shadows");
+        SceneCleanupModule.Shutdown();SceneManager.Scenes.Clear();
+    }
+    private static EFT.AssetsManager.AmmoPoolObject[] Fire(RuntimeState state,Scene scene,int count)
+    {
+        var shells=new EFT.AssetsManager.AmmoPoolObject[count];
+        for(int i=0;i<count;i++) { shells[i]=new GameObject("used shell"){scene=scene}.Add<EFT.AssetsManager.AmmoPoolObject>(); state.OnShell(shells[i],true); }
+        return shells;
+    }
+    private static int Flagged(EFT.AssetsManager.AmmoPoolObject[] shells)
+    { int n=0; foreach(var s in shells) if(s.ShouldBeDestroyed) ++n; return n; }
+    private static void ShellCaps(string root)
+    {
+        var scene=CreateScene();
+        var state=Start(root,out var config,out var world);
+        foreach(var (level,cap) in new[]{(SceneCleanupLevel.LightTouch,100),(SceneCleanupLevel.Balanced,60),(SceneCleanupLevel.Max,30)})
+        {
+            SceneCleanupModule.SetLevel(level);
+            var full=Fire(state,scene,cap);
+            Check(Flagged(full)==0,level+" keeps exactly "+cap+" shells");
+            var extra=Fire(state,scene,2);
+            Check(full[0].ShouldBeDestroyed && full[1].ShouldBeDestroyed && !full[2].ShouldBeDestroyed && Flagged(full)==2 && Flagged(extra)==0,level+" retires oldest over "+cap);
+            state.EndRaid(world);world=new object();state.BeginRaid(world);
+            var fresh=Fire(state,scene,cap);
+            Check(Flagged(fresh)==0,level+" raid end empties the count");
+            state.EndRaid(world);world=new object();state.BeginRaid(world);
+        }
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.Off);
+        Check(Flagged(Fire(state,scene,300))==0,"Off keeps every shell");
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.LightTouch);
+        config.Bind("Graphics.Tuning","ShellCap",true,"").Value=false;
+        Check(Flagged(Fire(state,scene,300))==0,"ShellCap off keeps every shell");
+        config.Bind("Graphics.Tuning","ShellCap",true,"").Value=true;
+        // 대상 조건은 그대로입니다.
+        var live=new GameObject("live ammo"){scene=scene}.Add<EFT.AssetsManager.AmmoPoolObject>();
+        var held=new GameObject("held"){scene=scene}.Add<EFT.AssetsManager.AmmoPoolObject>();new GameObject("magazine"){scene=scene}.transform.Add(held.transform);
+        var disabledShell=new GameObject("disabled"){scene=scene}.Add<EFT.AssetsManager.AmmoPoolObject>();disabledShell.enabled=false;
+        var inactive=new GameObject("inactive"){scene=scene}.Add<EFT.AssetsManager.AmmoPoolObject>();inactive.gameObject.activeSelf=false;
+        state.OnShell(live,false);state.OnShell(held,true);state.OnShell(disabledShell,true);state.OnShell(inactive,true);
+        var counted=Fire(state,scene,100);
+        Check(Flagged(counted)==0 && !live.ShouldBeDestroyed && !held.ShouldBeDestroyed && !disabledShell.ShouldBeDestroyed && !inactive.ShouldBeDestroyed,"ineligible shells are not counted");
+        // 같은 탄피를 다시 알려도 한 개이고, 게임이 돌려받은 탄피는 자리를 비웁니다.
+        state.OnShell(counted[0],true);Check(Flagged(counted)==0,"repeat report counts once");
+        state.ForgetShell(counted[0]);
+        var after=Fire(state,scene,1);Check(Flagged(counted)==0 && Flagged(after)==0,"returned shell frees its place");
+        Fire(state,scene,1);Check(counted[1].ShouldBeDestroyed && !counted[2].ShouldBeDestroyed && !counted[0].ShouldBeDestroyed,"oldest live shell retires next");
+        state.EndRaid(world);world=new object();state.BeginRaid(world);
+        // 단계를 낮추면 상한도 바로 줄고, 높이면 미리 없애지 않습니다.
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.LightTouch);
+        var many=Fire(state,scene,100);
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.Max);
+        var one=Fire(state,scene,1);
+        Check(Flagged(many)==71 && many[70].ShouldBeDestroyed && !many[71].ShouldBeDestroyed && Flagged(one)==0,"Max leaves 30 after LightTouch");
+        SceneCleanupModule.SetLevel(SceneCleanupLevel.LightTouch);
+        var more=Fire(state,scene,70);
+        Check(Flagged(many)==71 && Flagged(one)==0 && Flagged(more)==0,"LightTouch does not retire below 100");
+        Fire(state,scene,1);Check(Flagged(many)==72 && many[71].ShouldBeDestroyed,"LightTouch retires only over 100");
+        SceneCleanupModule.Shutdown();SceneManager.Scenes.Clear();
+    }
+    private static void ConfigKeys(string root)
+    {
+        var config=new ConfigFile();
+        SceneCleanupModule.Init(config,new ManualLogSource(),Path.Combine(root,"data"));
+        foreach(var key in new[]{"ReduceParticles","SoftParticles","SoftVegetation","RealtimeReflections","Shadows","PixelLights","ShellCap","OtherMuzzleShadows"})
+            Check(config.Has("Graphics.Tuning",key),"setting kept: "+key);
+        foreach(var key in new[]{"Lod","ImpactCap","ShellLimit","ImpactLimit"})
+            Check(!config.Has("Graphics.Tuning",key),"setting removed: "+key);
+        SceneCleanupModule.Shutdown();
+    }
+    // GameHooks는 게임 DLL이 있어야 컴파일되어 이 시험에 들어오지 않습니다. 패치 부재는 소스로 확인합니다.
+    private static void SourceAudit(string root)
+    {
+        string client=Path.GetFullPath(Path.Combine(root,"..","..","src","Tushonka.Cleaner.Client"));
+        var forbidden=new Regex(@"lodBias|\bLod\b|gfxLod|ImpactCap|ImpactLimit|AllowImpact|ImpactDecal|\bimpacts\b|gfxImpact|ShellLimit|gfxShellLimit|DrawDecal|DecalSystem");
+        var files=new System.Collections.Generic.List<string>(Directory.GetFiles(Path.Combine(client,"SceneCleanup"),"*.cs",SearchOption.AllDirectories));
+        files.Add(Path.Combine(client,"CleanerPlugin.SimpleUi.cs"));
+        foreach(var web in new[]{"advanced.js","settings.js","i18n.js"}) files.Add(Path.Combine(client,"Web",web));
+        foreach(var file in files)
+        {
+            var match=forbidden.Match(File.ReadAllText(file));
+            Check(!match.Success,Path.GetFileName(file)+" still has "+match.Value);
+        }
+        string hooks=File.ReadAllText(Path.Combine(client,"SceneCleanup","GameHooks.cs"));
+        Check(hooks.Contains("\"RegisterDecal\"") && hooks.Contains("\"SetUsed\"") && hooks.Contains("\"ReturnToPool\"") && hooks.Contains("\"SetIntensity\""),"other game patches kept");
+        Check(new Regex(@"harmony\.Patch\(").Matches(hooks).Count==1,"only the shared patch helper calls Harmony");
+        string advanced=File.ReadAllText(Path.Combine(client,"Web","advanced.js"));
+        string settings=File.ReadAllText(Path.Combine(client,"Web","settings.js"));
+        string i18n=File.ReadAllText(Path.Combine(client,"Web","i18n.js"));
+        Check(advanced.Contains("sw('gfxShellCap'") && settings.Contains("gfxShellCap: 'Graphics.Tuning|ShellCap'") && i18n.Contains("gfxShellCap:"),"ShellCap toggle kept");
+        foreach(Match row in new Regex(@"(?:sw|num)\('(gfx\w+)'").Matches(advanced))
+        {
+            string key=row.Groups[1].Value;
+            Check(settings.Contains(key+":") && i18n.Contains(key+":"),"advanced row wired: "+key);
+        }
     }
 }
